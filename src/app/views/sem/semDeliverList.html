@@ -1,0 +1,147 @@
+<div class="dr-form" padding="20px">
+    <h3>
+        {{campaignName ? campaignName : '新建投放动作'}}
+    </h3>
+    <div>
+        <ul id="Tab1" class="nav nav-tabs dr-tab">
+            <li ng-class="{true:'active', false: ''}[showChannel]">
+                <a ng-click="changeTab('channel')">投放动作</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade" ng-class="{true:' in active', false: ''}[showChannel]">
+                <div class="panel panel-default channel-panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary btn-plr-15" ng-click="openDeliverModal('add','')">
+                                    新增投放动作
+                                </button>
+                            </div>
+                           <!-- <div class="col-lg-10 text-right">
+                                <button class="btn btn-link mr-2"
+                                        has-permission="delivery_channel_export"
+                                        ng-click="exportUrlList()">
+                                    <i class="icon-icon-excel"></i>
+                                    导出投放URL列表
+                                </button>
+                            </div>-->
+                        </div>
+                    </div>
+                    <div class="panel-body" style="padding-top: 0;">
+                        <div class="dr-tb-container">
+                            <div class="table-responsive" style="overflow: visible">
+                                <table  ng-table="tableParams" class="table sort-table">
+                                    <thead>
+                                    <tr >
+                                        <th style="width:8%" class="text-center">RefferalId</th>
+                                        <th style="width:8%" class="text-center">投放动作ID</th>
+                                        <th style="width:8%" class="text-center">渠道ID</th>
+                                        <th tb-sort="refferalName" style="width:10%" class="text-center">渠道名称</th>
+                                        <th style="width:8%" class="text-center">账户名称</th>
+                                        <th style="width:8%" class="text-center">结算</th>
+                                        <th tb-sort="refferalStartTime" style="width:15%" class="text-center">开始时间</th>
+                                        <th tb-sort="refferalEndTime" style="width:15%" class="text-center">结束时间</th>
+                                        <th style="width:10%" class="text-center">状态</th>
+                                        <th style="min-width:23%;width:23%" class="text-center">操作</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in deliverAction.result track by $index"
+                                        style="padding:10px 0;text-align: center;"
+                                        ng-class="{true:' deliverDone', false: ''}[row.publishStatusName==='已停止']">
+                                        <td>{{row.channelId}}</td>
+                                        <td>{{row.id}}</td>
+                                        <td>{{row.refferalId}}</td>
+                                        <td>{{row.refferalName}}</td>
+                                        <td>{{row.accountNo}}</td>
+                                        <td> {{row.clearingForm}}</td>
+                                        <td>
+                                            {{row.refferalStartTime}}
+                                        </td>
+                                        <td>
+                                            {{row.refferalEndTime}}
+                                        </td>
+                                        <td>
+                                            {{row.publishStatusName}}
+                                            <i ng-if="row.publishStatusName==='已停止'"
+                                               tooltips
+                                               tooltip-side="top"
+                                               tooltip-template-url="stop-time.html"
+                                               class="fa fa-info-circle"></i>
+                                            <script type="text/ng-template" id="stop-time.html">
+                                                <div style="width:210px">
+                                                    停止时间：{{row.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                                                </div>
+                                            </script>
+                                        </td>
+                                        <td data-title="'操作'" style="min-width:3%">
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    title="编辑"
+                                                    ng-if="row.publishStatusName==='即将开始'"
+                                                    ng-click="openDeliverModal('edit',row.id)">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>编辑
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    ng-click="stopDeliverAction(row.id)"
+                                                    title="停止"
+                                                    has-permission="delivery_channel_stop"
+                                                    ng-if="row.publishStatusName==='已开始'">
+                                                <span class="icon-icon-stop"></span>
+                                                停止
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    ng-if="row.publishStatusName==='即将开始'"
+                                                    ng-click="removeDeliverAction(row.id)"
+                                                    title="移除"
+                                                    has-permission="delivery_channel_remove">
+                                                <!--ng-show="isEnableForDel(row.bannerList, row.refferalStartTime, row.refferalEndTime)">-->
+                                                <span class="icon-icon-remove"></span>
+                                                移除
+                                            </button>
+                                            <!--<div ng-show="row.publishStatusName==='已停止'">-->
+                                            <!--<sub>停止时间</sub>-->
+                                            <!--<div>{{row.updateTime | date:"yyyy-MM-dd HH:mm:ss"}}</div>-->
+                                            <!--</div>-->
+                                        </td>
+                                        <td>
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    ng-click="detailAction(row.id)" has-permission="delivery_enter">
+                                                <i class="fa fa-sign-in" aria-hidden="true"></i>进入详情
+                                            </button>
+                                        </td>
+
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="11" class="text-center text-bg">
+                                            <div class="text-right" page-control record="deliverAction"
+                                                 evname="dr.semDeliverPagination"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <blockquote>
+                    <img src="../../../image/icon-question.png">
+                    <strong>什么是投放动作？</strong>
+                    <p class="text-muted">
+                        在某个特定时间段，在某个SEM上的投放，就是一个投放动作。比如，在A SEM渠道上，5-6月的投放和8-9月的投放，就形成了两个投放动作，不同的投放动作除了时间不一样，结算方式、落地页URL也可能不一样。
+                    </p>
+                </blockquote>
+            </div>
+
+        </div>
+    </div>
+</div>
+

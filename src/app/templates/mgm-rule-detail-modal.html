@@ -1,0 +1,18 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">详细规则</h4>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <tbody>
+
+                <tr ng-repeat="row in expressions">
+                    <td ng-bind-html="row"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

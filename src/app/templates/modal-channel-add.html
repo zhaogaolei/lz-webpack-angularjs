@@ -1,0 +1,214 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑基本信息</h4>
+    </div>
+    <div class="modal-body modal-box">
+        <form class="form-horizontal dr-form" role="form">
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">渠道ID</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" value="创建后自动生成" readonly
+                                   ng-model="viewModel.postData.id"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">渠道名称<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="该输入渠道名称"
+                                   ng-model="viewModel.postData.channelName" maxlength="50" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">渠道类型<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="viewModel.postData.channelType" required>
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in viewModel.dropDown.channelTypeList"
+                                        ng-selected="viewModel.postData.channelType==item.dataCode"
+                                        value="{{item.dataCode}}">
+                                    {{item.dataName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">部门</label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="viewModel.postData.department">
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in viewModel.dropDown.departmentList"
+                                        ng-selected="viewModel.postData.department==item.dataCode"
+                                        value="{{item.dataCode}}">
+                                    {{item.dataName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">是否开放接口</label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="viewModel.postData.isOpenApi">
+                                <option ng-repeat="item in isOpenApiList track by $index"
+                                        ng-selected="viewModel.postData.isOpenApi==item.value"
+                                        value="{{item.value}}">{{item.text}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="false">
+                        <label class="col-sm-3 control-label">接口密钥</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text"  readonly
+                                   ng-model="viewModel.postData.apiKey">
+                        </div>
+                        <div class="col-sm-4 text-right">
+                            <button class="btn btn-link">复制密钥</button>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">开放接口</label>
+                        <div class="col-sm-4" ng-repeat="item in viewModel.dropDown.kaiFangApiList">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="{{item.dataCode}}"
+                                           ng-checked="isCheckBoxSelected(item.dataCode)"
+                                           ng-click="checkSelect(item.dataCode,$event)">
+                                    <!--ng-model="viewModel.postData.openApiType"-->
+                                    {{item.dataName}}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="col-sm-3 control-label">结算方式</label>-->
+                        <!--<div class="col-sm-5">-->
+                            <!--<select class="form-control" ng-model="viewModel.postData.settleMode"-->
+                                    <!--ng-change="settleModeChange()">-->
+                                <!--<option value="">&#45;&#45;请选择&#45;&#45;</option>-->
+                                <!--<option ng-repeat="item in viewModel.dropDown.settleModeList"-->
+                                        <!--ng-selected="viewModel.postData.settleMode==item.dataCode"-->
+                                        <!--value="{{item.dataCode}}">-->
+                                    <!--{{item.dataName}}-->
+                                <!--</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;分割线 以下  结算方式显示&ndash;&gt;-->
+                    <!--<div class="form-group" ng-if="viewModel.settleModeType.isShowInputMoney">-->
+                        <!--<label class="col-sm-3 control-label"></label>-->
+                        <!--<div class="col-sm-2">-->
+                            <!--<input style="width:85px;" class="form-control" type="text" placeholder=""-->
+                                   <!--ng-model="viewModel.postData.money" maxlength="8"/>-->
+                        <!--</div>-->
+                        <!--<div class="col-sm-3" style="margin-top: 6px;">元/个</div>-->
+                    <!--</div>-->
+                    <!--<div class="form-group" ng-if="viewModel.settleModeType.isShowRegRealName">-->
+                        <!--<div class="row col-sm-offset-3">-->
+                            <!--<div class="col-sm-4 dr-bd">-->
+                                <!--<div class="radio">-->
+                                    <!--<label>-->
+                                        <!--<input type="radio" name="optionsRadios" id="optionsRadios1" ng-value="0"-->
+                                               <!--ng-model="viewModel.postData.regRealName">-->
+                                        <!--注册未实名-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-4 dr-bd">-->
+                                <!--<div class="radio">-->
+                                    <!--<label>-->
+                                        <!--<input type="radio" name="optionsRadios" id="optionsRadios2" ng-value="1"-->
+                                               <!--ng-model="viewModel.postData.regRealName">-->
+                                        <!--注册并实名-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-2">-->
+                                <!--<input style="width:65px;" class="form-control" type="text" placeholder=""-->
+                                       <!--ng-model="viewModel.postData.money" maxlength="8"/></div>-->
+                            <!--<div class="col-sm-2" style="margin-top: 6px;">元/个</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div ng-if="viewModel.settleModeType.isShowInvest">-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label"></label>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<div class="radio">-->
+                                    <!--<label>-->
+                                        <!--<input type="radio" name="radioTouzi" ng-value="0"-->
+                                               <!--ng-model="viewModel.postData.invest">首次投资-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="col-sm-3">-->
+                                <!--<div class="radio">-->
+                                    <!--<label>-->
+                                        <!--<input type="radio" name="radioTouzi" ng-value="1"-->
+                                               <!--ng-model="viewModel.postData.invest">累计投资-->
+                                    <!--</label>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label"></label>-->
+                            <!--<div class="col-sm-9">-->
+                                <!--<isteven-multi-select-->
+                                        <!--input-model="viewModel.settleModeCPS.productList"-->
+                                        <!--output-model="viewModel.settleModeCPS.selectedProduct"-->
+                                        <!--button-label="name"-->
+                                        <!--item-label="name"-->
+                                        <!--tick-property="selected"-->
+                                        <!--translation="localLang"-->
+                                <!--&gt;-->
+                                <!--</isteven-multi-select>-->
+
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<label class="col-sm-3 control-label"></label>-->
+                            <!--<table class="col-sm-9">-->
+                                <!--<tr>-->
+                                    <!--<td style="padding: 0 0 0 14px;">金额满足：</td>-->
+                                    <!--<td><input style="width:85px;" class="form-control dr-bd" type="text" placeholder=""-->
+                                               <!--ng-model="viewModel.settleModeCPS.moneySatisfy" maxlength="8"/></td>-->
+                                    <!--<td>元</td>-->
+                                    <!--<td>，</td>-->
+                                    <!--<td>奖励：</td>-->
+                                    <!--<td><input style="width:85px;" class="form-control dr-bd" type="text" placeholder=""-->
+                                               <!--ng-model="viewModel.settleModeCPS.money" maxlength="8"/></td>-->
+                                    <!--<td style="margin-top: 6px;">元/个</td>-->
+                                <!--</tr>-->
+                            <!--</table>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--&lt;!&ndash;分割线  以上  结算方式显示&ndash;&gt;-->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">渠道状态<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="viewModel.postData.channelStatus" required>
+                                <option ng-repeat="item in viewModel.dropDown.channelStatusList"
+                                        ng-selected="viewModel.postData.channelStatus===item.dataCode"
+                                        value="{{item.dataCode}}">{{item.dataName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">备注</label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" rows="3" ng-model="viewModel.postData.note"
+                                      maxlength="500"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button class="btn btn-primary btn-plr-35" type="button" ng-click="ok()">保存</button>
+                    <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

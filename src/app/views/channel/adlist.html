@@ -1,0 +1,142 @@
+<div class="dr-form" ng-init="initPage()">
+    <h3 class="list-group-item-heading box-shadowbottom">
+        {{viewModel.pageTitle|| "null"}}
+        <div class="float-lg-right">
+            <div class="text-right">
+                <button class="btn btn-link" data-toggle="modal" data-target="#myImportModal">
+                    <i class="icon-icon-excel"></i>
+                    Excel导入
+                </button>
+                <button class="btn btn-primary"  ng-click="openBannerModal()" has-permission="ad_add">
+                    <i class="fa fa-plus"></i>
+                    新增广告位
+                </button>
+            </div>
+        </div>
+    </h3>
+    <div>
+        <div class="dr-tb-container">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>广告位ID</th>
+                        <th>广告位名称</th>
+                        <th>广告类型</th>
+                        <th>广告位置</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="editable-row" ng-repeat="item in viewModel.bannerList.result">
+                        <td>
+                            {{item.id}}
+                        </td>
+                        <td>
+                            {{item.bannerName}}
+                        </td>
+                        <td class="select-td">
+                            {{item.bannerTypeValue}}
+                        </td>
+                        <td class="select-td">
+                            {{item.bannerPositionValue}}
+                        </td>
+                        <td>
+                            <div class="buttons">
+                                <button class="btn btn-secondary " has-permission="ad_edit" ng-click="openBannerModal(item.id)">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i>编辑
+                                </button>
+                                <!--<button class="btn btn-danger editable-table-button btn-xs">-->
+                                <!--删除-->
+                                <!--</button>-->
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                    <td colspan="7" class="text-center text-bg">
+                        <div class="text-right" page-control record="viewModel.bannerList" evname="dr.bannerPagination"></div>
+                    </td>
+                   </tr>
+                   </tfoot>
+                </table>
+                <!-- <div class="text-right" page-control record="viewModel.bannerList" evname="dr.bannerPagination"></div> -->
+            </div>
+        </div>
+    </div>
+</div>
+<!--广告位导入模态框-->
+<div class="modal fade" id="myImportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btnCloseAdModal" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">导入广告位</h4>
+            </div>
+            <uib-progressbar class="progress-striped active" value="dynamic" type="warning"
+                             ng-show="showProgress">
+                <i><b>!!! 正在处理中... !!!</b></i>
+            </uib-progressbar>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 1
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="" ng-click="downTemplate()">点击这里下载导入模板及示例</a>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 2
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5>按需求填写模板</h5>
+                        <p>1.广告位的信息若与现有数据有冲突，则以新导入的为准；</p>
+                        <p>2.需要导入的Excel文件至多包含5W条数数据，若超过5W条数据，则分多个Excel文件；</p>
+                        <p>3.上传的Excel数据填写方式可以参考“Sheet:示例”，某些列数据有依赖，请核对正确；</p>
+                        <p>4.模板列不可删除或者添加，对应的数据请仔细核对。</p>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 3
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5>选择填写好的采购信息文件，并导入</h5>
+                        <span ng-show="viewModel.selectFile">{{viewModel.selectFile.name}}</span>
+                        <div class="dr_upload">
+                            <div class="upload-new">上传文件</div>
+                            <input type="file" class="inputstyle-upload" ngf-select=""
+                                   ng-model="viewModel.selectFile" name="file"
+                                   ngf-accept="'*'">
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="dr-btn-bar">
+                    <button type="button" class="btn btn-primary btn-plr-35"
+                            ng-click="uploadFiles(viewModel.selectFile)">
+                        导入
+                    </button>
+                    <button type="button" class="btn btn-secondary btn-plr-35" data-dismiss="modal">取消
+                    </button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>

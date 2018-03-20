@@ -1,0 +1,68 @@
+
+body {
+    background: url(../assets/images/login-bg.jpg) center top;
+    -webkit-background-size: cover;
+    background-size: cover;
+    font-size: 12px;
+    font-family: "Microsoft Yahei";
+}
+
+.login-box {
+    /*background: rgba(255, 255, 255, 0.5);*/
+    background: rgba(138, 135, 135, 0.5);
+    *background: #FFF;
+    width: 500px;
+    height: 260px;
+    margin-left: auto;
+    margin-right: auto;
+    top: 200px;
+    position: relative;
+}
+
+.login-top {
+    height: 48px;
+    line-height: 48px;
+    /*background: #37A884;*/
+    background: rgba(10, 10, 10, 0.23);
+    font-size: 24px;
+    color: #FFF;
+    padding: 0 40px;
+}
+.login-top img{
+    width: 35px;
+}
+
+.login-main {
+    height: 160px;
+    margin-top: 10px;
+    margin-left: 40px;
+}
+
+.login-main input {
+    background-color: #ffffff;
+    border: 1px solid #007cba;
+    border-radius: 3px;
+    width: 240px;
+    height: 40px;
+    color: #000;
+    font-size: 16px;
+    margin-top: 15px;
+    padding-left: 40px;
+    font-weight: bold;
+    opacity: 0.6;
+}
+
+.login-main .login-btn {
+    background: #007cba;
+    width: 90px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    font-size: 16px;
+    font-family: "Microsoft Yahei";
+    font-weight: bold;
+    color: #ffffff;
+    border: none;
+    margin-top: 20px;
+    cursor: pointer;
+}

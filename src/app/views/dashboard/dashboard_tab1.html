@@ -1,0 +1,42 @@
+<div class="tab-pane active" ng-init="initPage();">
+    <div class="form-inline dashboardWrap">
+        <div class="form-group dr_dashboard">
+            <select class="form-control dashboardSelect" ng-model="selectedItem" ng-change="selectChange()">
+                <optgroup label="{{x.dataName}}" value="{{x.dataCode}}" ng-repeat="x in borrowSelect">
+                    <option value="{{x.dataCode+','+ y.dataCode}}" ng-repeat="y in x.dataDicSon">{{y.dataName}}</option>
+                </optgroup>
+            </select>
+            <div class="loading_wrap" ng-if="selectLoading">
+                <span class="loadimg"></span>
+            </div>
+        </div>
+        <div class="form-group dr_dashboard dr-dashboard-seach" ng-if="viewModel.channelShow">
+            <isteven-multi-select
+                    class="search-channel"
+                    bottom-check="true"
+                    input-model="viewModel.channel"
+                    output-model="viewModel.channelSelected"
+                    item-label="refferalName"
+                    button-label="refferalName"
+                    search-property="refferalName"
+                    disable-property="disable"
+                    tick-property="selected"
+                    translation="localLang"
+                    max-height="250px"
+                    button-class="btnClass"
+                    helper-elements="all none reset filter"
+                    selection-mode="single"
+                    on-item-click="channelChange()"
+                    on-select-all="channelChange()"
+                    on-select-none="channelChange()"
+                    
+            >
+            </isteven-multi-select>
+        </div>
+    </div>
+
+    <div ui-view>
+
+    </div>
+
+</div>

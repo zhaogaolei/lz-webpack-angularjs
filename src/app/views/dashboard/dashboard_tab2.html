@@ -1,0 +1,153 @@
+<div class="tab-pane active" ng-init="initPage();">
+
+    <div class="dr-dashboard-title">
+        <div class="dr-dashboard-title">
+            <h4> {{newDate|date:"yyyy年MM月dd日 h:m:s a"}}</h4>
+            <div class="dr-dashboard-seach">
+                <!--<ul class="show-channel" ng-repeat="x in viewModel.channelSelect">-->
+                    <!--<li>{{x.refferalName}}</li>-->
+                <!--</ul>-->
+                <div class="pull-right dr-last">
+                    <isteven-multi-select
+                            class="search-channel"
+                            input-model="viewModel.channel"
+                            output-model="viewModel.channelSelect"
+                            item-label="refferalName"
+                            button-class="btnClass2"
+                            button-label="refferalName"
+                            disable-property="disable"
+                            tick-property="selected"
+                            translation="localLang2"
+                            selection-mode="single"
+                            max-height="250px"
+                            on-item-click="changeChannel(data.id)"
+                            on-reset="resetChannel()"
+                    >
+                        <!--on-item-click="chat2Seach()"-->
+                        <!--on-select-all="chat2Seach()"-->
+                        <!--on-select-none="chat2Seach()"-->
+                        <!--on-on-reset="chat2Seach()"-->
+                        <!--on-clear="chat2Seach()"-->
+
+                    </isteven-multi-select>
+                </div>
+                <div class="pull-right">
+                    <div class="radio" style="margin-top: 5px">
+                        <label>
+                            <input type="radio" name="isAddFlag" id="optionsRadios1" value="common"  ng-model="viewModel.selectAddFlag" checked ng-click="getSelectAddFlag()"> 实时
+                        </label>
+                        <label>
+                            <input type="radio" name="isAddFlag" id="optionsRadios2" value="add" ng-model="viewModel.selectAddFlag" ng-click="getSelectAddFlag()">累积
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <dashboard-real
+            chat-name="新注册数实时"
+            chat-tip="当前时段渠道投放带来的实时新注册数"
+            chat-number="viewModel.chatNumber"
+            chat-data="viewModel.chatData"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="页面浏览量实时"
+            chat-tip="当前时段渠道投放带来的实时页面浏览量"
+            chat-number="viewModel.chatPvNumber"
+            chat-point-red="true"
+
+            chat-data="viewModel.chatPvData"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="新访客数实时"
+            chat-tip="当前时段渠道投放带来的实时新访客数"
+            chat-number="viewModel.chatUvNumber"
+
+            chat-point-red="true"
+            chat-data="viewModel.chatUvData"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="新注册首投人数实时"
+            chat-tip="当前时段当日新注册用户中完成首次投资的用户数"
+            chat-number="viewModel.chatFirstInvestPersonNumber"
+
+            chat-point-red="true"
+            chat-data="viewModel.chatFirstInvestPerson"
+
+    ></dashboard-real>
+
+    <dashboard-real
+            chat-name="新注册首投金额实时"
+            chat-tip="当前时段当日新注册用户首次投资的金额总和"
+            chat-number="viewModel.chatFirstInvestAmountNumber"
+
+            chat-point-red="true"
+            chat-data="viewModel.chatFirstInvestAmount"
+    ></dashboard-real>
+
+
+    <dashboard-real
+            chat-name="新注册人均首投金额"
+            chat-tip="当前时段渠道投放带来的新注册人均首投金额"
+            chat-number="viewModel.chatAvgFirstInvestAmountNumber"
+
+            chat-point-red="true"
+            chat-data="viewModel.chatAvgFirstInvestAmount"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="新注册累计投资人数"
+            chat-tip="当前时段渠道投放带来的新注册累计投资人数"
+            chat-number="viewModel.chatTotalInvestPersonNumber"
+
+            chat-point-red="true"
+            chat-data="viewModel.chatTotalInvestPerson"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="新注册累计投资金额"
+            chat-tip="当前时段渠道投放带来的新注册累计投资金额"
+            chat-number="viewModel.chatTotalInvestAmountNumber"
+
+            chat-point-red="true"
+            chat-data="viewModel.chatTotalInvestAmount"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="新注册人均累计金额"
+            chat-tip="当前时段渠道投放带来的新注册人均累计金额"
+            chat-number="viewModel.chatAvgTotalInvestAmountNumber"
+
+            chat-point-red="true"
+            chat-data="viewModel.chatAvgTotalInvestAmount"
+
+    ></dashboard-real>
+   <!-- <dashboard-real
+            chat-name="新注册当日投资人数"
+            chat-tip="当日新注册用户中完成首次投资的用户数"
+            chat-number="{num1:0,num2:0}"
+            chat-point-red="true"
+            chat-data="{}"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="当日注册当日投资人总额"
+            chat-tip="当日新注册用户中完成首次投资的用户数"
+            chat-number="{num1:0,num2:0}"
+            chat-point-red="true"
+            chat-data="{}"
+
+    ></dashboard-real>
+    <dashboard-real
+            chat-name="当日注册当日投资人均投资额"
+            chat-tip="当日新注册用户中完成首次投资的用户数"
+            chat-number="{num1:0,num2:0}"
+            chat-point-red="true"
+            chat-data="{}"
+
+    ></dashboard-real>-->
+</div>

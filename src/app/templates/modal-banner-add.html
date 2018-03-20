@@ -1,0 +1,70 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑广告位</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">广告位ID</label>
+                        <div class="col-xs-6">
+                            <input class="form-control" type="text" value="创建后自动生成" readonly
+                                   ng-model="formData.id"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">广告位名称<span
+                                class="text-danger">*</span></label>
+                        <div class="col-xs-6">
+                            <input class="form-control" type="text" placeholder="广告位名称"
+                                   ng-model="formData.bannerName" maxlength="50"
+                                   required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">广告类型</label>
+                        <div class="col-xs-6">
+                            <select class="form-control"
+                                    ng-model="formData.bannerType"
+                                    ng-options="node.dataCode as node.dataName for node in bannerTypeList">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">广告位置</label>
+                        <div class="col-xs-3 m-0">
+                            <select class="form-control"
+                                    ng-model="formData.bannerPosition"
+                                    ng-options="node.dataCode as node.dataName for node in bannerPositionList"
+                                    style="width: auto;">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                        <div class="col-xs-3 m-0">
+                            <input class="form-control" type="text" style="width: 205px;margin-left:15px;"
+                                   placeholder="例：banner广告位一"
+                                   ng-model="formData.bannerPositionNote"
+                                   maxlength="50">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">广告规格</label>
+                        <div class="col-xs-6">
+                                            <textarea class="form-control" rows="3"
+                                                      ng-model="formData.bannerStandard"
+                                                      maxlength="50"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="button" class="btn btn-primary" ng-click="saveBanner()">保存
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

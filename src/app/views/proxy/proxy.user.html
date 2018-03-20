@@ -1,0 +1,132 @@
+<div class="dr-page-header-condition">
+    <div class="row">
+        <div class="col col-xs-4">
+            <span class="title">代理人用户管理</span>
+        </div>
+        <div class="col col-xs-8 text-right">
+            <div class="form-inline">
+                <div class="form-group">
+                    <button class="btn btn-primary btn-sm" ng-click="addEditProxy()">+ 添加代理人</button>
+                </div>
+                <!--<div class="form-group">-->
+                <!--<button class="btn btn-secondary btn-sm" ng-click="">- 冻结代理人</button>-->
+                <!--</div>-->
+            </div>
+        </div>
+    </div>
+    <div class="row row-top">
+        <div class="col col-xs-12">
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="代理人ID..." ng-model="formData.proxyId"/>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="代理人昵称..." ng-model="formData.userName"/>
+                </div>
+                <div class="form-group">
+                    <select class="form-control page-select" ng-model="formData.userLevel">
+                        <option value="">--请选择代理人等级--</option>
+                        <option value="{{x.levelCode}}" ng-repeat="x in proxyLevelList">{{x.levelName}}</option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <select class="form-control page-select" ng-model="formData.classify">
+                        <option value="">--请选择代理人类型--</option>
+                        <option value="{{x.dataCode}}" ng-repeat="x in proxyTypeList">{{x.dataName}}</option>
+
+                    </select>
+                </div>
+                <div class="form-group m-0 dr-date-group">
+                    <i class="icon-icon-schedule"></i>
+                    <input
+                            type="text"
+                            class="form-control"
+                            readonly
+                            ng-click="open1()"
+                            uib-datepicker-popup="yyyy-MM-dd"
+                            ng-model="formData.startDate"
+                            placeholder="开始日期"
+                            is-open="popup1.opened"/>
+
+                </div>
+                <div class="form-group m-0 dr-date-group ">
+                    <i class="icon-icon-schedule"></i>
+                    <input
+                            type="text"
+                            class="form-control"
+                            readonly
+                            ng-click="open2()"
+                            uib-datepicker-popup="yyyy-MM-dd"
+                            ng-model="formData.endDate"
+                            placeholder="结束日期"
+                            is-open="popup2.opened"/>
+
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary" ng-click="query()">查询</button>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default" ng-click="reset()">清除条件</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <div class="table-responsive">
+        <table class="table sort-table">
+            <thead>
+            <tr>
+                <th style="width:3%" class="text-center">序号</th>
+                <th style="width:7%" class="text-center">代理人ID</th>
+                <th style="width:10%" class="text-center">代理人用户名</th>
+                <th style="width:7%" class="text-center">代理人等级</th>
+                <th style="width:8%" class="text-center">累计投资金额</th>
+                <th style="width:8%" class="text-center">持有投资金额</th>
+                <th style="width:17%" class="text-center">成为代理人时间</th>
+                <th style="width:10%" class="text-center">手机号</th>
+                <th style="width:7%" class="text-center">代理人类型</th>
+                <!--<th style="width:7%" class="text-center">代理人性质</th>-->
+                <th style="width:16%" class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result track by $index">
+                <td>{{$index+1}}</td>
+                <td>{{row.aid}}</td>
+                <td>{{row.userName}}</td>
+                <td>{{row.userLevel}}</td>
+                <td>{{row.investTotalAmount}}</td>
+                <td>{{row.investHoldAmout}}</td>
+                <td>{{row.createTime|date:'yyyy-MM-dd'}}</td>
+                <td>{{row.phone}}</td>
+                <td>{{row.classify | proxyClassify}}</td>
+                <!--<td>普通</td>-->
+                <td class="">
+                    <button class="btn btn-link" ng-click="addEditProxy(row)">
+                        修改
+                    </button>
+                    <button ng-if="row.status=='proxy_status_001'" class="btn btn-link" ng-click="proxyFreeze(row.id)">
+                        <span>冻结</span>
+                    </button>
+                    <button ng-if="row.status=='proxy_status_002'" class="btn btn-link" ng-click="proxyUnfreeze(row.id)">
+                        <span class="text-muted">取消冻结</span>
+                    </button>
+                    <button class="btn btn-link" ng-confirm="proxyDelete(row.id)"
+                            ng-confirm-message="确认删除代理人【{{row.userName}}】？">
+                        <span class="text-danger">删除</span>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="11" class="text-center text-bg">
+                    <div class="text-right" page-control record="tableData" evname="proxyUserPaginationEvent"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div class="dr-page-header-condition">
+    <div class="form-inline">
+       <!-- <div class="form-group">
+            <div class="dr-filter-field"
+                 isteven-multi-select
+                 input-model="viewModel.activity"
+                 output-model="viewModel.activitySelected"
+                 button-label="name"
+                 item-label="name"
+                 tick-property="ticked"
+                 translation="localLang"
+                 search-property="name"
+                 selection-mode="single"
+                 on-item-click="mgmActivityChange()"
+                 on-reset="mgmActivityReset()">
+            </div>
+        </div>-->
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="活动名称" ng-model="viewModel.mgmName"/>
+        </div>
+        <div class="form-group">
+            <div class="form-group m-0 dr-date-group">
+                <i class="icon-icon-schedule"></i>
+                <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        ng-click="open1()"
+                        uib-datepicker-popup="yyyy-MM-dd"
+                        ng-model="viewModel.startDate"
+                        placeholder="开始时间"
+                        is-open="popup1.opened"/>
+
+            </div>
+            <div class="form-group m-0 dr-date-group ">
+                <i class="icon-icon-schedule"></i>
+                <input
+                        type="text"
+                        class="form-control"
+                        readonly
+                        ng-click="open2()"
+                        uib-datepicker-popup="yyyy-MM-dd"
+                        ng-model="viewModel.endDate"
+                        placeholder="结束时间"
+                        is-open="popup2.opened"/>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" ng-click="query()">查询</button>
+        </div>
+        <!-- <div class="form-group">
+             <div class="dr-filter-field"
+                  isteven-multi-select
+                  bottom-check="true"
+                  input-model="viewModel.field"
+                  output-model="viewModel.fieldSelected"
+                  button-class="btnClass"
+                  button-text="defaultFieldText"
+                  item-label="value"
+                  search-property="value"
+                  tick-property="selected"
+                  on-item-click="fieldChange()"
+                  on-select-all="fieldChange()"
+                  on-select-none="fieldChange()">
+             </div>
+         </div>-->
+        <div class="form-group float-lg-right">
+            <button class="btn btn-link" ng-click="exportMainReport()">
+                <i class="icon-icon-excel"></i>
+                导出Excel
+            </button>
+            <button class="btn btn-default" ng-click="goToMgmReport()">
+                <i class="fa fa-mail-reply"></i>
+                返回
+            </button>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <div class="table-responsive" >
+        <table class="table sort-table" style="width:100%">
+            <thead>
+            <tr>
+                <th  tb-sort="refferialName" style="width:15%" class="text-center">refferialName</th>
+                <th  tb-sort="mgmName" style="width:15%" class="text-center">活动名称</th>
+                <th  tb-sort="acceptUserId" style="width:15%" class="text-center">被邀请人</th>
+                <th  tb-sort="relationTime" style="width:15%" class="text-center">邀请时间</th>
+                <th  tb-sort="inviteUserId" style="width:10%" class="text-center">邀请人</th>
+                <th  tb-sort="behavior" style="width:15%" class="text-center">行为</th>
+                <th  tb-sort="behaviorTime" style="width:15%" class="text-center">行为时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result">
+                <td  tb-sort="refferialName" class="text-center">{{row.refferialName}}</td>
+                <td  class="text-center">{{row.mgmName}}</td>
+                <td  class="text-center">{{row.acceptUserId}}</td>
+                <td  class="text-center">{{row.relationTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td  class="text-center">{{row.inviteUserId}}</td>
+                <td  class="text-center">{{row.behavior}}</td>
+                <td  class="text-center">{{row.behaviorTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="15" class="text-center text-bg">
+                    <div class="text-right" page-control record="tableData" evname="dr.mgmDetailReportPagination"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

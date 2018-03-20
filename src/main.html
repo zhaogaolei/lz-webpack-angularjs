@@ -1,0 +1,142 @@
+<div class="main-wrapper" id="wrapper" ng-init="initPage();">
+    <div class="app" id="app">
+        <header class="header main-header">
+            <div class="header-block header-block-nav">
+                <ul class="nav-profile">
+                    <li class="profile dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button"
+                           aria-haspopup="true" aria-expanded="false">
+                            <!--<div class="img"-->
+                            <!--style="background-image: url('https://avatars3.githubusercontent.com/u/3959008?v=3&amp;s=40')">-->
+                            <!--</div>-->
+                            <span class="name">
+                             {{currentUser.userName}}
+                            </span>
+                        </a>
+                        <div class="dropdown-menu profile-dropdown-menu" aria-labelledby="dropdownMenu1">
+                            <a class="dropdown-item" href ng-click="signOut()"> <i class="fa fa-power-off icon"></i>
+                                Logout
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <aside class="sidebar">
+            <div class="sidebar-container">
+                <div class="sidebar-header">
+                    <div class="brand">
+                        <div class="logo-con">
+                            <img src="./image/logo-quark.png">
+                            运营管理系统
+                        </div>
+                    </div>
+                </div>
+
+
+                <nav class="menu">
+                    <ul class="nav metismenu" id="sidebar-menu">
+                        <!--暂时测使用,保留便于以后还原-->
+                        <!--<li has-permission="dashboard" ui-sref-active="submenuActive">-->
+                        <!--<a ui-sref="main.dashboard.tab1" has-permission="dashboard">-->
+                        <!--<i class="icon-icon-dashboard"></i>Dashboard-->
+                        <!--</a>-->
+                        <!--</li>-->
+                        <!--<li has-permission="delivery_manage" ng-class="{true:'active'}[isNavCollapsed1]">-->
+                        <!--<a class="has-arrow" href="javascript:void(0);" aria-expanded="true"-->
+                        <!--ng-click="isNavCollapsed1 = !isNavCollapsed1">-->
+                        <!--&lt;!&ndash;<i class="fa arrow"></i>&ndash;&gt;-->
+                        <!--<i class="icon-icon-schedule"></i>投放计划-->
+                        <!--</a>-->
+
+                        <!--<ul aria-expanded="true">-->
+                        <!--<li ui-sref-active="submenuActive">-->
+                        <!--<a ui-sref="main.deliverplan" has-permission="delivery_page">投放计划</a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li has-permission="channel_manage">-->
+                        <!--<a class="has-arrow" href="#" aria-expanded="true">-->
+                        <!--&lt;!&ndash;<i class="fa arrow"></i>&ndash;&gt;-->
+                        <!--<i class="icon-icon-channel"></i>渠道管理-->
+                        <!--</a>-->
+
+                        <!--<ul aria-expanded="true">-->
+                        <!--<li ui-sref-active="submenuActive">-->
+                        <!--<a ui-sref="main.singlechannel" has-permission="channel_page">单渠道/BD</a>-->
+                        <!--</li>-->
+                        <!--<li ui-sref-active="submenuActive">-->
+                        <!--<a ui-sref="main.agentmgr" has-permission="agent_page">代理商管理</a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+
+                        <!--</li>-->
+                        <!--<li ui-sref-active="submenuActive" has-permission="material_page">-->
+                        <!--<a class="has-arrow" href="#" aria-expanded="true">-->
+                        <!--<i class="icon-icon-picture"></i>素材管理-->
+                        <!--</a>-->
+                        <!--<ul aria-expanded="true">-->
+                        <!--<li ui-sref-active="submenuActive">-->
+                        <!--<a ui-sref="main.materiallist" has-permission="channel_page">素材列表</a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</li>-->
+                        <!--<li ui-sref-active="submenuActive" has-permission="activity_page">-->
+                        <!--<a ui-sref="main.activity"> <i class="fa fa-file"></i>活动页</a>-->
+                        <!--</li>-->
+                        <!--<li>-->
+                        <!--<a class="has-arrow" href="#" aria-expanded="true">-->
+                        <!--&lt;!&ndash;<i class="fa arrow"></i>&ndash;&gt;-->
+                        <!--<i class="icon-icon-settings"></i>设置-->
+                        <!--</a>-->
+
+                        <!--<ul aria-expanded="true">-->
+                        <!--<li ui-sref-active="submenuActive">-->
+                        <!--<a ui-sref="main.maindata" has-permission="maindata_page">主数据</a>-->
+                        <!--</li>-->
+                        <!--</ul>-->
+                        <!--</li>-->
+                        <li ng-repeat="item in menus" ui-sref-active="submenuActive"
+                            has-permission="{{item.permission}}" ng-class="{true:'active'}[item.isNavCollapsed]">
+                            <a
+                                    ng-if="item.url!=''"
+                                    ui-state="item.url"
+                                    ng-class="{true:'has-arrow'}[item.url=='']"
+                                    aria-expanded="true">
+                                <i class="{{item.icon}}"></i>{{item.title}}
+                            </a>
+                            <a
+                                    ng-if="item.url==''"
+                                    ng-class="{true:'has-arrow'}[item.url=='']"
+                                    href="javascript:void(0);"
+                                    ng-click="item.isNavCollapsed = !item.isNavCollapsed"
+                                    aria-expanded="true">
+                                <i class="{{item.icon}}"></i>{{item.title}}
+                            </a>
+                            <ul aria-expanded="true">
+                                <li ui-sref-active="submenuActive" ng-repeat="children in item.childrens">
+                                    <a ng-if="children.url!=''" ui-state="children.url"
+                                       has-permission="{{children.permission}}">{{children.title}}</a>
+                                    <a ng-if="children.url==''"
+                                       has-permission="{{children.permission}}">{{children.title}}</a>
+                                </li>
+                            </ul>
+
+                        </li>
+
+
+                    </ul>
+                </nav>
+            </div>
+        </aside>
+
+
+        <!-- Main Content Start -->
+        <div id="page-wrapper">
+            <div ui-view></div>
+        </div>
+
+        <!-- Main Content End -->
+    </div>
+</div>

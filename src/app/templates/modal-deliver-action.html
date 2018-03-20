@@ -1,0 +1,368 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑投放动作</h4>
+    </div>
+    <div class="modal-body modal-box">
+        <form class="form-horizontal dr-form" name="basicForm" role="form" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo dr-action">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">渠道<span style="color:red">*</span></label>
+                        <div class="col-sm-4" ng-if="selectedChannel.refferalName">
+                            <input type="text" class="form-control pull-left"
+                                   ng-model="selectedChannel.refferalName" style="border:0" required readonly/>
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-link pull-left"
+                                    type="button"
+                                    ng-disabled="isDisabledForm"
+                                    ng-click="showChannelOrAgent()">
+                                <span ng-if="!selectedChannel.refferalName">选择渠道...</span>
+                                <span ng-if="selectedChannel.refferalName">更换渠道...</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="secret">
+                        <label class="col-sm-3 control-label">接口秘钥</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="秘钥"
+                                   ng-model="formData.publish.secretKey" readonly/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">投放方式<span style="color:red">*</span></label>
+                        <div class="col-sm-3" ng-repeat="item in publishList">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="way"
+                                           value="{{item.dataCode}}"
+                                           ng-model="publishWay"
+                                           ng-disabled="isDisabledForm"
+                                           ng-click="radiocheckSelect(item.dataCode)"
+                                           ng-required="true"
+                                    >
+                                    {{item.dataName}}
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">广告位名称<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="formData.banner.id" ng-disabled="isDisabledForm"
+                                    required>
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in bannerInfoList track by $index"
+                                        value="{{item.id}}">
+                                    {{item.bannerName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">广告位属性<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="formData.banner.bannerProperty"
+                                    ng-disabled="isDisabledForm" required>
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in bannerProperty"
+                                        value="{{item.dataCode}}">
+                                    {{item.dataName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">初始URL
+                            <!--<span style="color:red" ng-show="IsAPI">*</span>-->
+                        </label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="initialUrl" ng-disabled="isDisabledForm"
+                                    ng-change="initialUrlChange()">
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in activityUrlList track by $index"
+                                        value="{{item.initialUrl}}">
+                                    {{item.activeName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-5">
+                            <textarea class="form-control" rows="3" ng-model="formData.banner.landingPage"
+                                      maxlength="500" placeholder="初始URL" ng-blur="validUrl()"
+                                      ng-disabled="isDisabledForm"></textarea><!-- ng-required="IsAPI"-->
+                            <div class="text-danger" ng-if="isShowTipMsg">该URL可能无效！</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Keyword</label>
+                        <div class="col-sm-5">
+                            <div class="dr-upload-default">
+                                <div class="upload-default">上传Excel...</div>
+                                <input type="file" class="inputstyle-upload" ngf-select=""
+                                       ng-model="keywordFile" name="file" ngf-accept="'*'"
+                                       ng-change="uploadKeyword()"
+                                       ng-disabled="isDisabledForm">
+                            </div>
+                            <p class="form-control-static text-muted">{{keywordFile.name}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">素材数量</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="素材数量"
+                                   ng-model="formData.banner.amount"
+                                   ng-disabled="isDisabledForm"/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Target</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="Target"
+                                   ng-model="formData.banner.target"
+                                   ng-disabled="isDisabledForm"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">结算方式<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="formData.clearingForm.clearingForm"
+                                    ng-change="settleModeChange()" required>
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in settleModeList"
+                                        value="{{item.dataCode}}">
+                                    {{item.dataName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--分割线 以下  结算方式显示-->
+                    <div class="form-group" ng-if="settleModeType.isShowInputMoney">
+                        <label class="col-sm-3 control-label"></label>
+                        <div class="col-sm-2">
+                            <input style="width:85px;" class="form-control" type="text" placeholder=""
+                                   ng-model="formData.clearingForm.money" maxlength="8" required/>
+                        </div>
+                        <div class="col-sm-3" style="margin-top: 6px;" ng-if="formData.clearingForm.clearingForm=='refferal_payment_100'">元/个</div>
+                        <div class="col-sm-3" style="margin-top: 6px;" ng-if="formData.clearingForm.clearingForm=='refferal_payment_101'">元/天</div>
+                    </div>
+                    <div ng-if="settleModeType.isShowRegRealName">
+                        <div class="form-group">
+                            <div class="row col-sm-offset-3">
+                                <!--<div class="col-sm-4 dr-bd">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios4" ng-value="3"
+                                                   ng-model="formData.clearingForm.regRealName" required>
+                                            激活
+                                        </label>
+                                    </div>
+                                </div>-->
+                                <div class="col-sm-4 dr-bd">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios1" ng-value="0"
+                                                   ng-model="formData.clearingForm.regRealName" required>
+                                            注册
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                           <!-- <div class="row col-sm-offset-3">
+                                <div class="col-sm-4 dr-bd">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios2" ng-value="1"
+                                                   ng-model="formData.clearingForm.regRealName" required>
+                                            注册并实名
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4 dr-bd">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios" id="optionsRadios3" ng-value="2"
+                                                   ng-model="formData.clearingForm.regRealName" required>
+                                            首次投资
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>-->
+                            <!--<div class="col-sm-2">-->
+                            <!--<input style="width:65px;" class="form-control" type="text" placeholder=""-->
+                            <!--ng-model="formData.clearingForm.money" maxlength="8" required/></div>-->
+                            <!--<div class="col-sm-2" style="margin-top: 6px;">元/个</div>-->
+
+                        </div>
+                        <div class="form-group">
+                            <div class="row col-sm-offset-3">
+                                <div class="col-sm-2">
+                                    <input style="width:65px;" class="form-control" type="text" placeholder=""
+                                           ng-model="formData.clearingForm.money" maxlength="8" required/></div>
+                                <div class="col-sm-2" style="margin-top: 6px;">元/个</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="settleModeType.isShowInvest">
+                        <div class="form-group" style="padding-left: 18px;">
+                            <div class="col-sm-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="radioTouzi" ng-value="0"
+                                               ng-model="formData.clearingForm.investForm" required>单用户首次投资
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="radioTouzi" ng-value="1"
+                                               ng-model="formData.clearingForm.investForm" required>单用户累计投资
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="radio">
+                                    <label>
+                                        <input type="radio" name="radioTouzi" ng-value="2"
+                                               ng-model="formData.clearingForm.investForm" required>资产分销
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group" style="padding-left: 18px;">
+                            <div class="col-sm-11">
+                                <isteven-multi-select
+                                        input-model="product.productList"
+                                        output-model="product.selectedProduct"
+                                        button-label="name"
+                                        item-label="name"
+                                        tick-property="selected"
+                                        translation="localLang"
+                                        on-item-click="productChangeValid(basicForm)"
+                                        on-select-all="productChangeValid(basicForm)"
+                                        on-select-none="productChangeValid(basicForm)"
+                                >
+                                </isteven-multi-select>
+                            </div>
+                        </div>
+                        <div class="form-group" style="padding-left: 18px;">
+                            <table ng-class="{true:'col-sm-11',false:'col-sm-8'}[formData.clearingForm.investForm != 2]">
+                                <tr ng-if="formData.clearingForm.investForm != 2" ng-repeat="item in stage.stageList">
+                                    <td style="padding: 0 0 0 14px;width: 90px;">金额满足：</td>
+                                    <td>
+                                        <input style="width:90px;" class="form-control dr-bd" type="number"
+                                               placeholder=""
+                                               ng-model="item.fromMoney" maxlength="8" min="0"
+                                               ng-blur="stage.validateInput(basicForm,item.fromMoney)" required/>
+                                    </td>
+                                    <td>-</td>
+                                    <td>
+                                        <input style="width:90px;" class="form-control dr-bd" type="number"
+                                               placeholder=""
+                                               ng-model="item.toMoney"
+                                               ng-blur="stage.validateInput(basicForm,item.toMoney)"
+                                               maxlength="8" min="0"/>
+                                    </td>
+                                    <td>元</td>
+                                    <td>，</td>
+                                    <td>奖励：</td>
+                                    <td>
+                                        <input style="width:90px;" class="form-control dr-bd" type="number"
+                                               placeholder=""
+                                               ng-model="item.money" maxlength="8" min="0"
+                                               ng-blur="stage.validateInput(basicForm,item.money)" required/>
+                                    <td>
+                                        <span>元/个</span>
+                                    </td>
+                                    <td>
+                                        <a ng-if="stage.canNotDelete" ng-click="stage.decreaseStage(basicForm,$index)"
+                                           class="dr-custom-btn text-danger">×</a>
+                                        <span ng-if="!stage.canNotDelete" class="dr-custom-btn text-muted">×</span>
+                                    </td>
+                                    <td>
+                                        <a ng-click="stage.addStage($index)" class="dr-custom-btn text-success">+</a>
+                                    </td>
+                                </tr>
+                                <tr ng-if="formData.clearingForm.investForm == 2">
+                                    <td style="padding: 0 0 0 14px;">返点：</td>
+                                    <td>
+                                        <input style="width:85px;" class="form-control dr-bd" type="text" placeholder=""
+                                               ng-model="formData.clearingForm.money" maxlength="8" required/></td>
+                                    <td style="margin-top: 6px;">
+                                        <span>%</span>
+                                    </td>
+                                    <td>
+                                        <select style="width: 168px;" ng-model="formData.clearingForm.assetForm"
+                                                required>
+                                            <option value="">--请选择--</option>
+                                            <option value="0">首次投资</option>
+                                            <option value="1">累计投资</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <!--分割线  以上  结算方式显示-->
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">投放开始<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle no-afert" id="dropdown1" role="button" data-toggle="dropdown"
+                                   uib-dropdown-toggle>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-required="true"
+                                               ng-model="formData.publish.refferalStartTime" readonly>
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </a>
+                                <ul ng-if="!isDisabledForm" class="dropdown-menu" uib-dropdown-menu role="menu"
+                                    aria-labelledby="dLabel">
+                                    <datetimepicker ng-model="formData.publish.refferalStartTime"
+                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown1', modelType: 'YYYY-MM-DD HH:mm:ss',minuteStep: 1}"/>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">投放结束<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle no-afert" id="dropdown2" role="button" data-toggle="dropdown"
+                                   date-disable
+                                   uib-dropdown-toggle>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-required="true"
+                                               ng-model="formData.publish.refferalEndTime" readonly>
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </a>
+                                <ul ng-if="!isDisabledForm" class="dropdown-menu" uib-dropdown-menu role="menu"
+                                    aria-labelledby="dLabel">
+                                    <datetimepicker ng-model="formData.publish.refferalEndTime"
+                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown2', modelType: 'YYYY-MM-DD HH:mm:ss',minuteStep: 1}"/>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button class="btn btn-primary btn-plr-35" type="button"
+                            ng-click="ok()"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty ||(formData.clearingForm.clearingForm=='refferal_payment_103' && product.selectedProduct.length==0)"
+                    >保存
+                    </button>
+                    <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

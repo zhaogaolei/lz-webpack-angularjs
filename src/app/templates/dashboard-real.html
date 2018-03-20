@@ -1,0 +1,30 @@
+<div class="dr-dashboard-pane dr-dashboard-sm">
+    <div class="dr-dashboard-title">
+        <h3>
+            {{chatName}}
+            <i class="icon-icon-question-mark" uib-tooltip="{{chatTip}}"></i>
+        </h3>
+
+        <div class="pull-right">
+            <div class="dr-dashboard-facts-r">
+                <h4 data-ng-class="{'true':'f-red'}[chatNumber.num2>=0]">
+                    <i class="icon-icon-arrow-down"></i>
+                    {{(chatNumber.num2|number:2)}}%
+                </h4>
+                <h5>相比前7天平均</h5>
+            </div>
+        </div>
+        <div class="pull-right mr-1">
+            <h4 ng-bind="chatNumber.num1|number"></h4>
+        </div>
+
+    </div>
+    <div class="dr-dashboard-content">
+        <canvas class="chart chart-line"
+                chart-data="chat.data" chart-labels="chat.labels"
+                chart-options="chatOptions"
+                chart-dataset-override="chat.datasetOverride"
+                chart-series="chat.series">
+        </canvas>
+    </div>
+</div>

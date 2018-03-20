@@ -1,0 +1,126 @@
+<div class="dr-form" ng-init="init()">
+    <div class="dr-activity-header">
+        <div class="col col-xs-4">
+            <button type="button" class="btn btn-primary" ng-click="createDaCompare()">
+                新建投放对比
+            </button>
+        </div>
+        <div class="col col-xs-8">
+        </div>
+    </div>
+
+    <div class="dr-tb-container">
+        <div class="dropdown dr-activity-status">
+            <button type="button" class="btn" ng-click="isShow=!isShow">
+                {{showDefaultText||'请选择评分规则'}}
+                <span class="caret"></span>
+            </button>
+            <div class="dr-abt-dropdown-menu" role="menu" ng-if="isShow">
+                <div class="panel-link">
+                    <form class="form-horizontal" name="basicForm" novalidate>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label">注册ROI</label>
+                                <div class="col-xs-8">
+                                    <rzslider
+                                            rz-slider-model="registerRoi.value"
+                                            rz-slider-options="registerRoi.options"
+                                    ></rzslider>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">理想值</label>
+                                <div class="col-xs-5">
+                                    <input type="number" class="form-control"
+                                           placeholder="理想值..."
+                                           min="0"
+                                           required
+                                           ng-model="formData.registerBestValue">
+                                </div>
+                                <div class="col-xs-3" style="padding: 5px 0 0 0;">元/人</div>
+                            </div>
+
+                            <li role="presentation" class="divider"></li>
+
+                            <div class="form-group">
+                                <label class="col-xs-4 control-label">投资ROI</label>
+                                <div class="col-xs-8">
+                                    <rzslider
+                                            rz-slider-model="investRoi.value"
+                                            rz-slider-options="investRoi.options"
+                                    ></rzslider>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-4">理想值</label>
+                                <div class="col-xs-5">
+                                    <input type="number" class="form-control"
+                                           placeholder="理想值..."
+                                           min="0"
+                                           required
+                                           ng-model="formData.investBestValue">
+                                </div>
+                                <div class="col-xs-3" style="padding: 5px 0 0 0;">元/人</div>
+                            </div>
+
+                        </div>
+                        <div class="panel-footer text-center">
+                            <button type="button" class="btn btn-primary btn-plr-35"
+                                    ng-disabled="basicForm.$invalid"
+                                    ng-click="submitScoreRule()">确定
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <div class="table-responsive">
+            <table class="table sort-table">
+                <thead>
+                <tr>
+                    <th style="width:8%" class="text-center">投放动作ID</th>
+                    <th style="width:12%" class="text-center">投放计划名称</th>
+                    <th style="width:12%" class="text-center">渠道名称</th>
+                    <th style="width:10%" class="text-center">广告位</th>
+                    <th style="width:10%" class="text-center">投放日期</th>
+                    <th style="width:5%" class="text-center">落地页PV</th>
+                    <th style="width:8%" class="text-center">注册人数</th>
+                    <th style="width:8%;" class="text-center">投资人数</th>
+                    <th tb-sort="totalInvest" style="width:10%" class="text-center">投资累计金额</th>
+                    <th tb-sort="overallScore" style="width:8%;" class="text-center">评分</th>
+                    <th style="width:8%;" class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in tableData.result">
+                    <td class="text-center">{{row.publishId}}</td>
+                    <td class="text-center">{{row.campaignName}}</td>
+                    <td class="text-center">{{row.refferalName}}</td>
+                    <td class="text-center">{{row.bannerName}}</td>
+                    <td class="text-center">{{row.campaignStart}}</td>
+                    <td class="text-center">{{row.pagePv}}</td>
+                    <td class="text-center">{{row.registerNum | number}}</td>
+                    <td class="text-center">{{row.investNum | number}}</td>
+                    <td class="text-center">{{row.totalInvest | number:2}}</td>
+                    <td class="text-center">{{row.overallScore}}</td>
+                    <td class="text-center">
+                        <button type="button"
+                                ng-click="toTouFang(row.campaignId,row.publishId,row.campaignName)"
+                                class="btn btn-secondary">去投放
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="11" class="text-center text-bg">
+                        <div class="text-right" page-control record="tableData" evname="dr.comparePagination"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+</div>

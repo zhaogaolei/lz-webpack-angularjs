@@ -1,0 +1,194 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">新增条件</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">筛选条件</label>
+                        <div class="col-xs-6 dr-dashboard-seach">
+                            <span uib-dropdown class="span-last">
+                              <isteven-multi-select
+                                      button-class="modalView.buttonClass"
+                                      class="search-channel"
+                                      bottom-check="true"
+                                      input-model="modalView.dicList"
+                                      output-model="modalView.dicListSelect"
+                                      item-label="dataName"
+                                      button-label="dataName"
+                                      search-property="dataName"
+                                      tick-property="selected"
+                                      translation="localLang"
+                                      max-height="250px"
+                                      selection-mode="single"
+                                      helper-elements="filter"
+                                      on-item-click="dicChange()"
+                                      on-select-none="dicChange()"
+                              >
+                            </isteven-multi-select>
+                          </span>
+                        </div>
+                    </div>
+                    <!--number/date/enum类型：金额/抱团次数/时间/当前持有团类型 开始-->
+                    <div ng-if="isShowInput">
+                        <div class="form-group">
+                            <label class="col-xs-3 control-label">判断</label>
+                            <div class="col-xs-7">
+                                <select class="form-control"
+                                        ng-model="modalView.formData.operate">
+                                    <option ng-repeat="item in modalView.modalOperateList" value="{{item.dataCode}}">
+                                        {{item.dataName}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-xs-1 dr-other-compare-tooltip-btn" ng-if="isShowDate">
+                                <button
+                                        tooltips
+                                        tooltip-class="dr-other-compare-tooltips"
+                                        tooltip-side="right"
+                                        tooltip-template-url="help.html"
+                                        type="button"
+                                        class="close">
+                                    <i class="fa fa-question-circle"></i>
+                                </button>
+                                <script type="text/ng-template" id="help.html">
+                                    <div class="text-left">晚于（含当天）</div>
+                                    <div class="text-left">早于（含当天）</div>
+                                    <div class="text-left">介于（含两边）</div>
+                                    <div class="text-left">天以内（例：2天以内，昨天、前天）</div>
+                                    <div class="text-left">天以上（例：1天以上，昨天之前）</div>
+                                    <div class="text-left">未来X天以内（例：未来2天以内，明天、后天）</div>
+                                    <div class="text-left">未来X天以上（例：未来1天以内，明天之后）</div>
+                                </script>
+                            </div>
+                        </div>
+                        <!--金额/次数 开始-->
+                        <div class="form-group" ng-if="isShowNumber&&modalView.formData.operate !='between'">
+                            <label class="col-xs-3 control-label"></label>
+                            <div class="col-xs-7">
+                                <input class="form-control" type="number" min="0" placeholder="数字"
+                                       ng-model="modalView.formData.number.numText">
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-if="isShowNumber&&modalView.formData.operate =='between'">
+                            <label class="col-xs-3 control-label"></label>
+                            <div class="col-xs-3">
+                                <input class="dr-other-compare-between-input" type="number" min="0" placeholder="数字"
+                                       ng-model="modalView.formData.number.numTextStart">
+                            </div>
+                            <div class="dr-other-compare-between-split text-center">-</div>
+                            <div class="col-xs-3">
+                                <input class="dr-other-compare-between-input" type="number" min="0" placeholder="数字"
+                                       ng-model="modalView.formData.number.numTextEnd">
+                            </div>
+                        </div>
+                        <!--金额/次数 结束-->
+                        <!--时间  开始-->
+                        <div class="form-group"
+                             ng-if="isShowDate&&(modalView.formData.operate !='between'&&modalView.formData.operate !='<='&&modalView.formData.operate !='>=')">
+                            <label class="col-xs-3 control-label"></label>
+                            <div class="col-xs-7 dr-other-compare-date">
+                                <input type="number" placeholder="数字" min="0"
+                                       ng-model="modalView.formData.date.dayText">
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-if="isShowDate&&(modalView.formData.operate =='<='||modalView.formData.operate =='>=')">
+                            <label class="col-xs-3 control-label"></label>
+                            <div class="col-xs-7 dr-other-compare-date">
+                                <i class="icon-icon-schedule"></i>
+                                <input type="text"
+                                       readonly
+                                       ng-click="open()"
+                                       uib-datepicker-popup="yyyy-MM-dd"
+                                       placeholder="日期"
+                                       ng-model="modalView.formData.date.dateText"
+                                       is-open="popup.opened"/>
+                            </div>
+                        </div>
+                        <div class="form-group"
+                             ng-if="isShowDate&&modalView.formData.operate=='between'">
+                            <label class="col-xs-3 control-label"></label>
+                            <div class="col-xs-3 m-0 dr-other-compare-date-group">
+                                <i class="icon-icon-schedule"></i>
+                                <input
+                                        type="text"
+                                        readonly
+                                        class="dr-other-compare-between-input"
+                                        ng-click="open1()"
+                                        uib-datepicker-popup="yyyy-MM-dd"
+                                        placeholder="开始日期"
+                                        ng-model="modalView.formData.date.dateTextStart"
+                                        is-open="popup.opened1"/>
+                            </div>
+                            <div class="dr-other-compare-between-split text-center">-</div>
+                            <div class="col-xs-3 m-0 dr-other-compare-date-group">
+                                <i class="icon-icon-schedule"></i>
+                                <input
+                                        type="text"
+                                        readonly
+                                        class="dr-other-compare-between-input"
+                                        ng-click="open2()"
+                                        uib-datepicker-popup="yyyy-MM-dd"
+                                        placeholder="结束日期"
+                                        ng-model="modalView.formData.date.dateTextEnd"
+                                        is-open="popup.opened2"/>
+                            </div>
+                        </div>
+                        <!--时间  结束-->
+                        <div class="form-group" ng-if="isShowInvest">
+                            <label class="col-xs-3 control-label">团类型</label>
+                            <div class="col-xs-6 dr-dashboard-seach">
+                                <isteven-multi-select
+                                        class="search-channel"
+                                        bottom-check="true"
+                                        input-model="modalView.modalInvestList"
+                                        output-model="modalView.modalInvestListSelect"
+                                        button-label="dataName"
+                                        item-label="dataName"
+                                        search-property="dataName"
+                                        tick-property="selected"
+                                        translation="localLang"
+                                        max-height="250px"
+                                        helper-elements="all none filter"
+                                >
+                                </isteven-multi-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!--number/date/enum类型：金额/抱团次数/时间/当前持有团类型 结束-->
+                    <!--boolean类型：是否有投资行为 开始-->
+                    <div class="form-group" ng-if="isShowRadio">
+                        <label class="col-xs-3 control-label"></label>
+                        <div class="col-xs-2">
+                            <button class="btn btn-link"
+                                    ng-click="singleSelectChange()">
+                                <img ng-if="!isTouzi" src="../../image/icon-radio-unchecked.png">
+                                <img ng-if="isTouzi" src="../../image/icon-radio-checked.png">
+                                <span class="text-gray-dark">是</span>
+                            </button>
+                        </div>
+                        <div class="col-xs-2">
+                            <button class="btn btn-link"
+                                    ng-click="singleSelectChange()">
+                                <img ng-if="isTouzi" src="../../image/icon-radio-unchecked.png">
+                                <img ng-if="!isTouzi" src="../../image/icon-radio-checked.png">
+                                <span class="text-gray-dark">否</span>
+                            </button>
+                        </div>
+                    </div>
+                    <!--boolean类型：是否有投资行为 结束-->
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="button" class="btn btn-primary btn-plr-35" ng-click="ok()">保存
+                    </button>
+                    <button type="button" class="btn btn-default btn-plr-35" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

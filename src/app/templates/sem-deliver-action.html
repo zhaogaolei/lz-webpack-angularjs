@@ -1,0 +1,193 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑投放动作</h4>
+    </div>
+    <div class="modal-body modal-box">
+        <form class="form-horizontal dr-form" name="basicForm" role="form" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">渠道<span style="color:red">*</span></label>
+                        <div class="col-sm-4" ng-if="selectedChannel.refferalName">
+                            <input type="text" class="form-control pull-left"
+                                   ng-model="selectedChannel.refferalName" style="border:0" required readonly/>
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-link pull-left"
+                                    type="button"
+                                    ng-click="showChannel()">
+                                <span ng-if="!selectedChannel.refferalName">选择渠道...</span>
+                                <span ng-if="selectedChannel.refferalName">更换渠道...</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="secret">
+                        <label class="col-sm-3 control-label">接口秘钥</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="秘钥"
+                                   ng-model="formData.publish.secretKey" readonly/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">账户选择<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="selectAccount" required ng-change="getAccount()">
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in accountList track by $index"
+                                        value="{{item.id+','+item.account}}">
+                                    {{item.account}}
+                                </option>
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">投放方式<span style="color:red">*</span></label>
+                        <div class="col-sm-2" ng-repeat="item in publishList">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="way"
+                                           value="{{item.dataCode}}"
+                                           ng-model="publishWay"
+                                           ng-required="true"
+                                           ng-disabled="true"
+                                    >
+                                    {{item.dataName}}
+                                </label>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">pcUrl<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="pcUrl"
+                                   ng-model="formData.publish.pcInitUrl" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">pcTarget</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="pcTarget"
+                                   ng-model="formData.publish.pcTarget"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">h5Url<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="h5Url"
+                                   ng-model="formData.publish.h5InitUrl" required/>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">h5Target</label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="h5Target"
+                                   ng-model="formData.publish.h5Target"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">pcSource<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="pcSource"
+                                   ng-model="formData.publish.pcSource" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">h5Source<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="h5Source"
+                                   ng-model="formData.publish.h5Source" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">medium<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <input class="form-control" type="text" placeholder="medium"
+                                   ng-model="formData.publish.medium" required/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Keyword<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <div class="dr-upload-default">
+                                <div class="upload-default">上传Excel...</div>
+                                <input type="file" class="inputstyle-upload" ngf-select=""
+                                       ng-model="keywordFile" name="file" ngf-accept="'*'"
+                                       ng-change="uploadKeywords()"
+                                       ng-disabled="isDisabledForm"
+                                        required>
+                            </div>
+                            <p class="form-control-static text-muted">{{keywordFile.name}}</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">结算方式<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <select class="form-control" ng-model="selectMode" required disabled>
+                                <option value="">--请选择--</option>
+                                <option ng-repeat="item in settleModeList"
+                                        value="{{item.dataCode}}" >
+                                    {{item.dataName}}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">投放开始<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle no-afert" id="dropdown1" role="button" data-toggle="dropdown"
+                                   uib-dropdown-toggle>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-required="true"
+                                               ng-model="formData.publish.refferalStartTime">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="dLabel">
+                                    <datetimepicker ng-model="formData.publish.refferalStartTime"
+                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown1', modelType: 'YYYY-MM-DD HH:mm:ss',minuteStep: 1}"/>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">投放结束<span style="color:red">*</span></label>
+                        <div class="col-sm-5">
+                            <div class="dropdown">
+                                <a class="dropdown-toggle no-afert" id="dropdown2" role="button" data-toggle="dropdown"
+                                   uib-dropdown-toggle>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" ng-required="true"
+                                               ng-model="formData.publish.refferalEndTime">
+                                        <span class="input-group-addon"><i
+                                                class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </a>
+                                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="dLabel">
+                                    <datetimepicker ng-model="formData.publish.refferalEndTime"
+                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown2', modelType: 'YYYY-MM-DD HH:mm:ss',minuteStep: 1}"/>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+
+
+                    <button class="btn btn-primary btn-plr-35" type="button"
+                            ng-click="ok()"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty"
+                    >保存
+                    </button>
+                    <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

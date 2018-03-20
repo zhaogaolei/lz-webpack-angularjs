@@ -1,0 +1,179 @@
+<div class="list-group dr-form" ng-init="initPage()">
+    <h3 class="list-group-item-heading box-shadowbottom">
+        {{viewModel.activityName || '新建活动'}}
+    </h3>
+    <div class="dr-tb-container">
+        <div class="panel panel-default">
+            <form class="form-horizontal dr-form" role="form" name="basicForm" enctype="multipart/form-data" ng-submit="saveActivity()" novalidate>
+                <div class="panel-heading" style="height:40px;">
+                    <div class="col-sm-2" style="padding-left: 0px;">
+                        编辑活动页
+                    </div>
+                    <div class="col-sm-10 text-right" style="margin-top: -7px;">
+                        <button class="btn btn-link" type="button" ng-click="openHistory()">
+                            操作记录
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body dr_baseInfo">
+                    <div class="panel panel-link">
+                        <div class="panel-body dr_baseInfo">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    活动页名称<span style="color:red">*</span>
+                                </label>
+                                <div class="col-sm-5">
+                                    <input class="form-control" type="text" placeholder="请输入活动页名称" required
+                                           ng-model="viewModel.formData.activeName"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    类型<span style="color:red">*</span>
+                                </label>
+                                <div class="col-sm-5">
+                                    <select class="form-control" required ng-model="viewModel.formData.activeType">
+                                        <option value="">请选择</option>
+                                        <option ng-repeat="item in activityTypeList" value="{{item.dataCode}}">
+                                            {{item.dataName}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    生效时间<span style="color:red">*</span>
+                                </label>
+                                <div class="col-sm-5">
+                                    <div class="form-inline">
+                                        <div class="form-group m-0 dr-date-group">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle no-afert" id="dropdown1" role="button"
+                                                   data-toggle="dropdown"
+                                                   uib-dropdown-toggle>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" ng-required="true"
+                                                               ng-model="viewModel.formData.effectiveTime" required>
+                                                        <span class="input-group-addon"><i
+                                                                class="glyphicon glyphicon-calendar"></i></span>
+                                                    </div>
+                                                </a>
+                                                <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                                    aria-labelledby="dLabel" style="margin: -10px 0;padding: 0 0;">
+                                                    <datetimepicker style="width: 330px;"
+                                                                    ng-model="viewModel.formData.effectiveTime"
+                                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown1', modelType: 'YYYY-MM-DD HH:mm:ss'}"/>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="form-group m-0">
+                                            -
+                                        </div>
+                                        <div class="form-group m-0 dr-date-group ">
+                                            <div class="dropdown">
+                                                <a class="dropdown-toggle no-afert" id="dropdown2" role="button"
+                                                   data-toggle="dropdown"
+                                                   uib-dropdown-toggle>
+                                                    <div class="input-group">
+                                                        <input type="text" class="form-control" ng-required="true"
+                                                               ng-model="viewModel.formData.invalidTime" required/>
+                                                        <span class="input-group-addon"><i
+                                                                class="glyphicon glyphicon-calendar"></i></span>
+                                                    </div>
+                                                </a>
+                                                <ul class="dropdown-menu" uib-dropdown-menu role="menu"
+                                                    aria-labelledby="dLabel" style="margin: -10px 0;padding: 0 0;">
+                                                    <datetimepicker style="width: 330px;"
+                                                                    ng-model="viewModel.formData.invalidTime"
+                                                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown2', modelType: 'YYYY-MM-DD HH:mm:ss'}"/>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--<div class="form-group">//mc项目改造注释
+                                <label class="col-sm-2 control-label">
+                                    压缩包<span style="color:red">*</span>
+                                </label>
+                                <div class="col-sm-5">
+                                    <div class="dr-upload-default">
+                                        <div class="upload-default">选择文件...</div>
+                                        <input type="file" class="inputstyle-upload" ngf-select="" ng-model="viewModel.formData.file" name="file" ngf-accept="'*'" required>
+                                    </div>
+                                    <br><br>
+                                    <a href="javascript:void(0);"  ng-click="hdDownloadFile()" ><span ng-if="viewModel.formData.file">{{viewModel.formData.file.name}}</span></a>
+
+                                    <div class="form-control-static text-muted" style="letter-spacing: 2px">
+                                        文件应小于50M/限zip格式
+                                    </div>
+                                </div>
+                            </div>-->
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">主站跟踪代码</label>
+                                <div class="col-sm-1">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"
+                                                   ng-click="checkSelect('Pentaho',$event)"
+                                                   ng-checked="isCheckBoxSelected('Pentaho')"/>
+                                            Pentaho
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input type="checkbox"
+                                                   ng-click="checkSelect('GIO',$event)"
+                                                   ng-checked="isCheckBoxSelected('GIO')"/>
+                                            GIO
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-1">
+                                    <input style="width:100px;" class="form-control" type="text" maxlength="200"
+                                           ng-model="viewModel.formData.masterTrackingId"/>
+                                </div>
+                                <div class="col-sm-2">
+                                    <button type="button" class="btn btn-link" ng-click="insertTrackId()">插入主站ID</button>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">
+                                    初始URL<span style="color:red">*</span>
+                                </label>
+                                <div class="col-sm-5">
+                                    <div class="form-inline">
+                                        <div class="form-group">
+                                            <div class="form-control-static dr-activity-url">
+                                                https//www.dianrong.com/mkt/
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="dr-activity-edit-input" placeholder="目录"
+                                                   ng-model="viewModel.formData.directory" required/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">描述</label>
+                                <div class="col-sm-5">
+                                    <textarea class="form-control" rows="3" maxlength="500"
+                                              ng-model="viewModel.formData.describes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <button class="btn btn-primary btn-plr-35" type="submit" has-permission="activity_save"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty">保存
+                    </button>
+                    <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

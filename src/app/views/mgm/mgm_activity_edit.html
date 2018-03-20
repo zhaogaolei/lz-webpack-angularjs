@@ -1,0 +1,216 @@
+<div class="dr-page-header-condition">
+    <div class="row">
+        <div class="col col-xs-8">
+            <span class="title"> {{mgmId>0 ? '编辑活动' : '新建活动'}}</span>
+        </div>
+        <div class="col col-xs-4 text-right">
+            <a type="button" class="btn btn-default" ng-click="gotoActivityPage()">返回</a>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <form class="form-horizontal" name="basicForm" method="post" novalidate>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    基本信息
+                </h3>
+            </div>
+            <div class="panel-body dr_baseInfo">
+                <div class="form-group">
+                    <label class="control-label col-xs-2">名称<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-6" style="margin-bottom:15px;">
+                        <input
+                                class="form-control"
+                                type="text"
+                                placeholder="请输入活动名称"
+                                ng-required="true"
+                                maxlength="20"
+                                ng-model="formData.mgmName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">部门<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-6" style="margin-bottom:15px;">
+                        <select
+                                class="form-control"
+                                ng-required="true"
+                                ng-model="formData.dept"
+                                ng-options="node.dataCode as node.dataName for node in mgmDeptList">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2" style="text-align: left">时间选择<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-9" style="margin-bottom:15px;">
+                        <div class="form-inline">
+                            <div class="form-group m-0 dr-date-group">
+                                <i class="icon-icon-schedule"></i>
+                                <input
+                                        type="text"
+                                        class="form-control dr-date"
+                                        ng-click="open()"
+                                        uib-datepicker-popup="yyyy-MM-dd"
+                                        format="yyyy-MM-dd"
+                                        ng-model="formData.startTime"
+                                        is-open="popup.opened"
+                                        placeholder="开始时间" required/>
+
+                            </div>
+                            <div class="form-group m-0">
+                                -
+                            </div>
+                            <div class="form-group m-0 dr-date-group ">
+                                <i class="icon-icon-schedule"></i>
+                                <input
+                                        type="text"
+                                        class="form-control dr-date"
+                                        ng-click="open2()"
+                                        uib-datepicker-popup="yyyy-MM-dd"
+                                        format="yyyy-MM-dd"
+                                        ng-model="formData.endTime"
+                                        is-open="popup2.opened"
+                                        placeholder="结束时间" required/>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">ActivityID<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-6" style="margin-bottom:15px;">
+                        <input
+                                name="activityId"
+                                class="form-control"
+                                placeholder="请输入ActivityId"
+                                ng-pattern="/^(\-|\+)?\d+(\.\d+)?$/"
+                                ng-maxlength="10"
+                                ng-model="formData.activityId" required>
+                        <i ng-if="!basicForm.activityId.$valid&&basicForm.activityId.$dirty" class="text-danger">
+                            请输入正确的ActivityId
+                        </i>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">投放渠道<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-6" style="margin-bottom:15px;">
+                        <select
+                                class="form-control"
+                                ng-required="true"
+                                ng-model="formData.campaignRefferal"
+                                ng-options="node.dataCode as node.dataName for node in mgmDeliverChannelList">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">邀请方式<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-6">
+                        <select
+                                class="form-control"
+                                ng-required="true"
+                                ng-model="formData.inviteType"
+                                ng-options="node.dataCode as node.dataName for node in mgmInviteTypeList">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    结算方式
+                </h3>
+            </div>
+            <div class="panel-body dr_baseInfo">
+                <div class="form-group">
+                    <label class="control-label col-xs-2">结算方式<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-3" style="margin-bottom:15px;">
+                        <select
+                                class="form-control"
+                                ng-required="true"
+                                ng-model="formData.settleType"
+                                ng-options="node.dataCode as node.dataName for node in mgmSettleTypeList">
+                            <option value="">请选择</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-1" style="margin-bottom:15px">
+                        <input ng-if="formData.settleType=='settle_type_002'"
+                               style="width: 80px !important;"
+                               class="form-control"
+                               type="text"
+                               placeholder="频次"
+                               maxlength="5"
+                               ng-model="formData.settleSubValue" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-xs-2">上限设置<span
+                            style='color: red;'>*</span></label>
+                    <div class="col-xs-6">
+                        <input
+                                name="maxLimit"
+                                class="form-control"
+                                type="text"
+                                placeholder="请输入上限"
+                                ng-required="true"
+                                ng-pattern="/^(0|[1-9]\d*)$/"
+                                min="0"
+                                maxlength="10"
+                                ng-model="formData.maxLimit">
+                        <i ng-if="!basicForm.maxLimit.$valid&&basicForm.maxLimit.$dirty" class="text-danger">
+                            请输入正整数
+                        </i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    规则设置<span style='color: red;'>*</span>
+                </h3>
+            </div>
+            <div class="panel-body dr_baseInfo">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <table class="table table-hover">
+                            <tbody>
+                                <tr ng-repeat="item in formData.rules track by $index">
+                                    <td><span ng-bind-html="item.displayExpressionHtml"></span></td>
+                                    <td>
+                                        <a ng-click="deleteRule(basicForm,item)" class="dr-custom-btn text-danger">×</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-1" style="margin-bottom:15px">
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="openRuleModule(basicForm)">+
+                            新建规则
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-primary btn-plr-35"
+                        ng-disabled="basicForm.$invalid || !basicForm.$dirty ||formData.rules.length==0"
+                        ng-click="saveMgmActivity()">保存
+                </button>
+                <button type="button" class="btn btn-default btn-plr-35" ng-click="gotoActivityPage()">取消</button>
+            </div>
+        </div>
+    </form>
+</div>

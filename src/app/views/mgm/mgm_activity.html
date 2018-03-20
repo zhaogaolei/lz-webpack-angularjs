@@ -1,0 +1,137 @@
+<div class="dr-page-header-condition">
+    <div class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="活动名称" ng-model="formData.mgmActivityName"/>
+        </div>
+        <div class="form-group">
+            <select class="form-control page-select" ng-model="formData.deptSelect">
+                <option value="">--请选择部门--</option>
+                <option value="{{x.dataCode}}" ng-repeat="x in formData.dept">{{x.dataName}}</option>
+
+            </select>
+        </div>
+        <div class="form-group m-0 dr-date-group">
+            <i class="icon-icon-schedule"></i>
+            <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    ng-click="open1()"
+                    uib-datepicker-popup="yyyy-MM-dd"
+                    ng-model="formData.startDate"
+                    placeholder="开始时间"
+                    is-open="popup1.opened"/>
+
+        </div>
+        <div class="form-group m-0 dr-date-group ">
+            <i class="icon-icon-schedule"></i>
+            <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    ng-click="open2()"
+                    uib-datepicker-popup="yyyy-MM-dd"
+                    ng-model="formData.endDate"
+                    placeholder="结束时间"
+                    is-open="popup2.opened"/>
+
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" ng-click="queryActivityList()">查询</button>
+        </div>
+        <div class="form-group float-lg-right">
+            <button class="btn btn-primary" ng-click="editMgmActivity(0)">新增活动
+            </button>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <table class="table sort-table">
+        <thead>
+        <tr>
+            <th style="width:10%;">活动名称</th>
+            <th style="width:7%;">部门</th>
+            <th style="width:8%;">开始时间</th>
+            <th style="width:8%;">结束时间</th>
+            <th style="width:5%;">ActivityId</th>
+            <th style="width:10%;">结算方式</th>
+            <th style="width:5%;">规则</th>
+            <th style="width:7%;">创建人</th>
+            <th style="width:12%;">创建时间</th>
+            <th style="width:8%;">活动状态</th>
+            <th style="width:15%;">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat="row in tableData.result">
+            <td class="text-center">
+                <a ui-sref="main.rewardgive({mgmId:row.id})">{{row.mgmName}}</a>
+            </td>
+            <td class="text-center">{{row.disDept}}</td>
+            <td class="text-center">{{row.startTime|date:'yyyy-MM-dd'}}</td>
+            <td class="text-center">{{row.endTime|date:'yyyy-MM-dd'}}</td>
+            <td class="text-center">{{row.activityId}}</td>
+            <td class="text-center">{{row.disSettleType}}</td>
+            <td class="text-center">
+                <!--<button class="btn btn-link"-->
+                <!--tooltip-placement="right"-->
+                <!--uib-tooltip-html="{{row.disExpressions}}">详细规则</button>-->
+                <button class="btn btn-link" ng-click="showRuleDetail(row.disExpressions)">详细规则</button>
+            </td>
+            <td class="text-center">{{row.createUser.split('@')[0]}}</td>
+            <td class="text-center">{{row.createTime|date:'yyyy-MM-dd HH:mm:ss'}}</td>
+            <td class="text-center">
+                {{row.disActivityStatus}}
+                <i ng-if="row.disActivityStatus==='已停用'&&row.updateUser !='system'"
+                   tooltips
+                   tooltip-side="top"
+                   tooltip-template-url="stop-time.html"
+                   class="fa fa-info-circle"></i>
+                <script type="text/ng-template" id="stop-time.html">
+                    <div style="width:210px">
+                        停止时间：{{row.stopTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                    </div>
+                </script>
+            </td>
+            <td class="text-center">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-secondary dropdown-toggle"
+                            data-toggle="dropdown">
+                        更多<i class="icon-icon-more" aria-hidden="true"></i>
+                    </button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-if="row.disActivityStatus=='未启用'">
+                            <a href ng-click="editMgmActivity(row.id,'no')">
+                                <i class="fa fa-edit" aria-hidden="true"></i>编辑
+                            </a>
+                        </li>
+                        <li ng-if="row.disActivityStatus=='已启用'">
+                            <a href ng-click="stopMgmActivity(row.id)">
+                                <span class="icon-icon-stop"></span>暂停
+                            </a>
+                        </li>
+                        <li>
+                            <a href ng-click="copyMgmActivity(row.id,'copy')">
+                                <span class="icon-icon-copy"></span>复制
+                            </a>
+                        </li>
+                        <li ng-if="row.disActivityStatus=='未启用'">
+                            <a href ng-confirm-message="确认要删除 {{row.mgmName}} 吗？"
+                               ng-confirm="deleteMgmActivity(row.id)">
+                                <span class="icon-icon-remove"></span>删除
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <td colspan="11" class="text-center text-bg">
+                <div class="text-right" page-control record="tableData" evname="dr.mgmActivtyPagination"></div>
+            </td>
+        </tr>
+        </tfoot>
+    </table>
+</div>

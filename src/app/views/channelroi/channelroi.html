@@ -1,0 +1,118 @@
+<div class="dr-form" ng-init="initPage()">
+    <h3>
+        渠道ROI
+    </h3>
+    <div class="list-group-item single-channel-quary">
+        <div class="form-inline">
+            <div class="form-group">&nbsp;</div>
+            <div class="form-group float-lg-right">
+                <form name="basicForm" novalidate>
+                    <div class="form-group m-0 dr-date-group">
+                        <div class="dr-dashboard-seach" style="position:relative">
+                            <isteven-multi-select
+                                    class="search-channel search-channel2"
+                                    bottom-check="true"
+                                    input-model="viewModel.channel"
+                                    output-model="viewModel.channelSelected"
+                                    item-label="refferalName"
+                                    button-label="refferalName"
+                                    button-class="btnClassRoi"
+                                    search-property="refferalName"
+                                    disable-property="disable"
+                                    tick-property="selected"
+                                    translation="localLang"
+                                    max-height="250px"
+                                    helper-elements="all none reset filter"
+                                    selection-mode="single"
+                            >
+                            </isteven-multi-select>
+                        </div>
+                    </div>
+                    <div class="form-group m-0 dr-date-group">
+                        <i class="icon-icon-schedule"></i>
+                        <input
+                                type="text"
+                                class="form-control dr-date"
+                                readonly
+                                ng-click="open1()"
+                                uib-datepicker-popup="yyyy-MM-dd"
+                                ng-model="viewModel.startDate"
+                                placeholder="开始时间"
+                                is-open="popup1.opened"/>
+                    </div>
+                    <div class="form-group m-0 dr-date-group">
+                        <i class="icon-icon-schedule"></i>
+                        <input
+                                type="text"
+                                class="form-control dr-date"
+                                readonly
+                                ng-click="open2()"
+                                uib-datepicker-popup="yyyy-MM-dd"
+                                ng-model="viewModel.endDate"
+                                placeholder="结束时间"
+                                is-open="popup2.opened"/>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-default" ng-click="queryData()">查询</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="dr-tb-container">
+        <div class="table-responsive">
+            <table ng-table="tableParams" class="table sort-table">
+                <thead>
+                <tr>
+                    <th tb-sort="settlementDate" style="width:10%" class="text-center">日期</th>
+                    <th style="width:10%" class="text-center">代理商</th>
+                    <th style="width:10%" class="text-center">渠道</th>
+                    <th style="width:10%" class="text-center">投放ID</th>
+                    <th style="width:20%" class="text-center">结算条件</th>
+                    <th style="width:10%" class="text-center">结算数据</th>
+                    <th style="width:10%" class="text-center">当日成本</th>
+                    <th style="width:10%" class="text-center">截止当前成本</th>
+                    <th style="width:10%" class="text-center">对账明细</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in tableData.result track by $index" style="text-align:center">
+                    <td>{{row.settlementDate| date: 'yyyy-MM-dd'}}</td>
+                    <td>{{row.agentName}}</td>
+                    <td>{{row.refferlaName}}</td>
+                    <td>{{row.publishId}}</td>
+                    <td>
+                        <button
+                                uib-tooltip="{{row.settlementCondition.substring(3)}}"
+                                type="button"
+                                class="btn btn-link">
+                            {{row.settlementCondition.substring(0, 3)}}
+                        </button>
+                    </td>
+                    <td>{{row.settlementData}}</td>
+                    <td>{{row.cost}}元</td>
+                    <td>{{row.totalCost? row.totalCost : 0}}元</td>
+                    <td class="text-center">
+                        <a href="" ng-click="exportList(row)">
+                            <i class="icon-icon-excel"></i>
+                            对账明细
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="9" class="text-center text-bg">
+                        <div class="text-right" page-control record="tableData" evname="dr.reloadPagination"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+
+</div>
+
+

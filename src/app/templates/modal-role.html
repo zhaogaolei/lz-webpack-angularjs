@@ -1,0 +1,33 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">选择角色</h4>
+    </div>
+    <div class="modal-body modal-box dr-tb-container" style="padding: 0;margin: 0;">
+        <table class="table table-striped" style="margin-bottom: 0;">
+            <thead><tr><th>角色</th></tr></thead>
+            <tbody>
+                <tr ng-repeat="row in roles track by $index">
+                    <td>
+                      <label class="radio-inline">
+                          <input name="role" 
+                                 type="radio" 
+                                 ng-true-value="{{row.dataCode}}"
+                                 value="{{row.dataCode}}" 
+                                 ng-model="row.code"
+                                 ng-click="selectRow(row)"
+                                 />
+                          {{row.dataName}}
+                     </label>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <div class="dr-btn-bar">
+            <button class="btn btn-primary btn-plr-35" type="button" ng-click="ok()">确定</button>
+            <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,249 @@
+<div class="dr-form" padding="20px">
+	<h3>
+	 {{name ? name : '新建代理商'}}
+	</h3>
+	<div>
+		 <ul  class="nav nav-tabs dr-tab">
+            <li ng-class="{true:'active', false: ''}[showBasicInfo]">
+                <a ng-click="changeTab('basicInfo')">基本信息</a>
+            </li>
+            <li ng-class="{true:'active', false: ''}[showChannel]">
+                <a ng-click="changeTab('channel')">渠道</a>
+            </li>
+        </ul>
+         <div class="tab-content">
+         	 <div class="tab-pane fade" ng-class="{true:' in active', false: ''}[showBasicInfo]">
+				 <form class="form-horizontal" name="basicForm" method="post" novalidate>
+					<div class="panel panel-link">
+						 <div class="panel-heading">
+                            新增代理信息
+                        </div>
+                        <div class="panel-body dr_baseInfo">
+                            <form role="form">
+                                <div class="form-group">
+                                        <label class="control-label col-xs-2">代理商名称<span
+                                                style='color: red;'>*</span></label>
+                                        <div class="col-xs-6" style="margin-bottom:15px;">
+                                            <input
+                                                    class="form-control"
+                                                    type="text"
+                                                    ng-required="true"
+                                                    maxlength="20"
+                                                    ng-model="formData.agentName">
+                                            <input
+                                                    class="form-control"
+                                                    type="text"
+                                                    ng-hide="true"
+                                                    ng-model="formData.id">
+                                        </div>                
+                                </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-2">公司全称<span
+                                                style='color: red;'>*</span></label>
+                                        <div class="col-xs-6" style="margin-bottom:15px;">
+                                            <input
+                                                    class="form-control"
+                                                    ng-required="true"
+                                                    maxlength="20"
+                                                    ng-disabled="planCreated"
+                                                    ng-model="formData.agentFullName">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-2">联系人</label>
+                                        <div class="col-xs-6" style="margin-bottom:15px;">
+                                            <input
+                                                    class="form-control"
+                                                    ng-model="formData.agentContacts">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-2">联系人电话</label>
+                                        <div class="col-xs-6" style="margin-bottom:15px;">
+                                            <input
+                                                    class="form-control"
+                                                    ng-maxlength="11"
+                                                    ng-pattern="/^1[3|4|5|7|8]\d{9}$/"
+                                                    ng-model="formData.agentPhone">
+                                        </div>
+                                    </div>
+                                 
+                                   <div class="form-group">
+                                        <label class="control-label col-xs-2">状态<span
+                                                style='color: red;'>*</span></label>
+                                        <div class="col-xs-6" style="margin-bottom:15px;">
+                                            <select
+                                                    class="form-control"
+                                                    ng-required="true"
+                                                    ng-model="formData.agentState"
+                                                    ng-options="node.dataCode as node.dataName for node in channelStatus">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                     <div class="form-group">
+                                        <label class="control-label col-xs-2">是否开放接口</label>
+                                        <div class="col-xs-6" style="margin-bottom:15px;">
+                                            <select
+                                                    class="form-control"
+                                                    ng-model="formData.agentOpenInterface"
+                                                    ng-options="node.dataCode as node.dataName for node in is">
+                                                <option value="">请选择</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-xs-2">接口秘钥</label>
+                                        <div class="col-xs-3">
+                                            <input class="form-control" 
+                                                   type="text"
+                                                   ng-disabled="true"
+                                                   ng-model="formData.agentKey">
+                                        </div>
+                                        <div class="col-xs-5">
+                                            <button class="btn btn-link">复制密钥</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+										<label class="control-label col-xs-2">开放的接口</label>
+										<div class="col-xs-10" >
+    										<label class="checkbox-inline" >
+    										<input type="checkbox" name="interface" 
+                                                   ng-model="formData.agentWebInterface" 
+                                                   ng-true-value="'refferal_port_100'"/>网页指示数据接口
+    										</label>
+    										<label class="checkbox-inline" >
+    										<input type="checkbox" name="interface" 
+                                                   ng-model="formData.agentTrackInterface"
+                                                   ng-true-value="'refferal_port_101'"/>Track明细数据接口
+    										</label>
+                                            <!-- <div>
+                                              <label class="checkbox-inline" ng-repeat="tag in openInterfaces">
+                                              <input type="checkbox"
+                                                        ng-true-value="'{{tag.dataCode}}'"
+                                                        name="interface"
+                                                        ng-model="$parent.formData.interface[tag.dataCode]" />
+                                                {{tag.dataName}}
+                                              </label>
+                                            </div> -->
+    									</div>
+									</div>
+                               
+                            </form>
+                        </div>
+                        <div class="panel-footer">
+                            <button type="button"
+                                    class="btn btn-primary"
+                                    ng-disabled="basicForm.$invalid"
+                                    ng-click="saveAgent()"
+                                    has-permission="agentmgr_edit_save"
+                                    >保存
+                            </button>
+
+
+                            <button type="button"
+                                    ng-click="goMain()"
+                                    class="btn btn-default"
+                                    style="margin-left: 30px">
+                                <i class="fa fa-reset"></i>
+                                取消
+                            </button>
+
+                </div>
+					</div>
+
+				 </form>
+         	 </div>
+         	 
+
+         	 <div class="tab-pane fade" ng-class="{true:' in active', false: ''}[showChannel]">
+         	 	<div class="panel panel-default channel-panel">
+                    <div class="panel-heading">
+
+                        <div class="row">
+                            
+                            <div class="dr-ch-channel col-lg-6 text-right" uib-dropdown>
+
+                                <input type="text" ng-model="refferalName" ng-change="searchList()" class="form-control"
+                                       uib-dropdown-toggle placeholder="输入渠道名称..." />
+                                <button class="btn btn-default"
+                                        has-permission="agentmgr_channel_add"
+                                        ng-click="addChannel()"
+                                        ng-class="{true: 'btn-primary', false: ''}[!!refferalName]"
+                                        ng-disabled="!refferalName">添加
+                                </button>
+                                <div class="searchlist"
+                                     uib-dropdown-menu
+                                     ng-show="isShowSearchList"
+                                     ng-click="$event.stopPropagation()"
+                                >
+                                    <ul style="padding: 0px;">
+                                        <li ng-repeat="row in channelAgentDataValid | filter:{refferalName: refferalName}"
+                                            style="padding: 5px 12px; list-style: none;"
+                                            ng-click="clickDropMenu(row)">
+                                            <span ng-show="row.agentName">{{row.refferalName}}-{{row.agentName}}</span>
+                                            <span ng-show="!row.agentName">{{row.refferalName}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 text-right">
+                                <button class="btn btn-primary btn-plr-15"
+                                        has-permission="delivery_channel_all"
+                                        ng-click="openAllChannel()">
+                                    <i class="fa fa-plus"></i>
+                                    全部渠道
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                 <div class="dr-tb-container">
+                    <table class="table table-striped table-condensed sort-table">
+                        <thead>
+                        <tr>
+                            <th class="table-id" style="width: 8%;">ID</th>
+                            <th tb-sort="refferalName" style="width: 10%;">渠道名称</th>
+                            <th tb-sort="refferalState" style="width: 8%;">状态</th>
+                            <th style="width: 35%;">广告位</th>
+                            <!--<th style="width: 15%;">模式/商务条件</th>-->
+                            <th style="width: 12%;">备注</th>
+                            <th style="min-width: 10%;">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in agentChannelList.result">
+                            <td>{{item.id}}</td>
+                            <td>{{item.refferalName}}</td>
+                            <td>{{item.refferalState}}</td>
+                            <td>{{item.bannerPosition | refferalNameFilter}}</td>
+                            <!--<td>{{item.clearingForm}}</td>-->
+                            <td>{{item.note}}</td>
+                            <td>
+                                <div class="buttons">
+                                    <button type="button"
+                                            class="btn btn-secondary"
+                                            ng-click="delAgentChannel(item.id)"
+                                            ng-show="item.refferalState === '即将合作'"
+                                            has-permission="agentmgr_channel_del">
+                                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>移除
+                                    </button>
+                                    
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="6" class="text-center text-bg">
+                                <div class="text-right" page-control record="agentChannelList" evname="dr.agentChannelPagination"></div>
+                            </td>
+                        </tr>
+                        </tfoot>
+                    </table>
+        </div>
+         	 </div>
+         </div>
+	</div>
+</div>

@@ -1,0 +1,31 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="close()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">操作记录</h4>
+    </div>
+    <div class="modal-body">
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th></th>
+                    <th class="">操作</th>
+                    <th class="">操作人</th>
+                    <th>操作时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in historyList.result">
+                    <td ng-bind="$index + 1"></td>
+                    <td ng-bind="row.operationType"></td>
+                    <td ng-bind="row.updateUser"></td>
+                    <td ng-bind="row.updateTime"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="text-right" page-control record="historyList" evname="dr.activityHistoryPagination"></div>
+    </div>
+</div>

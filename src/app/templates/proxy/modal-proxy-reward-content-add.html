@@ -1,0 +1,62 @@
+<div class="dr-form" ng-init="initAddRewardPage()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">添加奖励内容</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">券计划<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-model="viewModel.planId"
+                                    ng-options="node.id as node.planName for node in couponPlanList"
+                                    ng-change="couponPlanChange()">
+                                <option value="">请选择...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">券类型<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select
+                                    class="form-control"
+                                    ng-model="viewModel.couponName"
+                                    ng-options="node.couponName as node.templateName for node in couponTypeList"
+                                    ng-required="true">
+                                <option value="">请选择...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">券数量<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    placeholder="请输入数量..."
+                                    ng-required="true"
+                                    ng-model="viewModel.couponNumber">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty"
+                            ng-click="ok()">保存
+                    </button>
+                    <button type="button" class="btn btn-default btn-plr-35" data-dismiss="modal"
+                            ng-click="cancel()">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

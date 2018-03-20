@@ -1,0 +1,49 @@
+<div class="dr-form">
+    <h3 class="list-group-item-heading box-shadowbottom">
+        主数据
+    </h3>
+    <hr style="margin-top: 10px;margin-bottom: 10px;">
+    <div class="placeholders">
+        <div class="dr-tb-container">
+            <div class="table-responsive">
+                <table class="table ">
+                    <thead>
+                    <tr>
+                        <th style="width:9%;" class="text-center">序号</th>
+                        <th style="width:30%;" class="text-center">主数据名称</th>
+                        <th style="width:20%;" class="text-center">最后修改人</th>
+                        <th style="width:20%;" class="text-center">最后修改时间</th>
+                        <th style="min-width:10%;" class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in mainData.result track by $index" style="padding:10px 0;">
+                        <td>{{(mainData.pageNo-1)*10+$index+1}}</td>
+                        <td>{{row.dataName}}</td>
+                        <td>{{row.updateUser}}</td>
+                        <td>{{row.updateTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                        <td class="text-center">
+                            <span>
+                                <button type="button" 
+                                        class="btn btn-secondary"
+                                        has-permission="maindata_edit"
+                                        ng-click="go(row.id, row.dataCode, row.dataName)">
+                                  <span class="icon-icon-edit"></span>编辑
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                     <tfoot>
+                     <tr>
+                     <td colspan="9" class="text-center text-bg">
+                        <div class="text-right" page-control record="mainData" evname="dr.mainDataPagination"></div>
+                     </td>
+                    </tr>
+                    </tfoot>
+                </table>
+                <!-- <div class="text-right" page-control record="mainData" evname="dr.mainDataPagination"></div> -->
+            </div>
+        </div>
+
+    </div>

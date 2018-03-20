@@ -1,0 +1,24 @@
+<span uib-dropdown is-open="isOpen">
+   <button id="date-range-picker" class="btn btnSelect" uib-dropdown-toggle >
+       <i class="icon-icon-schedule"></i>{{minDate| date: 'yyyy/MM/dd'}}-{{maxDate| date: 'yyyy/MM/dd'}}
+   </button>
+    <div class="date-rang" uib-dropdown-menu ng-click="$event.stopPropagation()" role="menu"
+         aria-labelledby="date-range-picker">
+       <div class="dateCon">
+             <div class="date-pick">
+                    <h4>开始时间:<span
+                            ng-bind="minDate| date: 'yyyy/MM/dd'"></span></h4>
+                    <div data-ng-model="minDate" uib-datepicker  datepicker-options="options1"></div>
+             </div>
+             <div class="date-pick">
+                     <h4>结束时间:<span ng-bind="maxDate| date: 'yyyy/MM/dd'"></span></h4>
+                            <div data-ng-model="maxDate" uib-datepicker  datepicker-options="options2"></div>
+             </div>
+             <div class="clearfix"></div>
+             <div class="datapick-foot">
+                     <button class="btn btn-danger pull-right" ng-click="closemodal();">确定</button>
+             </div>
+       </div>
+
+     </div>
+</span>

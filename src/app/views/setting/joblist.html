@@ -1,0 +1,94 @@
+<div class="dr-form" ng-init="init()">
+    <div class="dr-activity-header">
+        <div class="col col-xs-4">
+            <button type="button" class="btn btn-primary" ng-click="createJob('add')">
+                新建计划任务
+            </button>
+        </div>
+        <div class="col col-xs-8">
+        </div>
+    </div>
+
+    <div class="dr-tb-container">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width:8%" class="text-center">序号</th>
+                    <th style="width:12%" class="text-center">Job分组</th>
+                    <th style="width:15%" class="text-center">Job名称</th>
+                    <th style="width:15%" class="text-center">Job描述</th>
+                    <th style="width:15%" class="text-center">定时表达式</th>
+                    <th style="width:10%" class="text-center">Job状态</th>
+                    <th style="min-width:30%;width: 30%;" class="text-center">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="row in jobList">
+                    <td>{{$index+1}}</td>
+                    <td>{{row.jobGroup}}</td>
+                    <td>{{row.jobName}}</td>
+                    <td>{{row.jobDescription}}</td>
+                    <td>{{row.cronExpression}}</td>
+                    <td>{{row.jobStatus}}</td>
+                    <td class="">
+                        <button type="button"
+                                class="btn btn-secondary text-success"
+                                ng-click="jobExecute(row.jobGroup,row.jobName)"
+                                title="立即执行">
+                            <i class="fa fa-fast-forward" aria-hidden="true"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary text-info"
+                                ng-if="row.jobStatus=='暂停'"
+                                ng-click="jobStart(row.jobGroup,row.jobName)"
+                                title="启动">
+                            <i class="fa fa-play" aria-hidden="true"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary text-muted"
+                                ng-if="row.jobStatus=='运行中'"
+                                ng-confirm="jobPause(row.jobGroup,row.jobName)"
+                                ng-confirm-message="确定要暂停{{row.jobName}}吗？"
+                                title="暂停">
+                            <i class="fa fa-pause" aria-hidden="true"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary text-primary"
+                                ng-click="createJob('edit',row.jobGroup,row.jobName)"
+                                title="编辑">
+                            <i class="fa fa-edit" aria-hidden="true"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary text-danger"
+                                ng-confirm="jobDelete(row.jobGroup,row.jobName)"
+                                ng-confirm-message="确定要删除{{row.jobName}}吗？"
+                                title="删除">
+                            <i class="fa fa-trash-o" aria-hidden="true"></i>
+                        </button>
+                        <button type="button"
+                                class="btn btn-secondary" ng-click="viewJobHistory(row.jobGroup,row.jobName)"
+                                title="查看历史">
+                            <i class="fa fa-history" aria-hidden="true"></i>
+                        </button>
+                        <button type="button" ng-if="row.hasError"
+                                class="btn btn-secondary text-danger"
+                                ng-click="viewJobError(row.jobGroup,row.jobName)"
+                                title="查看异常">
+                            <i class="glyphicon glyphicon-fire" aria-hidden="true"></i>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+                <!--<tfoot>-->
+                <!--<tr>-->
+                <!--<td colspan="7" class="text-center text-bg">-->
+                <!--<div class="text-right" page-control record="tableData" evname="dr.activityPagination"></div>-->
+                <!--</td>-->
+                <!--</tr>-->
+                <!--</tfoot>-->
+            </table>
+        </div>
+    </div>
+</div>
+</div>

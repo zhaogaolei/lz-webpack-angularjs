@@ -1,0 +1,9 @@
+<ul class="pager" ng-if="record.pageTotal">
+  <li ng-if="record.pageTotal !=1" ng-class="{true: 'disabled', false: ''}[pgs.currentPg==1]"><a href="#" ng-click="first($event)">首页</a></li>
+  <li ng-if="record.pageTotal !=1" ng-class="{true: 'disabled', false: ''}[pgs.currentPg==1]"><a href="#" ng-click="prev($event)">上一页</a></li>
+  <li ng-if="record.pageTotal !=1" ng-class="{true: 'disabled', false: ''}[pgs.currentPg==pgs.lastPg ||pgs.lastPg==0]"><a href="#" ng-click="next($event)">下一页</a></li>
+  <li ng-if="record.pageTotal !=1" ng-class="{true: 'disabled', false: ''}[pgs.currentPg==pgs.lastPg ||pgs.lastPg==0]"><a href="#" ng-click="last($event)">末页</a></li>
+</ul>
+<ul class="pager" ng-if="!record.pageTotal">
+  <li class="page-none">没有数据</li>
+</ul>

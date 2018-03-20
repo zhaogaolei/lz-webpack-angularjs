@@ -1,0 +1,49 @@
+<div class="dr-form">
+    <!--<div class="modal-header">-->
+        <!--<h4 class="modal-title" id="myModalLabel">选择渠道</h4>-->
+    <!--</div>-->
+    <div class="modal-body">
+        <ul class="nav nav-tabs dr-tab" style="padding-left: 190px!important;">
+            <li class="active">
+                <a href="#singleChannel" data-toggle="tab">单渠道</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="singleChannel">
+                <div class="modal-body modal-box dr-tb-container" style="max-height:500px;overflow-y:auto;">
+                    <table class="table table-striped" style="margin-bottom: 0">
+                        <thead>
+                        <tr>
+                            <th>渠道ID</th>
+                            <th>渠道名称</th>
+                            <th>渠道状态</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in data track by $index">
+
+                            <td>{{row.id}}</td>
+                            <td>{{row.refferalName}}</td>
+                            <td>{{row.refferalStatus}}</td>
+                            <td>
+                                <input type="checkbox" ng-model="row.checked"
+                                       ng-disabled="row.refferalStatus=='结束合作'"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="dr-btn-bar">
+            <button class="btn btn-primary btn-plr-35" type="button" ng-click="ok()">确定</button>
+            <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

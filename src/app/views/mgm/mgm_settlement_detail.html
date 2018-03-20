@@ -1,0 +1,51 @@
+<div class="dr-page-header-condition">
+    <div class="row">
+        <div class="col col-xs-8">
+            <span class="title">奖励统计明细报表</span>
+        </div>
+        <div class="col col-xs-4 text-right">
+            <button type="button" class="btn btn-default" ui-sref="main.mgmsettle">返回</button>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <div class="table-responsive">
+        <table class="table sort-table" style="width:100%">
+            <thead>
+            <tr>
+                <th tb-sort="mgmId" style="width:8%" class="text-center">MGMID</th>
+                <th tb-sort="mgmName" style="width:10%" class="text-center">活动名称</th>
+                <th tb-sort="activityId" style="width:10%" class="text-center">ActivityId</th>
+                <th tb-sort="userId" style="width:10%" class="text-center">AID</th>
+                <th tb-sort="couponName" style="width:25%" class="text-center">CouponName</th>
+                <th tb-sort="provideNum" style="width:10%" class="text-center">应发数量</th>
+                <th tb-sort="receivedNum" style="width:10%" class="text-center">实发数量</th>
+                <!--<th tb-sort="provideCash" style="width:10%" class="text-center">应发现金</th>-->
+                <!--<th tb-sort="receivedCash" style="width:10%;" class="text-center">实发现金</th>-->
+                <th tb-sort="provideTime" style="width:20%;" class="text-center">发放时间</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result">
+                <td class="text-center">{{row.mgmId}}</td>
+                <td class="text-center">{{row.mgmName}}</td>
+                <td class="text-center">{{row.activityId}}</td>
+                <td class="text-center">{{row.userId}}</td>
+                <td class="text-center">{{row.couponName}}</td>
+                <td class="text-center">{{row.provideNum}}</td>
+                <td class="text-center">{{row.receivedNum}}</td>
+                <!--<td class="text-center">{{row.provideCash}}</td>-->
+                <!--<td class="text-center">{{row.receivedCash}}</td>-->
+                <td class="text-center">{{row.provideTime}}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="9" class="text-center text-bg">
+                    <div class="text-right" page-control record="tableData" evname="dr.mgmSettleDetailPagination"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

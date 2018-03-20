@@ -1,0 +1,90 @@
+<div class="dr-page-header-condition">
+    <div class="row">
+        <div class="col col-xs-8">
+            <span class="title"> 编辑邀请权益</span>
+        </div>
+        <div class="col col-xs-4 text-right">
+            <a class="btn btn-default btn-sm" ng-click="goBack()">返回</a>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <form class="form-horizontal" name="basicForm" method="post" novalidate>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    邀请权益名称<span style='color: red;'>*</span>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <!--<label class="control-label col-xs-2">权益名称<span-->
+                            <!--style='color: red;'>*</span></label>-->
+                    <div class="col-xs-6">
+                        <input
+                                class="form-control"
+                                type="text"
+                                placeholder="请输入权益名称..."
+                                ng-required="true"
+                                maxlength="20"
+                                ng-model="formData.equityName">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    奖励设置<span style='color: red;'>*</span>
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th style="width: 25%">
+                                   券计划
+                                </th>
+                                <th style="width: 25%">
+                                    券类型
+                                </th>
+                                <th style="width: 25%">
+                                    券数量
+                                </th>
+                                <th style="width: 25%">
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="row in formData.rewardList track by $index">
+                                <td>{{row.couponPlanName}}</td>
+                                <td>{{row.couponTemplateName}}</td>
+                                <td>{{row.couponNumber}}</td>
+                                <td>
+                                    <a ng-click="deleteRewardContent(row)" class="dr-custom-btn text-danger">×</a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-1">
+                        <button type="button" class="btn btn-primary btn-sm" ng-click="addRewardContent()">
+                            + 添加奖励内容
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <button type="button" class="btn btn-primary btn-plr-35"
+                        ng-disabled="basicForm.$invalid || !basicForm.$dirty ||formData.rewardList.length==0"
+                        ng-click="saveInviteRight()">保存
+                </button>
+                <button type="button" class="btn btn-default btn-plr-35" ng-click="goBack()">取消</button>
+            </div>
+        </div>
+    </form>
+</div>

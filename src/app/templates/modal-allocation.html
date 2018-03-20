@@ -1,0 +1,105 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" id="btnCloseChannelModal" class="close" ng-click="cancel()" data-dismiss="modal"
+                aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">分配素材任务</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal p-1" name="allocForm" method="post" novalidate>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">渠道</label>
+                <div class="col-xs-6" style="margin-top:7px; ">
+                    {{allocation.refferalNames | refferalNameFilter}}
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">分配给<span style='color: red;'>*</span></label>
+                <div class="col-xs-6">
+                    <select class="form-control"
+                            ng-required="true"
+                            ng-model="allocation.recipient"
+                            ng-options="x.account as x.name for x in userList">
+                        <option value="">请选择</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">截止日期<span style='color: red;'>*</span></label>
+                <div class="col-xs-6">
+                    <div class="dropdown" style="width: 298px;">
+                        <a class="dropdown-toggle no-afert" id="dropdown2" role="button" data-toggle="dropdown"
+                           uib-dropdown-toggle>
+                            <div class="input-group">
+                                <input type="text" class="form-control" ng-required="true"
+                                       ng-model="allocation.stopTime">
+                                <span class="input-group-addon"><i
+                                        class="glyphicon glyphicon-calendar"></i></span>
+                            </div>
+                        </a>
+                        <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="dLabel">
+                            <datetimepicker ng-model="allocation.stopTime"
+                                            data-datetimepicker-config="{ dropdownSelector: '#dropdown2', modelType: 'YYYY-MM-DD HH:mm:ss'}"/>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">素材描述</label>
+                <div class="col-xs-6">
+                        <textarea class="form-control" ng-model="allocation.description" rows="3"
+                                  ng-change="checkTextArea()"></textarea>
+                </div>
+            </div>
+            <div class="col-sm-12">
+                <uib-progressbar class="progress-striped active" value="dynamic" type="warning"
+                                 ng-show="showProgress">
+                    <i><b>!!! 正在上传 !!!</b></i>
+                </uib-progressbar>
+                <span><b>{{errormsg}}</b></span>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">附件</label>
+                <div class="col-xs-9">
+                    <div class="row" ng-repeat="row in uploadedfiles">
+                        <div class="col col-sm-7"><p class="form-control-static">{{row.materialName}}</p></div>
+                        <div class="col col-sm-2"><p class="form-control-static">{{row.materialSize}}kb</p></div>
+                        <div class="col col-sm-1">
+                            <p class="form-control-static text-right">
+                                <button type="button" class="close" ng-click="removeFile(row)">&times;</button>
+                            </p>
+                            <!--<span class="glyphicon glyphicon-remove" ng-click="removeFile(row)"></span>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"></label>
+                <div class="col-xs-6">
+                    <span ng-show="allocation.file">{{allocation.file.name}}</span>
+                    <div class="dr_upload">
+                        <div class="upload-new">上传文件</div>
+                        <input type="file" class="inputstyle-upload" ngf-select="" ng-model="allocation.file"
+                               name="file" ng-change="upload()">
+                    </div>
+                    <br><br>
+                    <p class="form-control-static text-muted" style="letter-spacing: 2px" ng-if="!allocation.file">
+                        支持图片，zip，word等格式</p>
+                </div>
+            </div>
+            <!--<div class="form-group">-->
+            <!--<label class="col-xs-3 control-label"></label>-->
+            <!--<div class="col-xs-6">-->
+            <!--<button type="button" class="btn btn-link" ng-click="upload()">上传附件</button>-->
+            <!--</div>-->
+            <!--</div>-->
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="dr-btn-bar">
+            <button type="button" class="btn btn-primary btn-plr-35" ng-click="ok()"
+                    ng-disabled="allocForm.$invalid">分配
+            </button>
+            <button type="button" class="btn btn-secondary btn-plr-35" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

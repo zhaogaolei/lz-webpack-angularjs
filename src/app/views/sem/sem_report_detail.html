@@ -1,0 +1,168 @@
+<div class="dr-page-header-condition">
+    <div class="form-inline">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="关键词" ng-model="formData.keyword"/>
+        </div>
+        <div class="form-group m-0 dr-date-group">
+            <i class="icon-icon-schedule"></i>
+            <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    ng-click="open1()"
+                    uib-datepicker-popup="yyyy-MM-dd"
+                    ng-model="formData.startDate"
+                    placeholder="开始时间"
+                    is-open="popup1.opened"/>
+
+        </div>
+        <div class="form-group m-0 dr-date-group ">
+            <i class="icon-icon-schedule"></i>
+            <input
+                    type="text"
+                    class="form-control"
+                    readonly
+                    ng-click="open2()"
+                    uib-datepicker-popup="yyyy-MM-dd"
+                    ng-model="formData.endDate"
+                    placeholder="结束时间"
+                    is-open="popup2.opened"/>
+
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" ng-click="query()">查询</button>
+        </div>
+        <div class="form-group">
+            <div class="dr-filter-field"
+                 isteven-multi-select
+                 bottom-check="true"
+                 input-model="viewModel.field"
+                 output-model="viewModel.fieldSelected"
+                 button-class="btnClass"
+                 button-text="defaultFieldText"
+                 item-label="value"
+                 search-property="value"
+                 tick-property="selected"
+                 on-item-click="fieldChange()"
+                 on-select-all="fieldChange()"
+                 on-select-none="fieldChange()">
+            </div>
+        </div>
+        <div class="form-group float-lg-right">
+            <button class="btn btn-link" ng-click="exportDetailReport()">
+                <i class="icon-icon-excel"></i>
+                导出明细报表Excel
+            </button>
+            <button class="btn btn-default" ng-click="goToSemReport()">
+                <i class="fa fa-mail-reply"></i>
+                返回
+            </button>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <div class="table-responsive" ng-if="viewModel.isShowTable" style="overflow: visible;overflow-x: auto;">
+        <table class="table sort-table" style="width: 2000px">
+            <thead>
+            <tr>
+                <th ng-if="filterField('accountNo')" tb-sort="accountNo" class="text-center" style="width:5%">账户</th>
+                <th ng-if="filterField('campaignName')" tb-sort="campaignName" class="text-center" style="width:5%">推广计划名称</th>
+                <th ng-if="filterField('adgroupName')" tb-sort="adgroupName" class="text-center" style="width:5%">推广单元名称</th>
+                <th ng-if="filterField('keyword')" tb-sort="keyword" class="text-center" style="width:5%">关键词名称</th>
+                <th ng-if="filterField('matchType')" tb-sort="matchType" class="text-center" style="width:5%">匹配模式</th>
+                <th ng-if="filterField('price')" tb-sort="price" class="text-center" style="width:5%">出价</th>
+                <th ng-if="filterField('pcUrl')" tb-sort="pcUrl" class="text-center" style="width:5%">访问URL</th>
+                <th ng-if="filterField('mobileUrl')" tb-sort="mobileUrl" class="text-center" style="width:5%">移动访问URL</th>
+                <th ng-if="filterField('pause')" tb-sort="pause" class="text-center" style="width:5%">启动/暂停</th>
+                <th ng-if="filterField('status')" tb-sort="status" class="text-center" style="width:5%">关键词状态</th>
+                <th ng-if="filterField('cost')" tb-sort="cost" class="text-center" style="width:5%">消费</th>
+                <th ng-if="filterField('avgClickPrice')" tb-sort="avgClickPrice" class="text-center" style="width:5%">平均点击价格</th>
+                <th ng-if="filterField('click')" tb-sort="click" class="text-center" style="width:5%">点击</th>
+                <th ng-if="filterField('shows')" tb-sort="shows" class="text-center" style="width:5%">展现</th>
+                <th ng-if="filterField('clickRate')" tb-sort="clickRate" class="text-center" style="width:5%">点击率</th>
+                <th ng-if="filterField('costShowMille')" tb-sort="costShowMille" class="text-center" style="width:5%">千次展现消费</th>
+                <th ng-if="filterField('registerNum')" tb-sort="registerNum" style="width:3%" class="text-center">注册数</th>
+                <th ng-if="filterField('investFirstNum')" tb-sort="investFirstNum" style="width:5%" class="text-center">首投人数</th>
+                <th ng-if="filterField('investFirstAmount')" tb-sort="investFirstAmount" style="width:5%" class="text-center">首投金额</th>
+                <th ng-if="filterField('investNum')" tb-sort="investNum" style="width:3%" class="text-center">投资人数</th>
+                <th ng-if="filterField('investAmount')" tb-sort="investAmount" style="width:3%" class="text-center">投资金额</th>
+                <!--<th tb-sort="registerNum" class="text-center">注册数</th>-->
+                <!--<th tb-sort="identifyNum" class="text-center">实名认证数</th>-->
+                <!--<th tb-sort="topUpNum" class="text-center">充值人数</th>-->
+                <!--<th tb-sort="investNum" class="text-center">投资人数</th>-->
+                <!--<th tb-sort="investAmount" class="text-center">投资金额</th>-->
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result">
+                <td ng-if="filterField('accountNo')" class="text-center">{{row.accountNo}}</td>
+                <td ng-if="filterField('campaignName')" class="text-center">{{row.campaignName}}</td>
+                <td ng-if="filterField('adgroupName')" class="text-center">{{row.adgroupName}}</td>
+                <td ng-if="filterField('keyword')" class="text-center">{{row.keyword}}</td>
+                <td ng-if="filterField('matchType')" class="text-center">{{row.matchType}}</td>
+                <td ng-if="filterField('price')" class="text-center">{{row.price}}</td>
+               <!-- <td ng-if="filterField('pcDestinationUrl')" class="text-center">{{row.pcDestinationUrl}}</td>
+                <td ng-if="filterField('mobileDestinationUrl')" class="text-center">{{row.mobileDestinationUrl}}</td>-->
+                <td  ng-if="filterField('pcUrl')" class="text-center">
+                    <script type="text/ng-template" id="short-link-tip.html">
+                        <div class="text-center" style="width:300px;word-wrap: break-word;"
+                             ng-model="row.pcUrl">
+                            <div ng-bind="row.pcUrl"></div>
+                        </div>
+                    </script>
+                    <a class="btn btn-circle"
+                       tooltips
+                       tooltip-show="false"
+                       tooltip-side="right"
+                       tooltip-template-url="short-link-tip.html"
+                       tooltip-class="short-link"
+                       ng-click="openUrlModal(row.pcUrl)">
+                        <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                </td>
+                <td  ng-if="filterField('mobileUrl')" class="text-center">
+                    <script type="text/ng-template" id="short-link-tip1.html">
+                        <div class="text-center" style="width:300px;word-wrap: break-word;"
+                             ng-model="row.mobileUrl">
+                            <div ng-bind="row.mobileUrl"></div>
+                        </div>
+                    </script>
+                    <a class="btn btn-circle"
+                       tooltips
+                       tooltip-show="false"
+                       tooltip-side="right"
+                       tooltip-template-url="short-link-tip1.html"
+                       tooltip-class="short-link"
+                       ng-click="openUrlModal(row.mobileUrl)">
+                        <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                </td>
+                <td ng-if="filterField('pause')" class="text-center">{{row.pause=='true'?'启动':'暂停'}}</td>
+                <td ng-if="filterField('status')" class="text-center">{{row.status}}</td>
+                <td ng-if="filterField('cost')" class="text-center">{{row.cost}}</td>
+                <td ng-if="filterField('avgClickPrice')" class="text-center">{{row.avgClickPrice}}</td>
+                <td ng-if="filterField('click')" class="text-center">{{row.click}}</td>
+                <td ng-if="filterField('shows')" class="text-center">{{row.shows}}</td>
+                <td ng-if="filterField('clickRate')" class="text-center">{{row.clickRate}}</td>
+                <td ng-if="filterField('costShowMille')" class="text-center">{{row.costShowMille}}</td>
+
+                <td ng-if="filterField('registerNum')"   class="text-center">{{row.registerNum}}</td>
+                <td ng-if="filterField('investFirstNum')"   class="text-center">{{row.investFirstNum}}</td>
+                <td ng-if="filterField('investFirstAmount')"   class="text-center">{{row.investFirstAmount}}</td>
+                <td ng-if="filterField('investNum')"   class="text-center">{{row.investNum}}</td>
+                <td ng-if="filterField('investAmount')"  class="text-center">{{row.investAmount}}</td>
+                <!--<td class="text-center">{{row.registerNum}}</td>-->
+                <!--<td class="text-center">{{row.identifyNum}}</td>-->
+                <!--&lt;!&ndash;充值人数&ndash;&gt;-->
+                <!--<td class="text-center">{{topUpNum}}</td>-->
+                <!--<td class="text-center">{{row.investNum}}</td>-->
+                <!--<td class="text-center">{{row.investAmount}}</td>-->
+            </tr>
+            </tbody>
+            <tfoot>
+            </tfoot>
+        </table>
+    </div>
+    <div class="text-right" page-control record="tableData" evname="dr.detailReportPagination"></div>
+
+</div>

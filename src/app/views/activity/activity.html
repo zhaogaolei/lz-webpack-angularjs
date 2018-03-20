@@ -1,0 +1,116 @@
+<div class="dr-form" ng-init="init()">
+    <div class="dr-activity-header">
+        <div class="col col-xs-4">
+            <button has-permission="activity_add" type="button" class="btn btn-primary" ng-click="createActivity()">
+                新建活动页
+            </button>
+        </div>
+        <div class="col col-xs-8">
+            <div class="form-inline text-right">
+                <div class="form-group">
+                    <select class="form-control page-select" ng-model="formData.activeType">
+                        <option value="">类型</option>
+                        <option ng-repeat="item in activityTypeList" value="{{item.dataCode}}">
+                            {{item.dataName}}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="活动名称" ng-model="formData.activeName"/>
+                </div>
+                <div class="form-group m-0 dr-date-group">
+                    <i class="icon-icon-schedule"></i>
+                    <input
+                            type="text"
+                            class="form-control dr-date"
+                            readonly
+                            ng-click="open1()"
+                            uib-datepicker-popup="yyyy-MM-dd"
+                            ng-model="formData.effectiveTime"
+                            placeholder="开始时间"
+                            is-open="popup1.opened"/>
+
+                </div>
+                <div class="form-group m-0 dr-date-group ">
+                    <i class="icon-icon-schedule"></i>
+                    <input
+                            type="text"
+                            class="form-control dr-date"
+                            readonly
+                            ng-click="open2()"
+                            uib-datepicker-popup="yyyy-MM-dd"
+                            ng-model="formData.invalidTime"
+                            placeholder="结束时间"
+                            is-open="popup2.opened"/>
+
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-default" ng-click="queryData()">查询</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dr-tb-container">
+        <div class="form-inline text-left dr-activity-status">
+            <div class="form-group">
+                <select class="form-control page-select" ng-model="formData.activeStatus" ng-change="statusChange()">
+                    <option value="">--全部状态--</option>
+                    <option ng-repeat="item in activityStatusList" value="{{item.dataCode}}">
+                        {{item.dataName}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <!--<div class="table-responsive">-->
+        <table class="table sort-table">
+            <thead>
+            <tr>
+                <th style="width:7%" class="text-center">ID</th>
+                <th style="width:12%" class="text-center">活动页名称</th>
+                <th style="width:8%" class="text-center">类型</th>
+                <th tb-sort="effectiveTime" style="width:15%" class="text-center">上线时间</th>
+                <th tb-sort="invalidTime" style="width:15%" class="text-center">下线时间</th>
+                <th style="width:9%" class="text-center">操作者</th>
+                <th style="width:9%" class="text-center">状态</th>
+                <th style="min-width:25%;width: 30%;" class="text-center"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result">
+                <td>{{row.id}}</td>
+                <td>{{row.activeName}}</td>
+                <td>{{row.activeTypeName}}</td>
+                <td>{{row.effectiveTime}}</td>
+                <td>{{row.invalidTime}}</td>
+                <td>{{row.updateUser}}</td>
+                <td>
+                    <i class="fa fa-circle"
+                       ng-class="{true:'text-success', false: 'text-muted'}[row.activeStatusName == '已上线']"
+                       aria-hidden="true"></i>
+                    {{row.activeStatusName}}
+                </td>
+                <td class="text-center">
+                    <activity-list-button
+                            id="{{row.id}}"
+                            initial-url="{{row.initialUrl}}"
+                            active-name="{{row.activeName}}"
+                            active-status-name="{{row.activeStatusName}}"
+                            active-status="{{row.activeStatus}}">
+                    </activity-list-button>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="8" class="text-center text-bg">
+                    <div class="text-right" page-control record="tableData" evname="dr.activityPagination"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+
+        <!--</div>-->
+    </div>
+</div>
+</div>

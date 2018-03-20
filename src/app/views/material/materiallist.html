@@ -1,0 +1,77 @@
+<div class="list-group dr-form" ng-init="initPage()">
+    <div class="dr-material-header">
+        <div class="col col-sm-8">素材列表</div>
+        <div class="col col-sm-4 input-group">
+            <input type="text" class="form-control" placeholder="素材ID/投放名称/渠道名称"
+                   ng-model="viewModel.formData.condition">
+            <span class="input-group-addon materialSearch"  ng-click="query()">查询</span>
+        </div>
+    </div>
+    <div class="list-group-item single-channel-body">
+        <ul id="myTab" class="nav nav-tabs single-channel-cho">
+            <li class="dropdown">
+                <a href="#" id="showInfo" class="dropdown-toggle"
+                   data-toggle="dropdown">{{viewModel.ShowInfoText}}
+                </a>
+
+                <ul class="dropdown-menu" role="menu" aria-labelledby="showInfo">
+                    <li><a href tabindex="-1" ng-click="showInfoByTaskState('')">素材状态</a></li>
+                    <li ng-repeat="item in viewModel.taskStateList">
+                        <a href tabindex="-1" ng-click="showInfoByTaskState(item)">{{item.taskName}}</a>
+                    </li>
+                    <!--<li><a href tabindex="-1" ng-click="">待接收</a></li>-->
+                    <!--<li><a href tabindex="-1" ng-click="">进行中</a></li>-->
+                    <!--<li><a href tabindex="-1" ng-click="">已完成</a></li>-->
+                </ul>
+            </li>
+        </ul>
+        <div class="dr-tb-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th class=""></th>
+                    <th class="">素材ID</th>
+                    <th>投放计划</th>
+                    <th>渠道</th>
+                    <th>分配时间</th>
+                    <th>截止时间</th>
+                    <th>创建者</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in tableData.result">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.materialId}}</td>
+                    <td>{{item.campaignName}}</td>
+                    <td>{{item.refferalName}}</td>
+                    <td>{{item.distributionTime}}</td>
+                    <td><stop-time-directive stopTime="{{item.stopTime}}"></stop-time-directive></td>
+                    <td>{{item.createUser}}</td>
+                    <td>{{item.taskState}}</td>
+                    <td class="text-center">
+                        <div class="buttons">
+                            <button type="button"
+                                    class="btn btn-secondary"
+                                    ui-sref="main.materialdetail({materialId:'{{item.materialId}}'})" has-permission="material_enter">
+                                <i class="fa fa-sign-in" aria-hidden="true"></i>进入
+                            </button>
+                            <!--<button class="btn btn-danger editable-table-button btn-xs" ng-click="deleteChannel(item.ID)">-->
+                            <!--删除-->
+                            <!--</button>-->
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="9" class="text-center text-bg">
+                        <div class="text-right" page-control record="tableData" evname="dr.reloadPagination"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

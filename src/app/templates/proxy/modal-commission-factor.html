@@ -1,0 +1,39 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title text-center" id="myModalLabel">{{vm.levelName}} 代理人佣金系数</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="请输入佣金系数"
+                                       ng-model="vm.commissionFactor" ng-required="true">
+                                <span class="input-group-addon">%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            <input type="number" class="form-control" placeholder="请输入最小等级金额"
+                                   ng-model="vm.minInvestAmount" ng-required="true">
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="button" class="btn btn-primary btn-sm btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty"
+                            ng-click="ok()">保存
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm btn-plr-35"
+                            ng-click="cancel()">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

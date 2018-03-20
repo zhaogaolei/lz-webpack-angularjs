@@ -1,0 +1,123 @@
+<div class="container1 deliverplan"  ng-init="initPage()">
+    <div class="list-group-item single-channel-quary">
+        <div class="form-inline " role="form">
+            <div class="form-group margin-right dr-date-group">
+                <i class="icon-icon-schedule"></i>
+                <input
+                        type="text"
+                        class="form-control dr-date"
+                        readonly
+                        ng-click="open1()"
+                        uib-datepicker-popup="yyyy-MM-dd"
+                        ng-model="viewModel.startDate"
+                        placeholder="开始时间"
+                        is-open="popup1.opened"/>
+            </div>
+            <div class="form-group margin-right dr-date-group">
+                <i class="icon-icon-schedule"></i>
+                <input
+                        type="text"
+                        class="form-control dr-date"
+                        readonly
+                        ng-click="open2()"
+                        uib-datepicker-popup="yyyy-MM-dd"
+                        ng-model="viewModel.endDate"
+                        placeholder="结束时间"
+                        is-open="popup2.opened"/>
+            </div>
+                <div class="form-group  margin-right dr-dashboard-seach" style="position:relative">
+                    <isteven-multi-select
+                            class="search-channel "
+                            bottom-check="true"
+                            input-model="viewModel.channel"
+                            output-model="viewModel.channelSelected"
+                            item-label="refferalName"
+                            button-label="refferalName"
+                            button-class="btnClass"
+                            search-property="refferalName"
+                            disable-property="disable"
+                            tick-property="selected"
+                            translation="localLang"
+                            max-height="250px"
+                            helper-elements="all none reset filter"
+                            selection-mode="single"
+                    >
+                    </isteven-multi-select>
+                </div>
+              <div class="form-group margin-right dr-dashboard-seach dr-dashboard-seach3" style="position:relative">
+                <isteven-multi-select
+                        class="search-channel search-btn"
+                        bottom-check="true"
+                        input-model="viewModel.datatype"
+                        output-model="viewModel.datatypeSelect"
+                        button-label="dataName"
+                        join-chat="joinChat"
+                        item-label="dataName"
+                        button-class="btnClass"
+                        search-property="dataName"
+                        disable-property="disabled"
+                        tick-property="selected"
+                        helper-elements="all none reset filter"
+                        translation="localLang2"
+                >
+                </isteven-multi-select>
+              </div>
+            <div class="form-group margin-right" style=" left:80%;position: absolute;">
+                <button class="btn btn-primary"  ng-click="queryData()">查询</button>
+            </div>
+            <div class="form-group" style="right: 10%;position: absolute; ">
+                <button class="btn btn-primary" ng-click="downloadData()">导出</button>
+            </div>
+
+        </div>
+    </div>
+    <div class="dr-dashboard-pane dr-tb-container detailTable">
+        <div class="table-head">
+            <table class="table table-striped table-condensed table1">
+                <thead>
+                    <tr >
+                        <th>时间</th>
+                        <th ng-repeat="item in theadlist">{{item.dataName}}</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <div class="table-body">
+            <table class="table table-striped table-condensed table2">
+                <tbody>
+                    <tr ng-repeat="trItem in tableList track by $index">
+                        <td class="text-center" ng-repeat="tditem in trItem track by $index">{{tditem}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+        <!--<tfoot>
+            <tr>
+                <td colspan="{{theadlist.length+1}}" class="text-center text-bg">
+                    <div class="text-right" page-control1 record="tableList" evname="dr.reloadPagination"></div>
+                </td>
+            </tr>
+            </tfoot>-->
+
+
+        <div class="dr-dashboard-loading" ng-if="viewModel.loading">
+            <div class="loader" style="margin-top:50px;">
+                <div class="loader-inner pacman">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

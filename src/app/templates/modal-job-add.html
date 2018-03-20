@@ -1,0 +1,79 @@
+<div class="dr-form" ng-init="initAddJob()">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑job</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">Job分组<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-8" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-disabled="isDisabled"
+                                    ng-model="formData.jobGroup">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">Job名称<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-8" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-disabled="isDisabled"
+                                    ng-model="formData.jobName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">Job处理接口<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-8" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    ng-required="true"
+                                    placeholder="请输入Job处理接口实现类的全类名"
+                                    ng-disabled="isDisabled"
+                                    ng-model="formData.jobClass">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">定时表达式<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-8" style="margin-bottom:15px;">
+                            <input id="cron"
+                                   class="form-control"
+                                   ng-required="true"
+                                   ng-model="formData.cronExpression">
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">Job描述</label>
+                        <div class="col-xs-8" style="margin-bottom:15px;">
+                          <textarea class="form-control" rows="3" ng-model="formData.jobDescription"
+                                    maxlength="100" placeholder="请输入Job描述"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button ng-if="!isDisabled" type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty"
+                            ng-click="ok()">保存
+                    </button>
+                    <!--编辑状态下-->
+                    <button ng-if="isDisabled" type="button" class="btn btn-primary btn-plr-35"
+                            ng-click="ok()">保存
+                    </button>
+                    <button type="button" class="btn btn-default btn-plr-35" data-dismiss="modal" ng-click="cancel()">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,84 @@
+一、文件目录规范
+    1、HTML部分：
+         所有页面模板置于./src/app/views中按照模板名定义名称 如addchannel.html 如果复杂模块下多个页面,可以使用二级目录方便查找
+         所有directives模板置于./src/app/templates中 以组件模块开始命名 项目相关组件
+         所有的全局模块指令  入下拉框,时间选择控件(项目间通用的组件) 模板置于./src/lib 的JS文件中,方便管理,如isteven-multi-select.js
+    2、CSS部分:
+         公用的CSS部分置于 ./src/styles/global.css 主要存储全局的样式[包括对Bootstrap样式的修改],如全局按钮样式,全局按钮条样式 以及reset样式
+       以后可以以主题形式单独抽出
+         项目样式写入 ./src/styles/main.css中  主要存各个模块的项目
+         组件CSS可以与lib存放在一起 方便日后通用,如果仅仅限于当前组件修改,以组件名.reset.css命名存于styles下 如isteven-multi-select.reset.css
+
+    3、JS部分
+       1）引入的库文件,如果不存在修改,直接存于node_modules中,如果存在修改,以文件夹调整到lib中
+       2）用于Angularjs的controllers 置于 ./src/app/controllers/[模块名].[(可选)子模块名].controller.js 中
+       3）用于Angularjs的service(主要是factory)置于 ./src/app/services/[模块名].services.js 中尽量不要以子模块命名
+          业务逻辑[集成了基类的]存于./src/app/services/business中  一定要集成基类
+       4）用于Angularjs的包装directive 置于 ./src/app/directives/[名称].directives.js 中 以指令名称命名。驼峰模式
+       5) filter文件  置于./src/app/filter/[name].filter.js
+       6) 通用JS置于 www/js/common/文件名  如basic.server.js 等 全局通用部分 尽量和业务逻辑区分开来
+    4、图片部分
+       图片部分置于 www/image/[name].png
+    5、文件名规范
+       .js文件
+           统一小写,如果多个单词组合可以用.连接  如basic.server.js 注意后缀 controller.js service.js等 统一带后缀
+           directives中的js 和使用时的JS一致  如指令使用时 dashboard-real  文件名应该命名为 dashboard-real.directive.js
+       .css文件
+           尽量以单 单词命名 如main.css global.css 如果存在重写组件以组件名.rest.css命名如isteven-multi-select.reset.css前面名字以组件名字为主
+       .html文件
+           views文件以[模块名].[(可选)子模块名].html命名
+           directives的模板以和JS文件名一样的模块名命名如dashboard-real.directive.html
+
+二、编码规范
+     ①命名规范
+     1).camel命名法，形如thisIsAnApple
+     2).pascal命名法，形如ThisIsAnApple
+     3).下划线命名法，形如this_is_an_apple
+     4).中划线命名法，形如this-is-an-apple
+
+     $scope 变量用驼峰命名法   如   userName getCustomer
+     $rootScope 变量用需要加上前缀 root_UserName
+
+     a).变量名：必须使用camel命名法
+     b).参数名：必须使用camel命名法
+     c).函数名：必须使用camel命名法
+     d).方法/属性：必须使用camel命名法
+     e).私有（保护）成员：必须以下划线_开头
+     f).常量名：必须使用全部大写的下划线命名法，如IS_DEBUG_ENABLED
+     g).类名：必须使用pascal命名法
+     h).枚举名：必须使用pascal命名法
+     i).枚举的属性：必须使用全部大写的下划线命名法
+     css 样式命名规范
+     a)class名  使用中划线命名法
+     b)尽量不使用!important
+
+     ②ES6标准
+         [尽量做]Arrow functions: <C onPress={() => this.setState({pressed: true})}
+         [尽量做]Block scoping: let greeting = 'hi';
+         Call spread: Math.max(...array);
+         Classes: class C extends React.Component { render() { return <View />; } }
+         [尽量做]Constants: const answer = 42;
+         [项目引入的时候尽量做]Destructuring: var {isActive, style} = this.props;
+         [尽量用,或使用angular.foreach]for...of: for (var num of [1, 2, 3]) {}
+         Modules: import React, { Component } from 'react-native';
+         Computed Properties: var key = 'abc'; var obj = {[key]: 10};
+         Object Consise Method: var obj = { method() { return 10; } };
+         Object Short Notation: var name = 'vjeux'; var obj = { name };
+         Rest Params: function(type, ...args) { }
+         [推荐使用]Template Literals: var who = 'world'; var str = `Hello ${who}`;
+        尽量以ES标准去完成JavaScript编码
+        具体ES6 ES7特性 推荐网站  http://es6.ruanyifeng.com/ 讲的很清楚
+
+     ③注意事项
+      【重要】每个目录属于一个angular module 如controllers文件夹下的文件属于一个module
+       并且每个文件下有一个index.js辅助引入文件,帮助引入至app.js目录中
+       单纯的HTML目录除外
+
+
+三、其他规范以及提醒
+     1、git迁入时 尽量写好注释
+     2、git多人工作于同一个目录文件的时候,写好相应的注释,迁入前 进行本地备份
+     3、合理利用插件，不要乱加插件，插件错误请及时移除 npm 中移除 或者直接删除package中的引入
+     4、减少JQuery引入
+
+

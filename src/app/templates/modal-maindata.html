@@ -1,0 +1,82 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">{{data.id?"编辑":"添加"}}“{{title}}”主数据项</h4>
+    </div>
+    <div class="modal-body modal-box" style="max-height:500px;overflow-y:auto;">
+        <!--<table class="table table-striped" style="border:1px solid #ccc;">-->
+        <!--<tbody>-->
+        <!--<tr>-->
+        <!--<td><label>代码:</label></td>-->
+        <!--<td>{{data.dataCode}}</td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td><label>名称:</label></td>-->
+        <!--<td><input type="text"-->
+        <!--ng-model="data.dataName"-->
+        <!--ng-change="removeInvalidChar()"-->
+        <!--ng-blur="generateCode(title, data.dataName)" placeholder="数据项名称"/></td>-->
+        <!--</tr>-->
+        <!--<tr>-->
+        <!--<td><label>备注:</label></td>-->
+        <!--<td><textarea rows="3" ng-model="data.description"/></td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+        <!--</table>-->
+        <form class="form-horizontal" name="basicForm" method="post" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">名称</label>
+                        <div class="col-xs-6">
+                            <input type="text"
+                                   class="form-control"
+                                   maxlength="50"
+                                   ng-model="data.dataName"
+                                   ng-change="removeInvalidChar()"
+                                   ng-blur="generateCode(title, data.dataName)" placeholder="数据项名称"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">代码</label>
+                        <div class="col-xs-6">
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    ng-disabled = "data.id ? true:false"
+                                    ng-model="data.dataCode"
+                                    maxlength="50"
+                            >
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="isShowBussinessType">
+                        <label class="control-label col-xs-3" style="text-align: left">适用业务<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6">
+                            <select
+                                    class="form-control"
+                                    ng-model="data.dataType">
+                                <option value="">请选择...</option>
+                                <option value="lender">lender</option>
+                                <option value="borrow">borrow</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">备注</label>
+                        <div class="col-xs-6">
+                            <textarea class="form-control" maxlength="200" rows="3" ng-model="data.description"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <div class="dr-btn-bar">
+            <button class="btn btn-primary btn-plr-35" type="button" ng-click="ok()">保存</button>
+            <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

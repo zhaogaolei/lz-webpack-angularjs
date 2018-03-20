@@ -1,0 +1,71 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑代理人信息</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">代理人ID<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    placeholder="请输入代理人ID"
+                                    ng-required="true"
+                                    ng-disabled="isEditProxy"
+                                    ng-model="formData.aid">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">姓名<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    placeholder="请输入姓名"
+                                    ng-required="true"
+                                    ng-model="formData.userName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">手机号<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    placeholder="请输入手机号"
+                                    ng-required="true"
+                                    ng-model="formData.phone">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">代理人类型<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-model="formData.classify">
+                                <option value="">--请选择代理人类型--</option>
+                                <option value="{{x.dataCode}}" ng-repeat="x in proxyTypeList">{{x.dataName}}</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty"
+                            ng-click="ok()">保存
+                    </button>
+                    <button type="button" class="btn btn-default btn-plr-35" data-dismiss="modal"
+                            ng-click="cancel()">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

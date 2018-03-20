@@ -1,0 +1,8 @@
+{
+  "APIEndpoint": "http://172.16.5.3:9090",
+  "BiPointUrl": "https://beans-demo.dianrong.com/reports/3/view",
+  "PointUrl": "https://beans-demo.dianrong.com/reports/10/view#3",
+  "PointUrl2": "https://beans-demo.dianrong.com/reports/9/view#6",
+  "PointUrl3": "https://beans-demo.dianrong.com/reports/8/view",
+  "JobApi":""
+}

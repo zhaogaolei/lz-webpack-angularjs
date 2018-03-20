@@ -1,0 +1,72 @@
+<div class="panel panel-default channel-panel">
+        <div class="panel-heading form-inline" style="margin-top: 28px;">
+            <div style="float:left; margin-top:-30px;">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="用户名" ng-model="username"/>
+                    <button class="btn btn-default" ng-click="queryUser()">查询</button>
+                </div>
+            </div>
+            <div style="float:right; margin-top:-30px;">
+            	<span>
+                    <button type="button" 
+                            class="btn btn-default"
+                            ng-click="openSetPermission()" 
+                            has-permission="permission_set" 
+                            ng-disabled="count==0">
+					  <span class="icon-icon-user-checked"></span>设置权限
+                    </button>
+				</span>
+            </div>
+        </div>
+
+        <div class="panel-body" style="padding-top: 0;">
+            <div class="dr-tb-container m-0">
+                <div class="table-responsive">
+                    <table class="table ">
+                        <thead>
+                        <tr>
+                            <th style="width:3%">
+                                <input type="checkbox" ng-model="selectAll" ng-change="changeAll()"/>
+                            </th>
+                            <th style="width:8%" class="text-center">序号</th>
+                            <th style="width:10%" class="text-center">用户</th>
+                            <th style="width:30%" class="text-center">邮箱</th>
+                            <th style="width:30%" class="text-center">角色</th>
+                            <th style="min-width:10%" class="text-center">操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in permissionList.result track by $index"
+                            style="padding:10px 0;">
+                            <td>
+                                <input type="checkbox" ng-model="row.checked"
+                                       ng-click="changeCurrent(row, $event)"/>
+                            </td>
+                            <td>{{(permissionList.pageNo-1)*10+$index+1}}</td>
+                            <td>{{row.name}}</td>
+                            <td>{{row.email}}</td>
+                            <td>{{row.dataRole}}</td>
+                            <td>
+	                        	<span>
+			                        <button type="button" 
+			                                class="btn btn-secondary"
+			                                has-permission="permission_set" 
+			                                ng-click="openSetPermission(row)">
+									  <span class="icon-icon-user-checked"></span>设置
+                                    </button>
+								</span>
+                            </td>
+                        </tr>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <td colspan="8" class="text-center text-bg">
+                                <div class="text-right" page-control record="permissionList" evname="dr.reloadPagination"></div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

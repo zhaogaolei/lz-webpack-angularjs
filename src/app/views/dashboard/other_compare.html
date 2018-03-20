@@ -1,0 +1,75 @@
+<div class="dr-other-compare-content" ng-init="initPage()">
+    <div class="dr-dashboard-pane dr-other-compare-dashboard-pane">
+        <div class="dr-dashboard-seach dr-other-compare-seach">
+            <div class="pull-left">
+                 <span uib-dropdown>
+                <isteven-multi-select
+                        class="search-channel"
+                        bottom-check="true"
+                        input-model="viewModel.channelList"
+                        output-model="viewModel.channelListSelected"
+                        button-class="btnClass"
+                        item-label="refferalName"
+                        search-property="refferalName"
+                        button-text="defaultChannelText"
+                        disable-property="disabled"
+                        tick-property="selected"
+                        translation="localLang"
+                        max-height="250px"
+                        helper-elements="all none filter"
+                        on-item-click="channelChange()"
+                        on-select-all="channelChange()"
+                        on-select-none="channelChange()"
+                >
+                </isteven-multi-select>
+                 </span>
+            </div>
+            <div class="pull-left">
+                <button class="btn btn-secondary btnSelect" ng-click="openModal()">+ 新增对比条件</button>
+            </div>
+
+            <div class="pull-left condition">
+                <!--已选条件：{{conditionsString||'无'}}-->
+                <div class="dropdown">
+                    <button type="button" class="btn btnSelect dropdown-toggle" id="dropdownMenu1"
+                            data-toggle="dropdown">已选条件
+                    </button>
+                    <ul class="dropdown-menu pull-left" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation" ng-if="conditionsObjFromLocal.length==0">
+                            <a role="menuitem" tabindex="-1" href>
+                                无
+                            </a>
+                        </li>
+                        <div class="dr-other-compare-condition">
+                            <table class="table table-hover">
+                                <tr ng-repeat="item in conditionsObjFromLocal">
+                                    <td>{{item.conditionString}}</td>
+                                    <td>
+                                        <button type="button" class="close"
+                                                ng-click="deleteCondition(item.conditionString)">
+                                            <span class="text-danger">&times</span>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="dr-dashboard-content dr-other-compare-bar">
+            <div e-chart-bar e-data="otherCompareOption" style="width: 100%;height:650px;margin: 0 auto;"></div>
+        </div>
+        <div class="dr-dashboard-loading" ng-if="viewModel.loading">
+            <div class="loader">
+                <div class="loader-inner pacman">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

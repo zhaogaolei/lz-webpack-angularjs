@@ -1,0 +1,41 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑账户</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">账户ID</label>
+                        <div class="col-xs-6">
+                            <input class="form-control" type="text"
+                                   ng-model="formData.id" readonly/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">账户名称</label>
+                        <div class="col-xs-6">
+                            <input class="form-control" type="text"
+                                   ng-model="formData.account" maxlength="50"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">token</label>
+                        <div class="col-xs-6">
+                            <input class="form-control" type="text"
+                                   ng-model="formData.token" maxlength="50"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="button" class="btn btn-primary" ng-click="saveAccount()">保存
+                    </button>
+                    <button type="button" class="btn btn-default" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

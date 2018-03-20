@@ -1,0 +1,388 @@
+<!--概览数据-->
+<div class="dr-dashboard-pane" ng-init="initPage();">
+    <div class="dr-dashboard-title">
+        <h3>概览数据</h3>
+        <p>{{getNowViewDataText()}}</p>
+        <div class="dr-dashboard-seach">
+            <div class="dr-buttonSelect">
+                <button class="btn btnSelect"
+                        ng-click="changeSelectDay(1);"
+                        ng-class="{true:'active'}[viewModel.overview.selectDay==1]">昨天
+                </button>
+                <button class="btn btnSelect"
+                        ng-click="changeSelectDay(7);"
+                        ng-class="{true:'active'}[viewModel.overview.selectDay==7]">过去7天
+                </button>
+                <button class="btn btnSelect"
+                        ng-click="changeSelectDay(30);"
+                        ng-class="{true:'active'}[viewModel.overview.selectDay==30]">过去30天
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="dr-dashboard-content">
+        <div class="row dr-dashboard-facts">
+            <div class="col-lg-3 facts-item border-r-b" ng-repeat="x in viewModel.overViewData" data-ng-class="{'true':'border-b'}[($index+1) % 4 == 0]">
+                <h3>{{x.num?x.num:0}}<sup>{{x.unit?x.unit:''}}</sup></h3>
+                <p>{{x.chatType}}<i class="icon-icon-question-mark" uib-tooltip="{{x.tooltip}}"></i></p>
+                <div class="dr-dashboard-facts-r">
+                    <h4 data-ng-class="{'true':'f-red'}[!x.ratio.startsWith('-')]">
+                        <i class="icon-icon-arrow-down"></i>
+                        {{x.ratio?x.ratio:0}}
+                    </h4>
+                    <h5>{{viewModel.overview.text}}</h5>
+                </div>
+            </div>
+            <div class="white_line"></div>
+        </div>
+    </div>
+    <div class="dr-dashboard-loading" ng-if="viewModel.overview.loading">
+        <div class="loader">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--概览数据结束-->
+<!--渠道对比-->
+<div class="dr-dashboard-pane">
+    <div class="dr-dashboard-title">
+        <h3>渠道对比</h3>
+        <p>{{viewModel.chat1.startDate| date: 'yyyy/MM/dd'}}-{{viewModel.chat1.endDate| date: 'yyyy/MM/dd'}}</p>
+        <div class="dr-dashboard-seach">
+            <div class="pull-right dr-last">
+                          <span uib-dropdown>
+                              <isteven-multi-select
+                                      class="search-channel"
+                                      bottom-check="false"
+                                      input-model="viewModel.chat1.channel"
+                                      output-model="viewModel.chat1.channelSelect"
+                                      button-class="btnClass"
+                                      item-label="refferalName"
+                                      search-property="refferalName"
+                                      button-text="btnName2"
+                                      disable-property="disabled"
+                                      tick-property="selected"
+                                      translation="localLang"
+                                      max-height="250px"
+                                      helper-elements="all none filter"
+                                      is-disabled="viewModel.chat1.channelTypeSelect.length>1"
+                                      on-item-click="chat1Seach(false,false)"
+                                      on-select-all="chat1Seach(false,false)"
+                                      on-select-none="chat1Seach(false,false)"
+
+                              >
+                            </isteven-multi-select>
+                          </span>
+            </div>
+            <div class="pull-right">
+                <isteven-multi-select
+                        class="search-channel"
+                        bottom-check="true"
+                        input-model="viewModel.chat1.channeltype"
+                        output-model="viewModel.chat1.channelTypeSelect"
+                        button-class="btnClass"
+                        item-label="dataName"
+                        search-property="dataName"
+                        button-text="btnName1"
+                        disable-property="disabled"
+                        tick-property="selected"
+                        translation="localLang"
+                        helper-elements="all none filter"
+                        on-item-click="viewModel.chat1.seachChannel()"
+                        on-select-all="viewModel.chat1.seachChannel()"
+                        on-select-none="viewModel.chat1.seachChannel()"
+                >
+                </isteven-multi-select>
+            </div>
+            <div class="pull-right">
+                <date-range-picker min-date="viewModel.chat1.startDate" max-date="viewModel.chat1.endDate"
+                                   on-ok="viewModel.chat1.seachChannel()"
+                />
+            </div>
+            <div class="pull-right">
+                <isteven-multi-select
+                        class="linkbtn"
+                        join-chat="joinChat"
+                        input-model="viewModel.chat1.datatype"
+                        output-model="viewModel.chat1.datatypeSelect"
+                        button-label="dataName"
+                        item-label="dataName"
+                        disable-property="disabled"
+                        tick-property="selected"
+                        translation="localLang"
+                        on-item-click="viewModel.chat1.seachChannel()"
+                >
+                </isteven-multi-select>
+            </div>
+        </div>
+    </div>
+    <div class="dr-dashboard-content">
+        <canvas class="chart chart-bar"
+                chart-data="chat1.data" chart-labels="chat1.labels"
+                chart-series="chat1.series"
+                chart-options="chat1Options"
+        >
+        </canvas>
+    </div>
+    <div class="dr-dashboard-loading" ng-if="viewModel.chat1.loading">
+        <div class="loader">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--渠道对比结束-->
+<!--渠道趋势-->
+<div class="dr-dashboard-pane">
+    <div class="dr-dashboard-title">
+        <h3>渠道趋势</h3>
+        <p>{{viewModel.chat2.startDate| date: 'yyyy/MM/dd'}}-{{viewModel.chat2.endDate| date: 'yyyy/MM/dd'}}</p>
+        <div class="dr-dashboard-seach">
+            <div class="pull-right dr-last">
+                      <span uib-dropdown>
+                              <isteven-multi-select
+                                      class="search-channel"
+                                      bottom-check="true"
+                                      input-model="viewModel.chat2.channel"
+                                      output-model="viewModel.chat2.channelSelect"
+                                      button-class="btnClass"
+                                      item-label="refferalName"
+                                      search-property="refferalName"
+                                      button-text="btnName2"
+                                      disable-property="disabled"
+                                      tick-property="selected"
+                                      translation="localLang"
+                                      max-height="250px"
+                                      helper-elements="all none filter"
+                                      is-disabled="viewModel.chat2.channelTypeSelect.length>1"
+                                      on-item-click="chat2Seach(false,false)"
+                                      on-select-all="chat2Seach(false,false)"
+                                      on-select-none="chat2Seach(false,false)"
+                              >
+                            </isteven-multi-select>
+                          </span>
+            </div>
+            <div class="pull-right">
+                <isteven-multi-select
+                        class="search-channel"
+                        bottom-check="true"
+                        input-model="viewModel.chat2.channeltype"
+                        output-model="viewModel.chat2.channelTypeSelect"
+                        button-class="btnClass"
+                        item-label="dataName"
+                        search-property="dataName"
+                        button-text="btnName1"
+                        disable-property="disabled"
+                        tick-property="selected"
+                        translation="localLang"
+                        helper-elements="all none filter"
+                        on-item-click="viewModel.chat2.seachChannel()"
+                        on-select-all="viewModel.chat2.seachChannel()"
+                        on-select-none="viewModel.chat2.seachChannel()"
+
+                >
+                </isteven-multi-select>
+            </div>
+            <div class="pull-right">
+                <date-range-picker min-date="viewModel.chat2.startDate" max-date="viewModel.chat2.endDate"
+                                   on-ok="viewModel.chat2.seachChannel()"
+                />
+            </div>
+            <div class="pull-right">
+                <isteven-multi-select
+                        class="linkbtn"
+                        join-chat="joinChat"
+                        input-model="viewModel.chat2.datatype"
+                        output-model="viewModel.chat2.datatypeSelect"
+                        button-label="dataName"
+                        item-label="dataName"
+                        disable-property="disabled"
+                        tick-property="selected"
+                        translation="localLang"
+                        selection-mode="single"
+                        on-item-click="viewModel.chat2.seachChannel()"
+                >
+                </isteven-multi-select>
+            </div>
+        </div>
+    </div>
+    <div class="dr-dashboard-content">
+       <canvas class="chart chart-line"
+               ng-if="viewModel.chat2.dataShow"
+                chart-data="chat2.data" chart-labels="chat2.labels"
+                chart-options="chat2Options"
+                chart-dataset-override="chat2DatasetOverride"
+                chart-series="chat2.series">
+        </canvas>
+        <div ng-if="!viewModel.chat2.dataShow;" class="dr-dashboard-none">
+            <h1 style="text-align: center;margin-top: 100px;font-size: -webkit-xxx-large">暂无数据</h1>
+        </div>
+    </div>
+    <div class="dr-dashboard-loading" ng-if="viewModel.chat2.loading">
+        <div class="loader">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--渠道趋势结束-->
+<!--渠道转化率-->
+<div class="dr-dashboard-pane ">
+    <div class="dr-dashboard-title">
+        <h3>渠道转化率</h3>
+        <p>{{viewModel.chat3.startDate| date: 'yyyy/MM/dd'}}-{{viewModel.chat3.endDate| date: 'yyyy/MM/dd'}}</p>
+        <div class="dr-dashboard-seach">
+            <div class="pull-right dr-last">
+                      <span uib-dropdown class="span-last">
+                              <isteven-multi-select
+                                      class="search-channel"
+                                      bottom-check="true"
+                                      input-model="viewModel.chat3.channel"
+                                      output-model="viewModel.chat3.channelSelect"
+                                      item-label="refferalName"
+                                      button-class="btnClass2"
+                                      button-label="refferalName"
+                                      search-property="refferalName"
+                                      disable-property="disabled"
+                                      tick-property="selected"
+                                      translation="localLang2"
+                                      max-height="250px"
+                                      selection-mode="single"
+                                      helper-elements="all none filter"
+                                      on-item-click="chat3Seach()"
+                                      on-select-none="chat3Seach()"
+                              >
+                            </isteven-multi-select>
+                          </span>
+            </div>
+            <div class="pull-right">
+                      <span uib-dropdown>
+                              <isteven-multi-select
+                                      class="search-channel"
+                                      bottom-check="true"
+                                      input-model="viewModel.chat3.channeltype"
+                                      output-model="viewModel.chat3.channeltypeSelect"
+                                      button-class="btnClass"
+                                      item-label="dataName"
+                                      search-property="dataName"
+                                      button-text="btnName1"
+                                      disable-property="disabled"
+                                      tick-property="selected"
+                                      translation="localLang"
+                                      max-height="250px"
+                                      selection-mode="single"
+                                      helper-elements="all none filter"
+                                      on-item-click="viewModel.chat3.seachChannel()"
+                                      on-select-none="viewModel.chat3.seachChannel()"
+                              >
+                            </isteven-multi-select>
+                          </span>
+            </div>
+            <div class="pull-right">
+                <div class="btn-group" uib-dropdown auto-close="outsideClick">
+                    <button id="" type="button" class="btn btnSelect dropdown-toggle" uib-dropdown-toggle>
+                        <i class="icon-icon-filter-category"></i> 漏斗类型
+                    </button>
+                    <ul class="dropdown-menu" uib-dropdown-menu>
+                        <li class="customSelect" ng-repeat="item in viewModel.chat3.funnelTypeInit">
+                            <a href ng-click="funnelTypeClick(item,'single')">
+                                <span style="margin-right:10px;" ng-show="item.selected">✓</span>
+                                {{item.dataName}}
+                            </a>
+                        </li>
+                        <li class="customSelect" ng-repeat="item in viewModel.chat3.datatype"
+                            ng-if="showMultipleFunnelType">
+                            <a href ng-click="funnelTypeClick(item,'multiple')"
+                               ng-class="{true:'disabled', false: ''}[item.disabled]">
+                                <span style="margin-right:10px;" ng-show="item.selected">✓</span>
+                                {{item.dataName}}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pull-right">
+                <date-range-picker min-date="viewModel.chat3.startDate" max-date="viewModel.chat3.endDate"
+                                   on-ok="chat3Seach()"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="dr-dashboard-content">
+        <div e-chart e-data="chat3Option" style="width: 80%;height:556px;margin: 0 auto;"></div>
+    </div>
+    <div class="dr-dashboard-loading" ng-if="viewModel.chat3.loading">
+        <div class="loader">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--渠道价值结束-->
+<!--排行榜开始-->
+<div class="dr-dashboard-pane " ng-if="viewModel.chat4.show">
+    <div class="dr-dashboard-title">
+        <h3>{{viewModel.chat4.title}}前十名</h3>
+        <p>{{viewModel.chat4.startDate| date: 'yyyy/MM/dd'}}-{{viewModel.chat4.endDate| date: 'yyyy/MM/dd'}}</p>
+        <div class="dr-dashboard-seach">
+            <div class="pull-right dr-last">
+                <isteven-multi-select
+                        class="linkbtn"
+                        join-chat="joinChat"
+                        input-model="viewModel.chat4.datatype"
+                        output-model="viewModel.chat4.datatypeSelect"
+                        button-label="dataName"
+                        item-label="dataName"
+                        disable-property="disabled"
+                        tick-property="selected"
+                        translation="localLang"
+                        selection-mode="single"
+                        on-item-click="chat4Seach()"
+                >
+                </isteven-multi-select>
+            </div>
+            <div class="pull-right">
+                <date-range-picker min-date="viewModel.chat4.startDate" max-date="viewModel.chat4.endDate"
+                                   on-ok="chat4Seach()"
+                />
+            </div>
+        </div>
+    </div>
+    <div class="dr-dashboard-content">
+        <div e-chart-bar e-data="chat4Option" style="width: 80%;height:556px;margin: 0 auto;"></div>
+    </div>
+    <div class="dr-dashboard-loading" ng-if="viewModel.chat4.loading">
+        <div class="loader">
+            <div class="loader-inner pacman">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--排行榜结束-->

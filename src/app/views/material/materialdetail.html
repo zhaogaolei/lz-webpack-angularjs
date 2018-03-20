@@ -1,0 +1,147 @@
+<div ng-init="initPage()">
+    <div class="panel panel-default">
+        <div class="panel-heading" style="height:40px;">
+            <div class="col-sm-2" style="padding-left: 0px;">
+                <button class="btn btn-link" type="button" style="padding: 0 0;" ui-sref="main.materiallist">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                </button>
+                {{selectMaterialTask.campaignName||"无标题"}}
+            </div>
+            <div class="col-sm-8 text-right ng-binding">
+                {{selectMaterialTask.recipient}}创建于{{selectMaterialTask.distributionTime}}
+            </div>
+            <div class="col-sm-2 text-right" style="margin-top: -7px;">
+                <button class="btn btn-link" type="button" data-toggle="modal" data-target="#myHistoryModal"
+                        ng-click="getOperateRecord()">操作记录
+                </button>
+            </div>
+        </div>
+        <div class="panel-body dr_baseInfo">
+            <form class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="text-align: left">素材描述</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{selectMaterialTask.description}}</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="text-align: left">附件</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static" ng-repeat="file in selectMaterialTask.materialAttachments">
+                            <a href ng-click="downLoadFile(file.id,file.materialId,file.contentType,file.materialName,'task_attach')">{{file.materialName}}</a>
+                        </p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" style="text-align: left">截止日期</label>
+                    <div class="col-sm-10">
+                        <p class="form-control-static">{{selectMaterialTask.stopTime}}</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="panel-footer">
+            <!--selectMaterialTask.recipientTime-->
+            <div ng-if="!viewModel.isShowAcceptBtn">您于{{viewModel.showCurrentTime |date:'yyyy-MM-dd HH:mm:ss'}}接受了任务
+            </div>
+            <div ng-if="viewModel.isShowAcceptBtn">
+                <button type="button" class="btn btn-primary" ng-click="acceptTask()" has-permission="material_accept">接
+                    受
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-default" ng-if="viewModel.isShowMateriallist">
+        <div class="panel-heading">
+            素材管理
+        </div>
+        <div class="panel-body">
+            <div class="row dr-padding-left" ng-repeat="m in MaterialManangeList">
+                <div class="col col-sm-4">
+                    <p class="form-control-static">
+                        <a href ng-click="downLoadFile(m.id,m.materialId,m.contentType,m.materialName,'task_matter')">{{m.materialName}}</a>
+                    </p>
+                </div>
+                <div class="col col-sm-1">
+                    <p class="form-control-static">{{m.materialSize}}KB</p>
+                </div>
+                <div class="col col-sm-3">
+                    <p class="form-control-static">上传于{{m.createTime}}</p>
+                </div>
+                <div class="col col-sm-4">
+                    <p class="form-control-static text-right">
+                        <button type="button" class="close" ng-click="deleteFile(m.id)">&times;</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <tr>
+                <td>
+                   <div class="form-group">
+                        <div class="col-sm-12 ">
+                         <span ng-show="viewModel.attachmentFile">{{viewModel.attachmentFile.name}}</span>
+                        <div class="dr_upload">
+                         <div class="upload-new">上传文件</div>
+                            <input type="file" class="inputstyle-upload" ngf-select=""
+                                   ng-model="viewModel.attachmentFile"
+                                   ng-change="upload(viewModel.attachmentFile)" name="file" ngf-accept="'*'">
+                        </div>
+                        </div><br><br>
+                         <span ng-bind="uploadMsg"></span>
+                        <p class="form-control-static text-muted" style="padding-left: 15px;letter-spacing: 2px" ng-if="!viewModel.attachmentFile">支持图片，zip，word等格式</p>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="panel-footer" ng-if="!viewModel.isShowNotice">
+            <uib-progressbar class="progress-striped active" value="dynamic" type="success" ng-if="viewModel.showProgress">
+                <i><b>!!! 正在上传 !!!</b></i>
+            </uib-progressbar>
+            <!--<button ng-if="!viewModel.showProgress" type="button" ng-disabled="viewModel.attachmentFile==''" class="btn btn-primary" ng-click="upload(viewModel.attachmentFile)"-->
+                    <!--has-permission="material_upload">上 传-->
+            <!--</button>-->
+        </div>
+        <div class="panel-footer" ng-if="viewModel.isShowNotice">
+            您刚才对素材刚行了操作，是否邮件通知{{selectMaterialTask.recipient}}？
+            <button type="button" class="btn btn-default" ng-click="noticeEmail()">通 知</button>
+            <button type="button" class="btn btn-default" ng-click="notNotice()">不用了</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myHistoryModal" tabindex="-1" role="dialog" aria-labelledby="myHistoryModal"
+     aria-hidden="true" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">操作历史</h4>
+            </div>
+            <div class="modal-body p-1">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr>
+                        <th class="">修改人</th>
+                        <th class="">修改时间</th>
+                        <th>操作</th>
+                        <th>修改内容</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="item in OperateRecordList">
+                        <td>{{item.updateUser}}</td>
+                        <td>{{item.updateTime}}</td>
+                        <td>{{item.operationType}}</td>
+                        <td>{{item.updateContent}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->

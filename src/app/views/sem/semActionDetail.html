@@ -1,0 +1,79 @@
+<div class="container1 deliverplan">
+    <div class="dr-tfjh-header">
+        <div class="col col-xs-6 tfjh-btn">
+            <button type="button" class="btn btn-primary" ng-click="downloadDetail()">
+                导出
+            </button>
+        </div>
+    </div>
+
+    <div class="dr-tb-container">
+        <table ng-table="tableParams" class="table sort-table">
+            <thead>
+            <tr>
+                <th  style="width:10%" class="text-center">推广计划ID</th>
+                <th style="width:10%" class="text-center">推广计划名称</th>
+                <th style="width:10%" class="text-center">推广单元ID</th>
+                <th style="width:15%" class="text-center">推广单元</th>
+                <th style="width:15%" class="text-center">关键词</th>
+                <th style="width:15%" class="text-center">PC端URL</th>
+                <th style="width:15%" class="text-center">移动端URL</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result track by $index">
+                <td>{{row.campaignId}}</td>
+                <td>{{row.campaignName}}</td>
+                <td>{{row.adgroupId}}</td>
+                <td>{{row.adgroupName}}</td>
+                <td>{{row.keyword}}</td>
+                <!--<td >{{row.pcUrl}}</td>
+                <td >{{row.mobileUrl}}</td>-->
+                <td>
+                    <script type="text/ng-template" id="short-link-tip.html">
+                        <div class="text-center" style="width:300px;word-wrap: break-word;"
+                            ng-model="row.pcUrl">
+                            <div ng-bind="row.pcUrl"></div>
+                        </div>
+                    </script>
+                    <a class="btn btn-circle"
+                       tooltips
+                       tooltip-show="false"
+                       tooltip-side="top"
+                       tooltip-template-url="short-link-tip.html"
+                       tooltip-class="short-link"
+                       ng-click="openUrlModal(row.pcUrl)">
+                        <span class="glyphicon glyphicon-link"></span>
+                    </a>
+                </td>
+                <td>
+                    <script type="text/ng-template" id="short-link-tip1.html">
+                        <div class="text-center" style="width:300px;word-wrap: break-word;"
+                             ng-model="row.mobileUrl">
+                            <div ng-bind="row.mobileUrl"></div>
+                        </div>
+                    </script>
+                    <a class="btn btn-circle"
+                       tooltips
+                       tooltip-show="false"
+                       tooltip-side="top"
+                       tooltip-template-url="short-link-tip1.html"
+                       tooltip-class="short-link"
+                       ng-click="openUrlModal(row.mobileUrl)">
+                        <span class="glyphicon glyphicon-link"></span>
+                    </a></td>
+
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="9" class="text-center text-bg">
+                    <div class="text-right" page-control record="tableData" evname="dr.reloadPagination"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <!--</div>-->
+    </div>
+</div>

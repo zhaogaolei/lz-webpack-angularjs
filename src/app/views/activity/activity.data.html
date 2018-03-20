@@ -1,0 +1,32 @@
+<div style="margin: 200px 500px">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="input-group">
+                <input type="text"
+                       class="form-control"
+                       placeholder="请输入pageId..."
+                       ng-model="vm.pageId">
+                <span class="input-group-btn">
+                        <button class="btn btn-default"
+                                type="button"
+                                ng-click="exportActivityDataByPageId()"
+                        >
+                              <i class="icon-icon-excel"></i>
+                            导出活动数据
+                        </button>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <button type="button"
+                    class="btn btn-default"
+                    style="padding: 30px 112px;font-size: large;"
+                    ng-click="exportActivityData()">
+                <i class="icon-icon-excel"></i>
+                导出所有活动数据
+            </button>
+        </div>
+    </div>
+</div>

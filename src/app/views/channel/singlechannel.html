@@ -1,0 +1,188 @@
+<div class="list-group dr-form" ng-init="init()">
+
+    <h3 class="list-group-item-heading box-shadowbottom">
+        单渠道
+    </h3>
+
+    <div class="list-group-item single-channel-quary">
+        <div class="form-inline">
+            <div class="form-group">
+                <select class="form-control page-select"
+                        ng-model="viewModel.query.channelType">
+                    <option value="">--渠道类型--</option>
+                    <option ng-repeat="item in viewModel.channelTypeList" value="{{item.dataCode}}">{{item.dataName}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <select class="form-control page-select" ng-model="viewModel.query.department">
+                    <option value="">--部门--</option>
+                    <option ng-repeat="item in viewModel.departmentList" value="{{item.dataCode}}">{{item.dataName}}
+                    </option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="创建人" ng-model="viewModel.query.creater">
+            </div>
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="渠道名称或ID" ng-model="viewModel.query.channelName">
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" ng-click="queryChannel()" has-permission="channel_query">查询</button>
+            </div>
+            <div class="form-group float-lg-right">
+                <button class="btn btn-link" data-toggle="modal" data-target="#myModal" has-permission="channel_import">
+                    <i class="icon-icon-excel"></i>
+                    从Excel导入
+                </button>
+                <button class="btn btn-primary btn-plr-15" ng-click="openChannelModal('add','')"
+                        has-permission="channel_add">
+                    <i class="fa fa-plus"></i>
+                    新建渠道
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="list-group-item single-channel-body">
+        <ul id="myTab" class="nav nav-tabs single-channel-cho">
+            <li class="dropdown">
+                <a href="#" id="showInfo" class="dropdown-toggle"
+                   data-toggle="dropdown">显示：{{viewModel.ShowInfoText}}
+
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="showInfo">
+                    <li><a href tabindex="-1" ng-click="showInfoByChannelStatus('')">全部</a></li>
+                    <li ng-repeat="item in viewModel.channelStatusList">
+                        <a href tabindex="-1" ng-click="showInfoByChannelStatus(item)">{{item.dataName}}</a>
+                    </li>
+                    <!--<li><a href tabindex="-1" ng-click="showWorkingInfo()">正在合作</a></li>-->
+                    <!--<li><a href tabindex="-1" ng-click="showWillWorkInfo()">即将合作</a></li>-->
+                    <!--<li><a href tabindex="-1" ng-click="showEndWorkInfo()">结束合作</a></li>-->
+                </ul>
+            </li>
+        </ul>
+        <div class="dr-tb-container">
+            <table class="table table-striped table-condensed">
+                <thead>
+                <tr>
+                    <th style="width:5%;">ID</th>
+                    <th style="width:15%;">渠道名称</th>
+                    <th style="width:15%;">状态</th>
+                    <!--<th style="width:20%;">模式/商务条件</th>-->
+                    <th style="width:20%;">备注</th>
+                    <th style="width:10%;">创建人</th>
+                    <th style="width:15%;">操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="item in tableData.result">
+                    <td>{{item.id}}</td>
+                    <td>{{item.refferalName}}</td>
+                    <td>{{item.refferalStatus}}</td>
+                    <!--<td>{{item.clearingForm}}</td>-->
+                    <td>{{item.note}}</td>
+                    <td>{{item.createUser.split("@")[0]}}</td>
+                    <td class="text-center">
+                        <button type="button"
+                                class="btn btn-secondary"
+                               ng-click="gotoPage(item)"
+                                has-permission="channel_enter">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>进入
+                        </button>
+                        <div class="btn-group" has-permission="channel_more">
+                            <button type="button" class="btn btn-secondary dropdown-toggle"
+                                    data-toggle="dropdown"><i class="icon-icon-more" aria-hidden="true"></i>更多
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li has-permission="channel_edit">
+                                    <a href ng-click="openChannelModal('edit',item.id)">编辑</a>
+                                </li>
+                                <li has-permission="channel_copy">
+                                    <a href ng-click="copyChannel(item.id)">复制</a>
+                                </li>
+                                <li has-permission="channel_delete">
+                                    <a ng-confirm="deleteChannel(item.id)"
+                                       ng-confirm-message="删除操作不可恢复，确认要删除{{item.refferalName}}数据项吗?"
+                                       href>删除</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="6" class="text-center text-bg">
+                        <div class="text-right" page-control record="tableData" evname="dr.reloadPagination"></div>
+                    </td>
+                </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+
+    <!-- 模态框（Modal） -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+         data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" id="btnCloseChannelModal" class="close" data-dismiss="modal"
+                            aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">导入渠道</h4>
+                </div>
+                <uib-progressbar class="progress-striped active" value="dynamic" type="warning"
+                                 ng-show="showProgress">
+                    <i><b>!!! 正在处理中... !!!</b></i>
+                </uib-progressbar>
+                <div class="modal-body">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Step 1
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <a href="" ng-click="downTemplate()">点击这里下载导入模板及示例</a>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Step 2
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <h5>按需求填写模板</h5>
+                            <p>1.文件格式.xls格式/.xlsx格式；</p>
+                            <p>2.上传文件数据填写请参考模板，部分字段为必填项，请核对正确；</p>
+                            <p>3.模板列不可删除或者添加，对应数据请仔细核对。</p>
+                        </div>
+                    </div>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                Step 3
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            <h5>选择填写好的渠道信息文件，并导入</h5>
+                            <span ng-show="selectFile">{{selectFile.name}}</span>
+                            <div class="dr_upload">
+                                <div class="upload-new">上传文件</div>
+                                <input type="file" class="inputstyle-upload" ngf-select="" ng-model="selectFile"
+                                       name="file"
+                                       ngf-accept="'*'">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-plr-35" ng-click="uploadFiles(selectFile)" ng-disabled="!selectFile">导入</button>
+                    <button type="button" class="btn btn-default btn-plr-35" data-dismiss="modal">取消</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal -->
+    </div>
+</div>

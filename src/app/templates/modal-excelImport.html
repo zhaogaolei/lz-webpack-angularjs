@@ -1,0 +1,60 @@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btnCloseChannelModal" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">导入渠道</h4>
+            </div>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 1
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="" ng-click="downTemplate()">点击这里下载导入模板及示例</a>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 2
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5>按需求填写模板</h5>
+                        <p>1.文件格式.xls格式/.xlsx格式；</p>
+                        <p>2.上传文件数据填写请参考模板，部分字段为必填项，请核对正确；</p>
+                        <p>3.模板列不可删除或者添加，对应数据请仔细核对。</p>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 3
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5>选择填写好的渠道信息文件，并导入</h5>
+                        <span ng-show="selectFile">{{selectFile.name}}</span>
+                         <div class="dr_upload">
+                             <div class="upload-new">上传文件</div>
+                             <input type="file" ngf-select="" class="inputstyle-upload" ng-model="selectFile" name="file" ngf-accept="'*'">
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="dr-btn-bar">
+                    <button type="button" class="btn btn-primary btn-plr-35" ng-click="uploadFiles(selectFile)">导入</button>
+                    <button type="button" class="btn btn-secondary btn-plr-35" data-dismiss="modal">取消</button>
+                </div>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>

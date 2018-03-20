@@ -1,0 +1,131 @@
+<div class="dr-form">
+    <h3 class="list-group-item-heading box-shadowbottom">
+        {{title}}
+        <div class="float-lg-right">
+            <div class="text-right">
+
+                <button class="btn btn-link" type="button" 
+                        data-toggle="modal" 
+                        ng-click="openModalWin()"
+                        data-target="#myImportModal" ng-if="isShowExcelImport">
+                    <i class="icon-icon-excel"></i>
+                    Excel导入</button>
+                <button type="button" class="btn btn-primary btn-plr-15" ng-click="addMainData()"
+                        has-permission="maindata_edit_add">
+                    <i class="fa fa-plus"></i>
+                    添加
+                </button>
+            </div>
+        </div>
+    </h3>
+
+
+    <hr style="margin-top: 10px;margin-bottom: 10px;">
+    <div class="placeholders">
+        <div class="dr-tb-container">
+            <div class="table-responsive">
+                <table class="table ">
+                    <thead>
+                    <tr>
+                        <th style="width:9%;" class="text-center">序号</th>
+                        <th style="width:30%;" class="text-center">名称</th>
+                        <th style="width:30%;" class="text-center">备注</th>
+                        <th style="min-width:10%;" class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-repeat="row in mainSubData track by $index" style="padding:10px 0;">
+                        <td>{{$index+1}}</td>
+                        <td>{{row.dataName}}</td>
+                        <td>{{row.description}}</td>
+                        <td class="text-center">
+                            <span>
+                                <button type="button"  
+                                        class="btn btn-secondary"
+                                        has-permission="maindata_edit_upd"
+                                        ng-click="updateMainData(row)">
+                                  <span class="icon-icon-edit"></span>编辑
+                                </button>
+                            </span>
+                            <span>
+                                <button type="button"  
+                                        class="btn btn-secondary"
+                                        has-permission="maindata_edit_del"
+                                        ng-click="removeMainDataModal(row.id)">
+                                  <span class="icon-icon-remove"></span>删除
+                                </button>
+                            </span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!--广告位导入模态框-->
+<div class="modal fade" id="myImportModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true"
+     data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" id="btnCloseAdModal" class="close" data-dismiss="modal"
+                        aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">{{mainDataName}}导入模板下载/上传</h4>
+            </div>
+            <uib-progressbar class="progress-striped active" value="dynamic" type="warning"
+                             ng-show="showProgress">
+                <i><b>!!! 正在处理中... !!!</b></i>
+            </uib-progressbar>
+            <div class="modal-body">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 1
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <a href="" ng-click="downTemplate()">点击这里下载导入模板及示例</a>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 2
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5>按需求填写模板</h5>
+                        <p>1.广告位的信息若与现有数据有冲突，则以新导入的为准；</p>
+                        <p>2.模板列不可删除或者添加，对应的数据请仔细核对。</p>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Step 3
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        <h5>选择修改好的文件，并上传</h5>
+                         <span ng-show="selectFile">{{selectFile.name}}</span>
+                          <div class="dr_upload">
+                             <div class="upload-new">上传文件</div>
+                            <input type="file" ngf-select="" class="inputstyle-upload" ng-model="selectFile" name="file"
+                               ngf-accept="'*'">
+                            </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" ng-click="uploadFiles(selectFile)">更新
+                </button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>

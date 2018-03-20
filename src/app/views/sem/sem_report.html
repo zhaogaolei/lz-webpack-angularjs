@@ -1,0 +1,133 @@
+<div class="dr-page-header-condition">
+    <div class="form-inline">
+        <div class="form-group">
+            <div class="dr-filter-field"
+                 isteven-multi-select
+                 input-model="viewModel.semChannel.channel"
+                 output-model="viewModel.semChannel.channelSelected"
+                 button-label="refferalName"
+                 item-label="refferalName"
+                 tick-property="ticked"
+                 translation="localLang"
+                 search-property="refferalName"
+                 selection-mode="single"
+                 on-item-click="semChannelChange()"
+                 on-reset="semChannelReset()">
+            </div>
+            <!--<select class="form-control page-select"-->
+            <!--ng-model="viewModel.semChannelId"-->
+            <!--ng-change="semChannelChange()">-->
+            <!--<option value="">&#45;&#45;请选择渠道&#45;&#45;</option>-->
+            <!--<option ng-repeat="item in semRefferalAccount" value="{{item.id}}">{{item.refferalName}}-->
+            <!--</option>-->
+            <!--</select>-->
+        </div>
+        <div class="form-group">
+            <div class="dr-filter-field"
+                 isteven-multi-select
+                 bottom-check="true"
+                 input-model="viewModel.semAccount.account"
+                 output-model="viewModel.semAccount.accountSelected"
+                 button-class="btnClass"
+                 button-text="defaultAccountText"
+                 item-label="account"
+                 search-property="account"
+                 tick-property="selected">
+            </div>
+            <!--<select class="form-control page-select" ng-model="viewModel.account">-->
+            <!--<option value="">&#45;&#45;请选择账户&#45;&#45;</option>-->
+            <!--<option ng-repeat="item in viewModel.semChannel.channelSelected.semAccountList" value="{{item.account}}">{{item.account}}-->
+            <!--</option>-->
+            <!--</select>-->
+        </div>
+        <div class="form-group">
+            <button class="btn btn-default" ng-click="query()">查询</button>
+        </div>
+        <div class="form-group">
+            <div class="dr-filter-field"
+                 isteven-multi-select
+                 bottom-check="true"
+                 input-model="viewModel.field"
+                 output-model="viewModel.fieldSelected"
+                 button-class="btnClass"
+                 button-text="defaultFieldText"
+                 item-label="value"
+                 search-property="value"
+                 tick-property="selected"
+                 on-item-click="fieldChange()"
+                 on-select-all="fieldChange()"
+                 on-select-none="fieldChange()">
+            </div>
+        </div>
+        <div class="form-group float-lg-right">
+            <button class="btn btn-link" ng-click="exportMainReport()">
+                <i class="icon-icon-excel"></i>
+                导出Excel
+            </button>
+        </div>
+    </div>
+</div>
+<div class="dr-tb-container">
+    <div class="table-responsive" ng-if="viewModel.isShowTable">
+        <table class="table sort-table" style="width:1500px">
+            <thead>
+            <tr>
+                <th ng-if="filterField('accountNo')" tb-sort="accountNo" style="width:4%" class="text-center">账户
+                </th>
+                <th ng-if="filterField('campaignName')" tb-sort="campaignName" style="width:9%" class="text-center">
+                    推广计划名称
+                </th>
+                <th ng-if="filterField('adgroupName')" tb-sort="adgroupName" style="width:9%" class="text-center">
+                    推广单元名称
+                </th>
+                <th ng-if="filterField('matchType')" tb-sort="matchType" style="width:7%" class="text-center">匹配模式</th>
+                <th ng-if="filterField('cost')" tb-sort="cost" style="width:5%" class="text-center">消费</th>
+                <th ng-if="filterField('avgClickPrice')" tb-sort="avgClickPrice" style="width:8%" class="text-center">
+                    平均点击价格
+                </th>
+                <th ng-if="filterField('click')" tb-sort="click" style="width:5%" class="text-center">点击</th>
+                <th ng-if="filterField('shows')" tb-sort="shows" style="width:5%;" class="text-center">展现</th>
+                <th ng-if="filterField('clickRate')" tb-sort="clickRate" style="width:8%" class="text-center">点击率</th>
+                <th ng-if="filterField('costShowMille')" tb-sort="costShowMille" style="width:8%;" class="text-center">
+                    千次展现消费
+                </th>
+                <th ng-if="filterField('registerNum')" tb-sort="registerNum" style="width:6%" class="text-center">注册数</th>
+                <th ng-if="filterField('investFirstNum')" tb-sort="investFirstNum" style="width:6%" class="text-center">首投人数</th>
+                <th ng-if="filterField('investFirstAmount')" tb-sort="investFirstAmount" style="width:6%" class="text-center">首投金额</th>
+                <th ng-if="filterField('investNum')" tb-sort="investNum" style="width:8%" class="text-center">投资人数</th>
+                <th ng-if="filterField('investAmount')" tb-sort="investAmount" style="width:10%" class="text-center">投资金额</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result">
+                <td ng-if="filterField('accountNo')" class="text-center">
+                    <button class="btn btn-link" ng-click="viewDetailReport(row)">
+                        {{row.accountNo}}
+                    </button>
+                </td>
+                <td ng-if="filterField('campaignName')" class="text-center">{{row.campaignName}}</td>
+                <td ng-if="filterField('adgroupName')" class="text-center">{{row.adgroupName}}</td>
+                <td ng-if="filterField('matchType')" class="text-center">{{row.matchType}}</td>
+                <td ng-if="filterField('cost')" class="text-center">{{row.cost}}</td>
+                <td ng-if="filterField('avgClickPrice')" class="text-center">{{row.avgClickPrice}}</td>
+                <td ng-if="filterField('click')" class="text-center">{{row.click}}</td>
+                <td ng-if="filterField('shows')" class="text-center">{{row.shows}}</td>
+                <td ng-if="filterField('clickRate')" class="text-center">{{row.clickRate}}</td>
+                <td ng-if="filterField('costShowMille')" class="text-center">{{row.costShowMille}}</td>
+                <td ng-if="filterField('registerNum')"   class="text-center">{{row.registerNum}}</td>
+                <td ng-if="filterField('investFirstNum')"   class="text-center">{{row.investFirstNum}}</td>
+                <td ng-if="filterField('investFirstAmount')"   class="text-center">{{row.investFirstAmount}}</td>
+                <td ng-if="filterField('investNum')"   class="text-center">{{row.investNum}}</td>
+                <td ng-if="filterField('investAmount')"  class="text-center">{{row.investAmount}}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="15" class="text-center text-bg">
+                    <div class="text-right" page-control record="tableData" evname="dr.mainReportPagination"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>

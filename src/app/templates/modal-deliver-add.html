@@ -1,0 +1,138 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑基本信息</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">投放ID</label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    ng-model="formData.id"
+                                    placeholder="创建成功后自动生成"
+                                    ng-readonly="true">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">投放名称<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <input
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-model="formData.campaignName">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">投放类型<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-model="formData.campaignType"
+                                    ng-options="node.dataCode as node.dataName for node in deliverType"
+                                    ng-change="deliverTypeChange()"
+                                    ng-disabled="disableType">
+                                <option value="">请选择...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">适用业务<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-model="formData.businessType"
+                                    ng-change="businessTypeChange()"
+                                    ng-disabled="semType">
+                                <option value="">请选择...</option>
+                                <option value="lender">lender</option>
+                                <option value="borrow">borrow</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-show="!semType">
+                        <label class="control-label col-xs-3" style="text-align: left">业务产品<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select
+                                    class="form-control"
+                                    ng-required="!semType"
+                                    ng-model="formData.businessProduct"
+                                    ng-options="node.dataCode as node.dataName for node in businessProduct">
+                                <option value="">请选择...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!--<div class="form-group">-->
+                        <!--<label class="control-label col-xs-3" style="text-align: left">广告位属性<span-->
+                                <!--style='color: red;'>*</span></label>-->
+                        <!--<div class="col-xs-6" style="margin-bottom:15px;">-->
+                            <!--<select-->
+                                    <!--class="form-control"-->
+                                    <!--ng-required="true"-->
+                                    <!--ng-model="formData.bannerProperty"-->
+                                    <!--ng-options="node.dataCode as node.dataName for node in bannerProperty">-->
+                                <!--<option value="">请选择...</option>-->
+                            <!--</select>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <div class="form-group">
+                        <label class="control-label col-xs-3" style="text-align: left">投放周期</label>
+                        <div class="col-xs-9" style="margin-bottom:15px;">
+                            <div class="form-inline">
+                                <div class="form-group m-0 dr-date-group">
+                                    <i class="icon-icon-schedule"></i>
+                                    <input
+                                            type="text"
+                                            class="form-control dr-date"
+                                            ng-click="open()"
+                                            uib-datepicker-popup="yyyy-MM-dd"
+                                            format="yyyy-MM-dd HH:mm:ss"
+                                            ng-model="formData.campaignStart"
+                                            is-open="popup.opened"/>
+
+                                </div>
+                                <div class="form-group m-0">
+                                    -
+                                </div>
+                                <div class="form-group m-0 dr-date-group ">
+                                    <i class="icon-icon-schedule"></i>
+                                    <input
+                                            type="text"
+                                            class="form-control dr-date"
+                                            ng-click="open2()"
+                                            uib-datepicker-popup="yyyy-MM-dd"
+                                            format="yyyy-MM-dd HH:mm:ss"
+                                            ng-model="formData.campaignEnd"
+                                            is-open="popup2.opened"/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button ng-if="!isShowUpdateBtn" type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid" ng-click="createPlan(basicForm)">保存
+                    </button>
+                    <button ng-if="isShowUpdateBtn" type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty"
+                            ng-click="updatePlan(basicForm)">保存
+                    </button>
+                    <button type="button" class="btn btn-default btn-plr-35" data-dismiss="modal" ng-click="cancel()">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

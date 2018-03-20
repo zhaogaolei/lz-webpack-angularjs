@@ -1,0 +1,29 @@
+<div class="panel panel-link">
+    <div class="panel-heading">
+     <p><strong>操作历史</strong> </p>
+    </div>
+    <div class="panel-body">
+    <div class="row placeholders">
+        <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th class="">修改人</th>
+                <th class="">修改时间</th>
+                <th>操作</th>
+                <th>修改内容</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="item in OperateRecordList">
+                <td>{{item.updateUser}}</td>
+                <td>{{item.updateTime}}</td>
+                <td>{{item.operationType}}</td>
+                <td>{{item.updateContent}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </div>
+</div>
+</div>

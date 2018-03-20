@@ -1,0 +1,274 @@
+<div class="dr-form" padding="20px">
+    <h3>
+        {{campaignName ? campaignName : '新建投放动作'}}
+    </h3>
+    <div>
+        <ul id="Tab1" class="nav nav-tabs dr-tab">
+            <li ng-class="{true:'active', false: ''}[showChannel]">
+                <a ng-click="changeTab('channel')">投放动作</a>
+            </li>
+            <li ng-if="false" ng-class="{true:'active', false: ''}[showMaterial]">
+                <a ng-click="changeTab('material')">分配素材</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade" ng-class="{true:' in active', false: ''}[showChannel]">
+                <div class="panel panel-default channel-panel">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-lg-2">
+                                <button class="btn btn-primary btn-plr-15" ng-click="openDeliverModal('add','','formUnDisabled')">
+                                    新增投放动作
+                                </button>
+                            </div>
+                            <div class="col-lg-10 text-right">
+                                <button class="btn btn-link mr-2"
+                                        has-permission="delivery_channel_export"
+                                        ng-click="exportUrlList()">
+                                    <i class="icon-icon-excel"></i>
+                                    导出投放URL列表
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-body" style="padding-top: 0;">
+                        <div class="dr-tb-container">
+                            <div class="table-responsive" style="overflow: visible">
+                                <table ng-table="tableParams" class="table sort-table">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:5%" class="text-center">RefferalName</th>
+                                        <th style="width:5%" class="text-center">投放动作ID</th>
+                                        <th tb-sort="refferalName" style="width:10%" class="text-center">渠道名称</th>
+                                        <th style="width:7%" class="text-center">代理商</th>
+                                        <th style="width:10%" class="text-center">广告位</th>
+                                        <th style="width:7%" class="text-center">结算</th>
+                                        <th tb-sort="refferalStartTime" style="width:15%" class="text-center">开始时间</th>
+                                        <th tb-sort="refferalEndTime" style="width:15%" class="text-center">结束时间</th>
+                                        <th style="width:1%" class="text-center">URL</th>
+                                        <th style="width:7%" class="text-center">状态</th>
+                                        <th style="min-width:23%;width:23%" class="text-center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in deliverAction.result track by $index"
+                                        style="padding:10px 0;text-align: center;"
+                                        ng-class="{true:' deliverDone', false: ''}[row.publishStatusName==='已停止']">
+                                        <td>{{row.channelId}}</td>
+                                        <td>{{row.id}}</td>
+                                        <td>{{row.refferalName}}</td>
+                                        <td>{{row.agentName}}</td>
+                                        <td>
+                                            {{row.bannerList[0].bannerName}}
+                                        </td>
+                                        <td>
+                                            <button
+                                                    uib-tooltip="{{row.clearingForm.substring(3)}}"
+                                                    type="button"
+                                                    class="btn btn-link">
+                                                {{row.clearingForm.substring(0, 3)}}
+                                            </button>
+                                        </td>
+                                        <td>
+                                            {{row.refferalStartTime}}
+                                        </td>
+                                        <td>
+                                            {{row.refferalEndTime}}
+                                        </td>
+                                        <td>
+                                            <script type="text/ng-template" id="short-link-tip.html">
+                                                <div class="text-center" style="width:250px;"
+                                                     ng-repeat="shortLink in getShortLink(row.bannerList[0].url) track by $index">
+                                                    <div ng-bind="shortLink"></div>
+                                                </div>
+                                            </script>
+                                            <a class="btn btn-circle"
+                                               tooltips
+                                               tooltip-show="false"
+                                               tooltip-side="top"
+                                               tooltip-template-url="short-link-tip.html"
+                                               tooltip-class="short-link"
+                                               ng-click="openUrlModal(row.bannerList[0].url)">
+                                                <span class="glyphicon glyphicon-link"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            {{row.publishStatusName}}
+                                            <i ng-if="row.publishStatusName==='已停止'"
+                                               tooltips
+                                               tooltip-side="top"
+                                               tooltip-template-url="stop-time.html"
+                                               class="fa fa-info-circle"></i>
+                                            <script type="text/ng-template" id="stop-time.html">
+                                                <div style="width:210px">
+                                                    停止时间：{{row.updateTime | date:'yyyy-MM-dd HH:mm:ss'}}
+                                                </div>
+                                            </script>
+                                        </td>
+                                        <td data-title="'操作'" style="min-width:3%">
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    title="编辑"
+                                                    ng-if="row.publishStatusName==='即将开始'"
+                                                    ng-click="openDeliverModal('edit',row.id,'formUnDisabled')">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>编辑
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    title="编辑"
+                                                    ng-if="row.publishStatusName==='已开始'"
+                                                    ng-click="openDeliverModal('edit',row.id,'formDisabled')">
+                                                <i class="fa fa-edit" aria-hidden="true"></i>编辑
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    ng-click="stopDeliverAction(row.id)"
+                                                    title="停止"
+                                                    has-permission="delivery_channel_stop"
+                                                    ng-if="row.publishStatusName==='已开始'">
+                                                <span class="icon-icon-stop"></span>
+                                                停止
+                                            </button>
+                                            <button type="button"
+                                                    class="btn btn-secondary"
+                                                    ng-if="row.publishStatusName==='即将开始'"
+                                                    ng-click="removeDeliverAction(row.id)"
+                                                    title="移除"
+                                                    has-permission="delivery_channel_remove">
+                                                <!--ng-show="isEnableForDel(row.bannerList, row.refferalStartTime, row.refferalEndTime)">-->
+                                                <span class="icon-icon-remove"></span>
+                                                移除
+                                            </button>
+                                            <!--<div ng-show="row.publishStatusName==='已停止'">-->
+                                            <!--<sub>停止时间</sub>-->
+                                            <!--<div>{{row.updateTime | date:"yyyy-MM-dd HH:mm:ss"}}</div>-->
+                                            <!--</div>-->
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="11" class="text-center text-bg">
+                                            <div class="text-right" page-control record="deliverAction"
+                                                 evname="dr.channelPagination"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <blockquote>
+                    <img src="../../../image/icon-question.png">
+                    <strong>什么是投放动作？</strong>
+                    <p class="text-muted">
+                        在某个特定时间段，在某个广告位上的投放，就是一个投放动作。比如，在A广告位上，5-6月的投放和8-9月的投放，就形成了两个投放动作，不同的投放动作除了时间不一样，结算方式、落地页URL也可能不一样。
+                    </p>
+                </blockquote>
+            </div>
+            <div class="tab-pane fade" ng-class="{true:' in active', false: ''}[showMaterial]">
+                <div class="panel panel-default channel-panel">
+                    <div class="panel-heading">
+                        <div style="width:150px;">
+                            <select
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-model="taskState"
+                                    ng-options="node.taskState as node.taskName for node in materialType">
+                                <option value="">素材状态</option>
+                            </select>
+                        </div>
+                        <div style="float:right; margin-top:-30px;">
+                        	<span>
+		                        <button type="button" 
+		                                class="btn btn-default"
+		                                ng-click="allocationTask()" 
+		                                has-permission="material_allocation_mul" 
+		                                ng-disabled="count==0">
+								  <span class="icon-icon-user-checked"></span>分配素材
+                                </button>
+							</span><span>
+								<button type="button" 
+								        class="btn btn-default"
+								        has-permission="material_download_mul" 
+								        ng-click="downloadSelectedRows()" 
+								        ng-disabled="count==0">
+								  <span class="icon-icon-file"></span>下载素材
+                            </button>
+							</span>
+                        </div>
+                    </div>
+
+                    <div class="panel-body" style="padding-top: 0;">
+                        <div class="dr-tb-container m-0">
+                            <div class="table-responsive">
+                                <table class="table ">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:3%">
+                                            <input type="checkbox" ng-model="selectAll" ng-change="changeAll()"/>
+                                        </th>
+                                        <th style="width:9%" class="text-center">素材ID</th>
+                                        <th style="width:20%" class="text-center">渠道</th>
+                                        <th style="width:13%" class="text-center">分配时间</th>
+                                        <th style="width:13%" class="text-center">截止时间</th>
+                                        <th style="width:10%" class="text-center">接收人</th>
+                                        <th style="width:13%" class="text-center">状态</th>
+                                        <th style="min-width:10%" class="text-center">操作</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="row in materialTaskData.result track by $index"
+                                        style="padding:10px 0;">
+                                        <td>
+                                            <input type="checkbox" ng-model="row.checked"
+                                                   ng-click="changeCurrent(row, $event)"/>
+                                        </td>
+                                        <td>{{row.id}}</td>
+                                        <td>{{row.refferalName}}</td>
+                                        <td>{{row.distributionTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{row.stopTime | date: 'yyyy-MM-dd HH:mm:ss'}}</td>
+                                        <td>{{row.recipient}}</td>
+                                        <td>{{row.taskName}}</td>
+                                        <td>
+				                        	<span>
+						                        <button type="button" 
+						                                class="btn btn-secondary"
+						                                has-permission="material_allocation_sin" 
+						                                ng-click="allocationTask(row)">
+												  <span class="icon-icon-user-checked"></span>分配
+                                                </button>
+											</span>
+                                            <span>
+												<button type="button" 
+												        class="btn btn-secondary"
+												        has-permission="material_download_sin" 
+												        ng-click="materialTask(row)">
+												  <span class="icon-icon-file"></span>素材
+                                                </button>
+											</span>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <td colspan="8" class="text-center text-bg">
+                                            <div class="text-right" page-control record="materialTaskData"
+                                                 evname="dr.reloadPagination"></div>
+                                        </td>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                                <!-- <div class="text-right" page-control record="materialTaskData"
+                                     evname="dr.reloadPagination"></div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

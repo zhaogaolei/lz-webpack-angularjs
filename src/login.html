@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+</head>
+<body>
+<form class="form-horizontal">
+    <div class="login-box">
+        <div class="login-top">
+            <img src="./image/logo-quark.png">
+            夸客运营中心
+        </div>
+        <div class="login-main">
+            <div>
+                <input set-focus type="text" placeholder="用户名" ng-model="viewModel.userName"/>
+            </div>
+            <div>
+                <input type="password" placeholder="密码" ng-model="viewModel.password" ng-keyup="loginEnter($event)"/>
+            </div>
+            <div>
+                <button type="button" class="login-btn" ng-click="login()">登录</button>
+            </div>
+        </div>
+    </div>
+</form>
+</body>
+</html>

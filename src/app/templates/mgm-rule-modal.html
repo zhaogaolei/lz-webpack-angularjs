@@ -1,0 +1,190 @@
+<div class="dr-form" ng-init="initRuleModal()">
+    <div class="modal-header">
+        <button type="button" class="close" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">编辑规则</h4>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">添加行为<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <button type="button" class="btn btn-link" ng-click="addBehaivor()">添加行为</button>
+                        </div>
+                    </div>
+                    <div class="form-group" ng-if="viewModel.behaviorData.length>0">
+                        <div class="col-xs-12" style="margin-bottom:15px;">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr>
+                                    <th style="width: 20%;">行为</th>
+                                    <th style="width: 30%;">适用产品</th>
+                                    <th style="width: 20%;">人数条件</th>
+                                    <th style="width: 20%;">金额条件</th>
+                                    <th style="width: 10%;"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="row in viewModel.behaviorData track by $index">
+                                    <td>{{row.behaviorName}}</td>
+                                    <td>{{row.productNames}}</td>
+                                    <td>{{row.people.peopleExpression}}</td>
+                                    <td>{{row.money.moneyExpression}}</td>
+                                    <td><a ng-click="deleteBehaivor(row)" class="dr-custom-btn text-danger">×</a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">奖励方式<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select class="form-control"
+                                    ng-required="true"
+                                    ng-model="formData.provideWay"
+                                    ng-options="node.dataCode as node.dataName for node in rewardWayList">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label col-xs-2">结算对象<span
+                                style='color: red;'>*</span></label>
+                        <div class="col-xs-6" style="margin-bottom:15px;">
+                            <select
+                                    class="form-control"
+                                    ng-required="true"
+                                    ng-model="formData.settleObject"
+                                    ng-change="settleObjectChange()"
+                                    ng-options="node.dataCode as node.dataName for node in settleObjectList">
+                                <option value="">请选择</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div ng-if="viewModel.showInvest">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">邀请人<span
+                                    style='color: red;'>*</span></label>
+                            <div class="col-xs-9">
+                                <table class="table">
+                                    <tr ng-repeat="item in stage.investList track by $index">
+                                        <td>
+                                            <select style="width: 150px"
+                                                    class="form-control"
+                                                    ng-required="true"
+                                                    ng-model="item.provideSubType"
+                                                    ng-change="couponPlanChange(item.provideSubType)">
+                                                <option value="">请选择券计划</option>
+                                                <option ng-repeat="node in couponPlanList track by $index"
+                                                        value="{{node.id}}">
+                                                    {{node.planName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select style="width: 250px"
+                                                    class="form-control"
+                                                    ng-model="item.couponName"
+                                                    ng-required="true">
+                                                <option value="">请选择券类型</option>
+                                                <option ng-repeat="node in couponTypeList track by $index"
+                                                        value="{{node.couponName}}">
+                                                    {{node.templateName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input style="width: 120px"
+                                                   class="form-control"
+                                                   type="number"
+                                                   min="0"
+                                                   maxlength="10"
+                                                   required
+                                                   placeholder="券数量"
+                                                   ng-model="item.receivableNum">
+                                        </td>
+                                        <td>
+                                            <a ng-if="stage.canNotDeleteInvest"
+                                               ng-click="stage.decreaseInvestStage($index)"
+                                               class="dr-custom-btn text-danger">×</a>
+                                            <span ng-if="!stage.canNotDeleteInvest"
+                                                  class="dr-custom-btn text-muted">×</span>
+                                            <a ng-click="stage.addInvestStage($index)"
+                                               class="dr-custom-btn text-success">+</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="viewModel.showAccept">
+                        <div class="form-group">
+                            <label class="control-label col-xs-2">被邀请人<span
+                                    style='color: red;'>*</span></label>
+                            <div class="col-xs-9">
+                                <table class="table">
+                                    <tr ng-repeat="item in stage.acceptList track by $index">
+                                        <td>
+                                            <select style="width: 150px"
+                                                    class="form-control"
+                                                    ng-required="true"
+                                                    ng-model="item.provideSubType"
+                                                    ng-change="couponPlanChange(item.provideSubType)">
+                                                <option value="">请选择券计划</option>
+                                                <option ng-repeat="node in couponPlanList track by $index"
+                                                        value="{{node.id}}">
+                                                    {{node.planName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <select style="width: 250px"
+                                                    class="form-control"
+                                                    ng-model="item.couponName"
+                                                    ng-required="true">
+                                                <option value="">请选择券类型</option>
+                                                <option ng-repeat="node in couponTypeList track by $index"
+                                                        value="{{node.couponName}}">
+                                                    {{node.templateName}}
+                                                </option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input style="width: 120px"
+                                                   class="form-control"
+                                                   type="number"
+                                                   min="0"
+                                                   maxlength="10"
+                                                   placeholder="券数量"
+                                                   required
+                                                   ng-model="item.receivableNum">
+                                        </td>
+                                        <td>
+                                            <a ng-if="stage.canNotDeleteAccept"
+                                               ng-click="stage.decreaseAcceptStage($index)"
+                                               class="dr-custom-btn text-danger">×</a>
+                                            <span ng-if="!stage.canNotDeleteAccept"
+                                                  class="dr-custom-btn text-muted">×</span>
+                                            <a ng-click="stage.addAcceptStage($index)"
+                                               class="dr-custom-btn text-success">+</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-center">
+                    <button type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty ||viewModel.behaviorData.length==0"
+                            ng-click="saveAccount()">保存
+                    </button>
+                    <button type="button" class="btn btn-default btn-plr-35" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

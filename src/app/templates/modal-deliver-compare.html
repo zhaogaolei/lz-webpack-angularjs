@@ -1,0 +1,256 @@
+<div class="dr-form">
+    <div class="modal-body">
+        <ul class="nav nav-tabs dr-tab" style="padding-left: 190px!important;">
+            <li class="active">
+                <a href="#refferal" data-toggle="tab" ng-click="tabClick('refferal')">渠道对比</a>
+            </li>
+            <li>
+                <a href="#campaignPlan" data-toggle="tab" ng-click="tabClick('campaignPlan')">投放对比</a>
+            </li>
+        </ul>
+        <form class="form-horizontal" name="basicForm" novalidate>
+            <div class="panel panel-link">
+                <div class="panel-body dr_baseInfo">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="refferal">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" style="text-align: left">投放日期</label>
+                                <div class="col-xs-9" style="margin-bottom:15px;">
+                                    <div class="form-inline">
+                                        <div class="form-group m-0 dr-date-group">
+                                            <i class="icon-icon-schedule"></i>
+                                            <input
+                                                    required
+                                                    type="text"
+                                                    class="form-control dr-date"
+                                                    ng-click="open()"
+                                                    uib-datepicker-popup="yyyy-MM-dd"
+                                                    placeholder="开始日期"
+                                                    ng-model="formData.starDate"
+                                                    is-open="popup.opened"/>
+
+                                        </div>
+                                        <div class="form-group m-0">
+                                            -
+                                        </div>
+                                        <div class="form-group m-0 dr-date-group ">
+                                            <i class="icon-icon-schedule"></i>
+                                            <input
+                                                    required
+                                                    type="text"
+                                                    class="form-control dr-date"
+                                                    ng-click="open2()"
+                                                    uib-datepicker-popup="yyyy-MM-dd"
+                                                    placeholder="结束日期"
+                                                    ng-model="formData.endDate"
+                                                    is-open="popup2.opened"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" style="text-align: left">渠道</label>
+                                <div class="col-xs-7" style="margin-bottom:15px;">
+                                    <!--<select ng-required="false"-->
+                                    <!--class="form-control"-->
+                                    <!--ng-required="true"-->
+                                    <!--ng-model="formData.refferalId"-->
+                                    <!--ng-change="refferalChange()"-->
+                                    <!--ng-options="node.refferalId as node.refferalName for node in refferalList">-->
+                                    <!--<option value="">请选择...</option>-->
+                                    <!--</select>-->
+                                    <isteven-multi-select
+                                            input-model="refferal.refferalList"
+                                            output-model="refferal.selectedRefferal"
+                                            button-label="refferalName"
+                                            item-label="refferalName"
+                                            tick-property="selected"
+                                            on-item-click="refferalChange()"
+                                            on-select-all="refferalChange()"
+                                            on-select-none="refferalChange()"
+                                            translation="localLang">
+                                    </isteven-multi-select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" style="text-align: left"></label>
+                                <div class="col-xs-7 dr-abt-dropdown" style="margin-bottom:15px;">
+                                    <isteven-multi-select
+                                            input-model="deliver.deliverActionList"
+                                            output-model="deliver.selectedDeliverActionList"
+                                            button-label="showIdForBtn"
+                                            item-label="showTextForDrop"
+                                            tick-property="selected"
+                                            translation="localLang">
+                                    </isteven-multi-select>
+                                </div>
+                            </div>
+                            <div ng-if="viewModel.isShowScoreRule">
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">注册ROI</label>
+                                    <div class="col-xs-7">
+                                        <rzslider
+                                                rz-slider-model="registerRoi.value"
+                                                rz-slider-options="registerRoi.options"
+                                        ></rzslider>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">理想值</label>
+                                    <div class="col-xs-6">
+                                        <input type="number" class="form-control"
+                                               placeholder="请输入理想值..."
+                                               min="0"
+                                               ng-model="formData.registerBestValue" required>
+                                    </div>
+                                    <label class="control-label col-xs-3">元/人</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">投资ROI</label>
+                                    <div class="col-xs-7">
+                                        <rzslider
+                                                rz-slider-model="investRoi.value"
+                                                rz-slider-options="investRoi.options"
+                                        ></rzslider>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">理想值</label>
+                                    <div class="col-xs-6">
+                                        <input type="number" class="form-control"
+                                               placeholder="请输入理想值..."
+                                               min="0"
+                                               ng-model="formData.investBestValue" required>
+                                    </div>
+                                    <label class="control-label col-xs-3">元/人</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="campaignPlan">
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" style="text-align: left">投放日期</label>
+                                <div class="col-xs-9" style="margin-bottom:15px;">
+                                    <div class="form-inline">
+                                        <div class="form-group m-0 dr-date-group">
+                                            <i class="icon-icon-schedule"></i>
+                                            <input
+                                                    required
+                                                    type="text"
+                                                    class="form-control dr-date"
+                                                    ng-click="open()"
+                                                    uib-datepicker-popup="yyyy-MM-dd"
+                                                    placeholder="开始日期"
+                                                    ng-model="formData.starDate"
+                                                    is-open="popup.opened"/>
+
+                                        </div>
+                                        <div class="form-group m-0">
+                                            -
+                                        </div>
+                                        <div class="form-group m-0 dr-date-group ">
+                                            <i class="icon-icon-schedule"></i>
+                                            <input
+                                                    required
+                                                    type="text"
+                                                    class="form-control dr-date"
+                                                    ng-click="open2()"
+                                                    uib-datepicker-popup="yyyy-MM-dd"
+                                                    placeholder="结束日期"
+                                                    ng-model="formData.endDate"
+                                                    is-open="popup2.opened"/>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" style="text-align: left">投放计划</label>
+                                <div class="col-xs-7" style="margin-bottom:15px;">
+                                    <isteven-multi-select
+                                            input-model="deliverPlan.deliverPlanList"
+                                            output-model="deliverPlan.selectedDeliverPlanList"
+                                            button-label="campaignName"
+                                            item-label="campaignName"
+                                            tick-property="selected"
+                                            on-item-click="refferalChange()"
+                                            on-select-all="refferalChange()"
+                                            on-select-none="refferalChange()"
+                                            translation="localLang">
+                                    </isteven-multi-select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-xs-3" style="text-align: left"></label>
+                                <div class="col-xs-7 dr-abt-dropdown" style="margin-bottom:15px;">
+                                    <isteven-multi-select
+                                            input-model="deliver.deliverActionList"
+                                            output-model="deliver.selectedDeliverActionList"
+                                            button-label="showIdForBtn"
+                                            item-label="showTextForDrop"
+                                            tick-property="selected"
+                                            translation="localLang">
+                                    </isteven-multi-select>
+                                </div>
+                            </div>
+                            <div ng-if="viewModel.isShowScoreRule">
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">注册ROI</label>
+                                    <div class="col-xs-7">
+                                        <rzslider
+                                                rz-slider-model="registerRoi.value"
+                                                rz-slider-options="registerRoi.options"
+                                        ></rzslider>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">理想值</label>
+                                    <div class="col-xs-6">
+                                        <input type="number" class="form-control"
+                                               placeholder="请输入理想值..."
+                                               min="0"
+                                               ng-model="formData.registerBestValue" required>
+                                    </div>
+                                    <label class="control-label col-xs-3">元/人</label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-3 control-label">投资ROI</label>
+                                    <div class="col-xs-7">
+                                        <rzslider
+                                                rz-slider-model="investRoi.value"
+                                                rz-slider-options="investRoi.options"
+                                        ></rzslider>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-xs-3">理想值</label>
+                                    <div class="col-xs-6">
+                                        <input type="number" class="form-control"
+                                               placeholder="请输入理想值..."
+                                               min="0"
+                                               ng-model="formData.investBestValue" required>
+                                    </div>
+                                    <label class="control-label col-xs-3">元/人</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="panel-footer text-center">
+                    <button ng-if="!viewModel.isShowScoreRule" type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty ||deliver.selectedDeliverActionList.length==0"
+                            ng-click="startCompare()">开始对比
+                    </button>
+                    <button ng-if="viewModel.isShowScoreRule" type="button" class="btn btn-primary btn-plr-35"
+                            ng-disabled="basicForm.$invalid || !basicForm.$dirty ||deliver.selectedDeliverActionList.length==0"
+                            ng-click="ok()">确定
+                    </button>
+                    <button type="button" class="btn btn-default btn-plr-35" data-dismiss="modal" ng-click="cancel()">
+                        取消
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

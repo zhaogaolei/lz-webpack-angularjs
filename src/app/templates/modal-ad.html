@@ -1,0 +1,67 @@
+<div class="dr-form" style="max-width: 1000px;width: 1000px;">
+    <div class="modal-header">
+        <button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">选择广告位</h4>
+    </div>
+    <div class="modal-body modal-box dr-tb-container" style="padding: 0;margin: 0;">
+        <table class="table table-striped" style="margin-bottom: 0;">
+            <thead>
+            <tr>
+                <th></th>
+                <th>广告位ID</th>
+                <th>广告位名称</th>
+                <th>广告位属性</th>
+                <th>初始URL</th>
+                <th>素材数量</th>
+                <th>Target</th>
+                <th>Keyword</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in data track by $index">
+                <td><input type="checkbox" ng-model="row.checked" ng-click="changeData(row, $event)"/></td>
+                <td>{{row.id}}</td>
+                <td>{{row.bannerName}}</td>
+                <td>
+                    <select class="dr-ad-position-select"
+                            ng-model="row.bannerProperty"
+                            ng-options="node.dataCode as node.dataName for node in bannerPropertyList">
+                        <option value="">请选择</option>
+                    </select>
+                </td>
+                <td><input class="dr-ad-position-input" type="text" ng-model="row.landingPage"
+                           ng-blur="validUrl(row.id,row.landingPage)" placeholder="http://"/>
+                    <select class="dr-ad-position-select" id="url_{{row.id}}" ng-model="$scope.adModel.aUrlValue"
+                            ng-change="activityUrlChange(row)">
+                        <option value="">选择</option>
+                        <option ng-repeat="item in activityUrlList" value="{{item.initialUrl}}">{{item.activeName}}
+                        </option>
+                    </select>
+                    <div class="text-danger {{row.id}}" style="display: none">该链接可能无效！</div>
+                </td>
+                <td><input class="dr-ad-position-input-number" type="text" ng-model="row.amount" placeholder="素材数量"/>
+                </td>
+                <td>
+                    <input class="dr-ad-position-input" type="text" ng-model="row.target" placeholder="Target"/>
+                    <!--<select class="dr-ad-position-select" ng-model="row.target">-->
+                    <!--<option value="">请选择</option>-->
+                    <!--<option ng-repeat="t in targets" value="{{t.dataCode}}">{{t.dataName}}-->
+                    <!--</option>-->
+                    <!--</select>-->
+                </td>
+                <td>
+                    <button class="btn btn-primary" type="button" ngf-select="" ng-model="keyword.file"
+                            ng-change="uploadKeyword(row)"
+                    >上传</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="modal-footer">
+        <div class="dr-btn-bar">
+            <button class="btn btn-primary btn-plr-35" type="button" ng-click="ok()">添加</button>
+            <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

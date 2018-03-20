@@ -1,0 +1,13 @@
+import {BaseApiMethod} from './src/app/services/business/business.service';
+
+export default class <%= name %> extends BaseApiMethod {
+<% data.forEach(function(item){ %>
+
+    //TYPE <%=item.requestType%>
+    //URL <%=item.requestUrl%>
+    <%=item.methodName%>(<%=item.methodParma2%>){
+        return this.<%=item.type%>("<%=item.url%>"<%=item.methodParma1%>);
+    }
+<% }) %>
+
+}

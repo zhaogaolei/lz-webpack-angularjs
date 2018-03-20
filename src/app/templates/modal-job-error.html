@@ -1,0 +1,30 @@
+<div class="dr-form">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" ng-click="cancel()">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Job异常记录</h4>
+    </div>
+    <div class="modal-body">
+        <div class="panel panel-link">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th style="width:10%">序号</th>
+                            <th style="width:20%">发生时间</th>
+                            <th style="width:70%">异常内容</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="item in jobErrorList">
+                            <td>{{$index+1}}</td>
+                            <td>{{item.misfireTime}}</td>
+                            <td>{{item.errorContent}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

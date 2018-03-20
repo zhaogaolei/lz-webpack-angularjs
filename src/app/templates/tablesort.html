@@ -1,0 +1,5 @@
+<a class="title-position" ng-click="theadSort()">
+	<span ng-transclude></span>
+	<span class="icon-position both" 
+	ng-class="{'asc':curCol==getColName()&&curSort=='asc', 'desc':curCol==getColName()&&curSort=='desc', 'em':curCol==getColName()&&curSort==''}"></span>
+</a>

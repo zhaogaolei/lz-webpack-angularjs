@@ -1,0 +1,105 @@
+<div class="dr-form">
+    <!--<div class="modal-header">-->
+    <!--<h4 class="modal-title" id="myModalLabel">选择渠道</h4>-->
+    <!--</div>-->
+    <div class="modal-body">
+        <ul class="nav nav-tabs dr-tab" style="padding-left: 190px!important;">
+            <li class="active">
+                <a href="#singleChannel" data-toggle="tab" ng-click="clearSelect('channel')">单渠道</a>
+            </li>
+            <li>
+                <a href="#agent" data-toggle="tab" ng-click="clearSelect('agent')">代理商</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="singleChannel">
+                <div class="modal-body modal-box dr-tb-container" style="max-height:500px;overflow-y:auto;">
+                    <table class="table table-striped" style="margin-bottom: 0">
+                        <thead>
+                        <tr>
+                            <th>渠道ID</th>
+                            <th>渠道名称</th>
+                            <th>渠道状态</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="row in data track by $index">
+
+                            <td>{{row.id}}</td>
+                            <td>{{row.refferalName}}</td>
+                            <td>{{row.refferalStatus}}</td>
+                            <td>
+                                <button class="btn btn-link"
+                                        ng-disabled="row.refferalStatus=='结束合作' || checkboxFilter(row, 'channel')"
+                                        ng-click="getSelectData(row)">
+                                    <img ng-if="!row.selected" src="../../image/icon-radio-unchecked.png">
+                                    <img ng-if="row.selected" src="../../image/icon-radio-checked.png">
+                                </button>
+                                <!--<input type="radio" ng-model="row.checked"-->
+                                <!--ng-disabled="row.refferalStatus=='结束合作' || checkboxFilter(row, 'channel')"/>-->
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+            <div class="tab-pane fade" id="agent">
+                <div class="container">
+                    <div class="row">
+                        <div class="tabs-left" style="max-height:500px;overflow-y:auto;">
+                            <ul class="nav nav-tabs1">
+                                <li ng-class="{true:' in active', false: ''}[$index===0]"
+                                    ng-repeat="row in agentData track by $index">
+                                    <a data-toggle="tab" title="{{row.agentName}}"
+                                       ng-click="getChannelByAngentID(row.agentId,row.agentName)">{{row.agentName}}</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content1">
+                                <div class="tab-pane active dr-tb-container" id="a">
+                                    <table class="table table-striped" style="margin-bottom: 0">
+                                        <thead>
+                                        <tr>
+                                            <th>渠道ID</th>
+                                            <th>渠道名称</th>
+                                            <th>渠道状态</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="row in channelOfAgent track by $index">
+
+                                            <td>{{row.id}}</td>
+                                            <td>{{row.refferalName}}</td>
+                                            <td>{{row.refferalStatus}}</td>
+                                            <td>
+                                                <button class="btn btn-link"
+                                                        ng-disabled="row.refferalStatus=='结束合作' || checkboxFilter(row, 'agent')"
+                                                        ng-click="getSelectData(row)">
+                                                    <img ng-if="!row.selected" src="../../image/icon-radio-unchecked.png">
+                                                    <img ng-if="row.selected" src="../../image/icon-radio-checked.png">
+                                                </button>
+                                                <!--<input type="checkbox" ng-model="row.checked"-->
+                                                       <!--ng-disabled="row.refferalStatus=='结束合作' || checkboxFilter(row, 'agent')"/>-->
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div><!-- /tab-content -->
+                        </div><!-- /tabbable -->
+                    </div><!-- /row -->
+                </div><!-- /container -->
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <div class="dr-btn-bar">
+            <button class="btn btn-primary btn-plr-35" type="button" ng-click="ok()">确定</button>
+            <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="dr-form time_picker">
+    <div class="modal-header">
+        <h4 class="modal-title">时间选择</h4>
+    </div>
+    <div class="modal-body">
+        <div>
+            <div class="dropdown">
+                <a class="dropdown-toggle no-afert" id="dropdown2" role="button" data-toggle="dropdown"
+                   uib-dropdown-toggle>
+                    <div class="input-group">
+                        <input type="text" class="form-control" ng-required="true" ng-model="campaigndate">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                    </div>
+                </a>
+                <ul class="dropdown-menu" uib-dropdown-menu role="menu" aria-labelledby="dLabel">
+                    <datetimepicker ng-model="campaigndate"
+                                    data-datetimepicker-config="{ dropdownSelector: '#dropdown2', modelType: 'YYYY-MM-DD HH:mm:ss'}"/>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer dr-delete">
+        <div class="dr-btn-bar">
+            <button class="btn btn-primary btn-plr-35" type="button" ng-click="ok()">确定</button>
+            <button class="btn btn-secondary btn-plr-35" type="button" ng-click="cancel()">取消</button>
+        </div>
+    </div>
+</div>

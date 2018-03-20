@@ -1,0 +1,71 @@
+/**按钮样式调整***/
+.btn.btn-link{
+    color: #88b4e3 !important;
+}
+
+.btn {
+    border-radius: 2px !important;
+}
+.btn.btn-plr-15 {
+    padding-left:15px;
+    padding-right: 15px;
+}
+.btn.btn-plr-35 {
+    padding-left:35px;
+    padding-right: 35px;
+}
+.btn.btn-mlr-20 {
+    padding-left:35px;
+    padding-right: 35px;
+}
+
+
+
+
+.mlr-20{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+.dropdown-toggle.no-afert:after{
+    content: none;
+}
+
+.btn.btn-primary[disabled] {
+    background-color: #D0D0D0!important;
+    border: none!important;
+}
+
+.btn.btn-link:focus {
+    outline: none!important;
+}
+
+.dr-btn-bar {
+   text-align: center;
+    background-color: #f3f4f8;
+    width:100%;
+    padding:15px;
+}
+
+.btn.btn-danger,.btn.btn-danger:focus,.btn.btn-danger:active,.btn.btn-danger:active{
+    background: #da4a33 !important;
+}
+
+/***按钮样式结束****/
+
+
+
+
+/***模态窗口样式**/
+.modal .modal-body {
+    padding:0;
+
+}
+.modal-title{
+    font-size: 14px;
+    color: #666666;
+}
+.modal-footer{
+    padding:0 !important;
+}
+/***模态窗口结束**/

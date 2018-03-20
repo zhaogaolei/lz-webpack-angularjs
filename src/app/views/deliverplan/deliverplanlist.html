@@ -1,0 +1,99 @@
+<div class="container1 deliverplan">
+    <div class="dr-tfjh-header">
+        <div class="col col-xs-6 tfjh-btn">
+            <button type="button" class="btn btn-primary" ng-click="openDeliverModal()" has-permission="delivery_add">
+                新建投放计划
+            </button>
+        </div>
+        <div class="col col-xs-2 pr-0">
+            <select class="form-control page-select" ng-model="seachType" ng-change="seachData();" >
+                <option value="">我的投放计划</option>
+                <option value="all">全部投放计划</option>
+            </select>
+        </div>
+        <div class="col col-xs-4 tfjh-txt ">
+            <input type="text" placeholder="输入投放计划名称,按回车键进行搜索"
+                   ng-model="seachName"
+                   ng-keyup="seachKeyup($event)"
+                   class="form-control">
+            <span class="fa fa-search" ng-click="seachData()"></span>
+        </div>
+    </div>
+
+    <div class="dr-tb-container">
+        <p>{{tableData.rows||0}}个投放计划</p>
+        <!--<div class="table-responsive">-->
+        <table ng-table="tableParams" class="table sort-table">
+            <thead>
+            <tr>
+                <th tb-sort="id" style="width:9%" class="text-center">投放ID</th>
+                <th style="width:10%" class="text-center">投放名称</th>
+                <th style="width:8%" class="text-center">适用业务</th>
+                <th style="width:13%" class="text-center">业务产品</th>
+                <th style="width:16%" class="text-center">投放渠道</th>
+                <th tb-sort="campaignStart" style="width:10%" class="text-center">投放开始</th>
+                <th tb-sort="campaignEnd" style="width:10%" class="text-center">投放结束</th>
+                <th style="width:5%" class="text-center">创建用户</th>
+                <th style="width:18%" class="text-center"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="row in tableData.result track by $index">
+                <td>{{row.id}}</td>
+                <td>{{row.campaignName}}</td>
+                <td>{{row.businessType}}</td>
+                <td>{{row.businessProduct}}</td>
+                <td>{{row.publishList | channelFilter}}</td>
+                <td>{{row.campaignStart}}</td>
+                <td>{{row.campaignEnd}}</td>
+                <td>{{row.createUser.split("@")[0]}}</td>
+                <td class="text-center">
+                    <button type="button"
+                            class="btn btn-secondary"
+                            ng-click="entryPlan(row)" has-permission="delivery_enter">
+                        <i class="fa fa-sign-in" aria-hidden="true"></i>进入
+                    </button>
+                    <div ng-if="row.editable" class="btn-group" has-permission="delivery_more">
+                        <button type="button" class="btn btn-secondary dropdown-toggle"
+                                data-toggle="dropdown">
+                            更多<i class="icon-icon-more" aria-hidden="true"></i>
+                        </button>
+                        <ul class="dropdown-menu" role="menu">
+                            <li has-permission="delivery_edit"><a href ng-click="openDeliverModal(row.id)">编辑</a></li>
+                            <li has-permission="delivery_copy"><a href ng-click="copyPlan(row.id)">复制</a></li>
+                            <li has-permission="delivery_delete">
+                                <a href
+                                   ng-confirm="deletePlan(row.id)"
+                                   ng-confirm-message="删除操作不可恢复，确认要删除{{row.campaignName}}数据项吗?">
+                                    删除
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--<button type="button"-->
+                    <!--class="btn btn-secondary" data-toggle="modal" data-target="#myModal"-->
+                    <!--ng-click="planCreate(row.id)" has-permission="delivery_edit">-->
+                    <!--<span class="icon-icon-edit"></span>编辑-->
+                    <!--</button>-->
+                    <button type="button" style="display: none" class="btn btn-secondary" disabled="true"
+                            has-permission="delivery_data">
+                        <span class="icon-icon-edit"></span>数据
+                    </button>
+                    <button type="button" style="display: none" class="btn btn-secondary" disabled="true"
+                            has-permission="delivery_calc">
+                        <i class="fa fa-money" aria-hidden="true"></i>结算
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <td colspan="9" class="text-center text-bg">
+                    <div class="text-right" page-control record="tableData" evname="dr.reloadPagination"></div>
+                </td>
+            </tr>
+            </tfoot>
+        </table>
+        <!--</div>-->
+    </div>
+</div>
