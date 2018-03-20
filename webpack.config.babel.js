@@ -59,7 +59,7 @@ export default {
             $: 'jquery'
         }),
         new webpack.DefinePlugin({
-            IsDebug: true,
+            IsDebug: true, //开发环境true，方便开发
             APIENDPOINT: JSON.stringify("http://172.16.37.23:9090"),//方洲
             //APIENDPOINT: JSON.stringify("http://172.29.20.59:9090"), //王超
             //APIENDPOINT: JSON.stringify("http://172.29.20.22:9090"),//崇虎
