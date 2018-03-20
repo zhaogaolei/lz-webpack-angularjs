@@ -6,7 +6,7 @@ https://nodejs.org/en/
 按照指示安装完node
 
 ### clone repo
-$ git clone http://172.16.4.213/opchannel/opchannel_html.git
+$ git clone https://github.com/zhaogaolei/lz-webpack-angularjs.git
 
 ### 安装依赖包
 $ npm install
